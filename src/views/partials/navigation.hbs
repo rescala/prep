@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">PREP</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    {{#if user}}
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Administrar
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/delegados/registrar">Administrar Promotores</a></li>
+            <li><a class="dropdown-item" href="/mpios/secciones-r">Administrar Casillas</a></li>
+            <li><a class="dropdown-item" href="#">Administrar Lista</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Consultar
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/delegados">Promotores</a></li>
+            <li><a class="dropdown-item" href="/mpios/secciones">Secciones</a></li>
+            <li><a class="dropdown-item" href="/lista-n">Lista Nominal</a></li>
+            <li><a class="dropdown-item" href="#">Reportes</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Cerrar Sesión</a>
+        </li>
+      </ul>
+    </div>
+    {{/if}}
+
+  </div>
+
+</nav>

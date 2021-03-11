@@ -1,0 +1,135 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="container p-2">
+            <button type="button" class="btn btn-secondary"><a style="text-decoration: none; color: white;"
+                    href="javascript:history.back()"><i class="fas fa-undo"></i> Regresar a Promotores</a></button>
+            <div class="container">
+                <h3>Promovidos de {{delegado2}}</h3>
+            </div>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <i class="fas fa-plus"></i> Nuevo Referido
+            </button>
+        </div>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 50vh;">
+
+            <table class="table table-bordered table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">Numero Lista N</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido Paterno</th>
+                        <th scope="col">Apellido Materno</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Comunidad</th>
+                        <th scope="col">Casilla</th>
+                        <th scope="col">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each promovidos}}
+                    <tr>
+                        <th scope="row">{{num_lista_nominal}}</th>
+                        <td>{{nombres}}</td>
+                        <td>{{ape_pat}}</td>
+                        <td>{{ape_mal}}</td>
+                        <td>{{telefono}}</td>
+                        <td>{{direccion}}</td>
+                        <td>{{casilla}}</td>
+                        <td> <form action="/delegados/promovidos/delete/{{id}}" method="post"> <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Eliminar</button> </form></td>
+                    </tr>
+
+                    {{else}}
+                    <tr>
+                        <th scope="row">#</th>
+                        <td>Sin Datos</td>
+                        <td>Sin Datos</td>
+                        <td>Sin Datos</td>
+                        <td>Sin Datos</td>
+                        <td>Sin Datos</td>
+                        <td>Sin Datos</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+
+        </div>
+
+        <style>
+            .my-custom-scrollbar {
+                position: relative;
+                height: 200px;
+                overflow: auto;
+            }
+
+            .table-wrapper-scroll-y {
+                display: block;
+            }
+        </style>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Asignar Referido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Selecciona de la lista nominal a quien deseas referir
+            </div>
+
+            <div class="col-md-12 table-wrapper-scroll-y my-custom-scrollbar"  style="height: 60vh;">
+            <table id="example" class="table table-striped ">
+                <thead>
+                    <tr>
+                        <th scope="col">Sección</th>
+                        <th scope="col">Casilla</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido Paterno</th>
+                        <th scope="col">Apellido Materno</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Asignar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each listado}}
+                    <tr>
+                        
+                        <th scope="row"> {{seccion_lista}} </th>
+                        <td>{{casilla}}</td>
+                        <td>{{nom2}} </td>
+                        <td>{{ape_pat}} </td>
+                        <td>{{ape_mal}} </td>
+                        <td>{{direccion}} </td>
+                        <td> <form action="/delegados/promovidos/add/{{id}}" method="post"> <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Asignar</button> </form></td>
+                    </tr>
+                    {{else}}
+                    <tr>
+                        <th scope="row"> </th>
+                        <td>Sin Datos</td>
+                        <td>Sin Datos</td>
+                        <td>Sin Datos</td>
+                        <td>Sin Datos></td>
+                        <td>Sin Datos></td>
+                        <td>Sin Datos></td>
+                    </tr>
+                    <div>
+                    </div>
+                    {{/each}}
+                </tbody>
+            </table>
+
+        </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Registrar</button>
+            </div>
+        </div>
+    </div>
+</div>
