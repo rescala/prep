@@ -6,6 +6,7 @@
 -- Tiempo de generación: 11-03-2021 a las 05:00:01
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.13
+-- Estefany
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
