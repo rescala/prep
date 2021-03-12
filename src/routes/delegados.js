@@ -46,13 +46,12 @@ router.post('/add', isLoggedIn, async (req,res)=>{
 });
 
 //Función de eliminación de datos mediante ID
-router.get("/delete/:id", isLoggedIn, async (req,res)=>{
+router.put("/delete/:id", isLoggedIn, async (req,res)=>{
     const id = req.params.id;
-    await pool.query('delete from delegados where id=?',id);
-    await pool.query('UPDATE `lista_nominal` SET `vota_pt`=0,`id_del`=0 WHERE id_del=?',id);
-    req.flash('success','Promotor Eliminado Satisfactoriamente');
-    res.redirect("/delegados/registrar");
-
+    console.log(id);
+    await pool.query('delete from delegados where id='+id);
+    await pool.query('UPDATE `lista_nominal` SET `vota_pt`=0,`id_del`=0 WHERE id_del='+id);
+    res.json('Eliminado');
 });
 
 //Función de render datos a editar
@@ -84,10 +83,9 @@ router.post("/promovidos/add/:id", isLoggedIn, async (req,res) => {
     res.redirect("/delegados/registrar");
 });
 
-router.post("/promovidos/delete/:id", isLoggedIn, async (req,res) => {
-    req.flash('success','Promovido eliminado satisfactoriamente: ');
+router.put("/promovidos/delete/:id", isLoggedIn, async (req,res) => {
     await pool.query('UPDATE lista_nominal SET lista_nominal.vota_pt=0, lista_nominal.id_del=0 where id = ?', [req.params.id]);
-    res.redirect("/delegados/registrar");
+    res.json('Eliminado');
 });
 
 //Función de edición 

@@ -52,7 +52,14 @@ router.get('/seccion/casillas/lista/:id', isLoggedIn, async (req, res) => {
 
 router.get('/seccion/casillas/lista-r/:id', isLoggedIn, async (req, res) => {
     const id = req.params.id;
-    const listado = await pool.query('SELECT lista_nominal.id as idd,lista_nominal.num_lista_nominal,casillas.id,casillas.casilla, lista_nominal.voto, lista_nominal.vota_pt, lista_nominal.id_del, lista_nominal.telefono, delegados.nombres, delegados.ape_pat, delegados.ape_mat FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del WHERE id_casilla=?', id);
+    const listado = await pool.query('SELECT lista_nominal.id as idd,lista_nominal.num_lista_nominal,casillas.id,casillas.casilla, lista_nominal.voto, lista_nominal.vota_pt, lista_nominal.id_del, lista_nominal.telefono, delegados.nombres, delegados.ape_pat, delegados.ape_mat FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del WHERE id_casilla=? order by lista_nominal.num_lista_nominal asc', id);
+    for (let index = 0; index < listado.length; index++) {
+        if (!listado[index].nombres) {
+        listado[index].nombres="Sin";
+        listado[index].ape_pat="Promotor";
+        listado[index].ape_mat="Asignado";   
+        }
+    }
     const lugar = await pool.query('SELECT lista_nominal.num_lista_nominal, lista_nominal.id from lista_nominal where id_casilla='+id+' order by num_lista_nominal ASC');
     res.render('secciones/lista-r.hbs', { listado, id, lugar });
 });
@@ -82,7 +89,7 @@ router.post('/seccion/casilla/lista/add/:id', isLoggedIn, async (req, res) => {
     res.redirect('/mpios/secciones-r');
 });
 
-router.get("/seccion/casillas/lista/eliminar/:id", isLoggedIn, async (req,res)=>{
+router.put("/seccion/casillas/lista/eliminar/:id", isLoggedIn, async (req,res)=>{
     const lugar = req.params.id;
     const casilla = await pool.query('SELECT id_casilla,num_lista_nominal from lista_nominal where id='+lugar);
     const lista = casilla[0].num_lista_nominal;
@@ -104,7 +111,7 @@ router.get("/seccion/casillas/lista/eliminar/:id", isLoggedIn, async (req,res)=>
         y = registros2[0].num_lista_nominal+1;
         await pool.query('delete from lista_nominal where id='+lugar);
     }
-    res.redirect('/mpios/secciones-r');
+    res.json('Eliminado');
 });
 
 router.get('/seccion/casillas/lista/editar/:id', isLoggedIn, async(req,res)=>{

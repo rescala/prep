@@ -6,10 +6,15 @@
         <div class="container m-2">
         <a type="button" href="/delegados/add" class="btn btn-primary">Agregar Promotor</a>
         </div>
+        <br><div class="container" style="display: flex; align-items: center; justify-content: center;">
+            <div class='inner alert alert-success alert-dismissible fade' role='alert'>¡Promotor Eliminado!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>
+            <div class='inner2 alert alert-danger alert-dismissible fade' role='alert'>Algo salió mal. Intenta nuevamente.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>
+        </div>
         <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 50vh;">
             <table id="example" class="table table-bordered table-striped mb-0" style="width: 100%;">
                 <thead>
                     <tr>
+                        <th class="idee" style="display: none;" scope="col">Id</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellido Paterno</th>
                         <th scope="col">Apellido Materno</th>
@@ -25,6 +30,7 @@
                 <tbody>
                     {{#each delegados}}
                     <tr>
+                        <td style="display: none;" class="id">{{id}}</td>
                         <td>{{nombres}}</td>
                         <td>{{ape_pat}}</td>
                         <td>{{ape_mat}}</td>
@@ -36,7 +42,7 @@
                         </td>
                         <td class="text-center"><a href="/delegados/edit/{{id}}"><i class="fas fa-user-edit"></i></a>
                         </td>
-                        <td class="text-center"><a href="/delegados/delete/{{id}}"><i class="fas fa-trash"></i></a>
+                        <td class="text-center"><button class="elimina btn btn-danger" id="elimina"><i class="fas fa-trash"></i></button> 
                         </td>
                     </tr>
 
@@ -72,4 +78,20 @@
        
     </div>
 </div>
- 
+ <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alerta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Seguro que desea eliminar al Promotor?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" id="aceptar" class="aceptar btn btn-primary">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
