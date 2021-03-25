@@ -1,55 +1,64 @@
 <div class="container p-4">
     <div class="row">
         <h4>Lista Nominal</h4>
-        <div class="col-md-12 table-wrapper-scroll-y my-custom-scrollbar"  style="height: 60vh; width 90vw;">
-            <table id="example" class="table table-striped ">
+        <div class="col-md-12"  style="height: 60vh; width 90vw;">
+            <table id="example" class="table table-striped table-wrapper-scroll-y my-custom-scrollbar" style="height: 40vh;">
                 <thead>
                     <tr>
+                        <th scope="col">Id</th>
                         <th scope="col">Sección</th>
                         <th scope="col">Casilla</th>
                         <th scope="col">Número de Lista</th>
-                        <th scope="col">Nombre</th>
                         <th scope="col">Apellido Paterno</th>
                         <th scope="col">Apellido Materno</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Programa</th>
+                        <th scope="col">Monto</th>
+                        <th scope="col">Teléfono</th>
                         <th scope="col">Dirección</th>
                         <th scope="col">Votó</th>
-                        <th scope="col">Militante</th>
                         <th scope="col">Promotor</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody >
                     {{#each listado}}
                     <tr>
                         {{#if vota_pt}}
-                        <th scope="row" style="color:red;"> {{seccion_lista}} </th>
+                        <td>{{id}}</td>
+                        <td scope="row" style="color:red;"> {{seccion_lista}} </td>
                         <td style="color:red;">{{casilla}} </td>
                         <td style="color:red;">{{num_lista_nominal}} </td>
-                        <td style="color:red;">{{nom2}} </td>
                         <td style="color:red;">{{ape_pat}} </td>
                         <td style="color:red;">{{ape_mal}} </td>
+                        <td style="color:red;">{{nom2}} </td>
+                        <td style="color:red;">{{programa}} </td>
+                        <td style="color:red;">{{monto}} </td>
+                        <td style="color:red;">{{telefono}} </td>
                         <td style="color:red;">{{direccion}} </td>
                         {{#if voto}}
-                        <td style="color:red;"><i class="fas fa-check"></i></td>
+                        <td style="color:red;">Sí</td>
                         {{else}}
-                        <td style="color:red;"><i class="fas fa-times"></i></td>
+                        <td style="color:red;">No</td>
                         {{/if}}
-                        <td style="color:red;"><i class="fas fa-check"></i></td>
                         <td style="color:red;">{{apm}} {{app1}} {{app2}}</td>
                         {{else}}
+                        <td>{{id}}</td>
                         <th scope="row"> {{seccion_lista}} </th>
                         <td>{{casilla}}</td>
                         <td>{{num_lista_nominal}} </td>
-                        <td>{{nom2}} </td>
                         <td>{{ape_pat}} </td>
                         <td>{{ape_mal}} </td>
+                        <td>{{nom2}} </td>
+                        <td>{{programa}} </td>
+                        <td>{{monto}} </td>
+                        <td>{{telefono}} </td>
                         <td>{{direccion}} </td>
                         {{#if voto}}
-                        <td><i class="fas fa-check"></i></td>
+                        <td>Sí</td>
                         {{else}}
-                        <td><i class="fas fa-times"></i></td>
+                        <td>No</td>
                         {{/if}}
-                        <td><i class="fas fa-times"></i></i></td>
-                        <td>{{apm}} {{app1}} {{app2}}</td>
+                        <td>Sin Promotor Asignado</td>
                         {{/if}}
                     </tr>
                     {{else}}

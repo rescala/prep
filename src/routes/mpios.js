@@ -14,26 +14,11 @@ router.get('/', (req, res) => {
     res.redirect('/mpios/show');
 });
 
-router.get('/secciones/', isLoggedIn, async (req, res) => {
-    const muni = await pool.query('select nombre from municipio where id=?', req.session.example);
-    const secciones = await pool.query('select secciones.id,secciones.seccion,municipio.nombre from secciones INNER join municipio on secciones.mpio=municipio.id where mpio=?', req.session.example);
-    muni2 = muni[0].nombre;
-    res.render('secciones/seccion.hbs', { secciones, muni2 });
-});
-
 router.get('/secciones-r/', isLoggedIn, async (req, res) => {
     const muni = await pool.query('select nombre from municipio where id=?', req.session.example);
     const secciones = await pool.query('select secciones.id,secciones.seccion,municipio.nombre from secciones INNER join municipio on secciones.mpio=municipio.id where mpio=?', req.session.example);
     muni2 = muni[0].nombre;
     res.render('secciones/seccion-r.hbs', { secciones, muni2 });
-});
-
-
-router.get('/seccion/casilla/:id', isLoggedIn, async (req, res) => {
-    const id = req.params.id;
-    const secciones = await pool.query('SELECT casillas.id,secciones.seccion,casillas.casilla,casillas.tipo_casilla FROM `casillas` inner join secciones on secciones.id=casillas.id_seccion WHERE casillas.id_seccion=?', id);
-    const idSecc = req.params.id;
-    res.render('secciones/casilla.hbs', { secciones, idSecc });
 });
 
 router.get('/seccion/casilla-r/:id', isLoggedIn, async (req, res) => {
@@ -43,11 +28,10 @@ router.get('/seccion/casilla-r/:id', isLoggedIn, async (req, res) => {
     res.render('secciones/casilla-r.hbs', { secciones, idSecc });
 });
 
-router.get('/seccion/casillas/lista/:id', isLoggedIn, async (req, res) => {
+router.get('/seccion/lista/:id', isLoggedIn, async (req, res) => {
     const id = req.params.id;
-    const listado = await pool.query('SELECT lista_nominal.num_lista_nominal,casillas.id,casillas.casilla, lista_nominal.voto, lista_nominal.vota_pt, lista_nominal.id_del, lista_nominal.telefono, delegados.nombres, delegados.ape_pat, delegados.ape_mat FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del WHERE id_casilla=?', id);
-    const lugar = await pool.query('SELECT lista_nominal.num_lista_nominal, lista_nominal.id from lista_nominal where id_casilla='+id+' order by num_lista_nominal ASC');
-    res.render('secciones/lista.hbs', { listado, id, lugar });
+    const lista = await pool.query('SELECT lista_nominal.id as idd, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, lista_nominal.num_lista_nominal, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, lista_nominal.programa, lista_nominal.monto ,casillas.id,casillas.casilla, lista_nominal.voto, lista_nominal.vota_pt,lista_nominal.id_del, lista_nominal.telefono, delegados.nombres as apm, delegados.ape_pat as app1, delegados.ape_mat as app2 FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del WHERE lista_nominal.id_seccion=?', id);
+    res.render('secciones/lista-r.hbs', {lista});
 });
 
 router.get('/seccion/casillas/lista-r/:id', isLoggedIn, async (req, res) => {

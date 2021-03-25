@@ -59,6 +59,7 @@
                 //para usar los botones   
                 responsive: "true",
                 dom: 'Bfrtilp',
+                "lengthMenu": [[-1, 10, 25, 50], ["Todos", 10, 25, 50]],
                 buttons: [
                     {
                         extend: 'excelHtml5',
@@ -78,6 +79,44 @@
                         titleAttr: 'Imprimir',
                         className: 'btn btn-info'
                     },
+                ]
+            });
+            //"dom": 'Blfrtip',
+            table.buttons().container().appendTo($('.col-md-6:eq(0)', table.table().container()));
+
+            var table = $('#example2').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.22/i18n/Spanish.json'
+                },
+                //para usar los botones   
+                responsive: "true",
+                dom: 'Bfrtilp',
+                "lengthMenu": [[-1, 10, 25, 50], ["Todos", 10, 25, 50]],
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i> ',
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn btn-success'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i> ',
+                        titleAttr: 'Exportar a PDF',
+                        className: 'btn btn-danger'
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fa fa-print"></i> ',
+                        titleAttr: 'Imprimir',
+                        className: 'btn btn-info'
+                    },
+                ], "columnDefs": [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
                 ]
             });
             //"dom": 'Blfrtip',

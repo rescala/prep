@@ -1,8 +1,8 @@
 <div class="container p-4">
-    <div class="row">
+    <div class="row" >
         <div class="container p-2">
             <button type="button" class="btn btn-secondary"><a style="text-decoration: none; color: white;"
-                    href="javascript:history.back()"><i class="fas fa-undo"></i> Regresar a Promotores</a></button>
+                    href="/delegados/registrar"><i class="fas fa-undo"></i> Regresar a Promotores</a></button>
             <div class="container">
                 <h3>Promovidos de {{delegado2}}</h3>
             </div>
@@ -11,23 +11,30 @@
                 <i class="fas fa-plus"></i> Nuevo Referido
             </button>
         </div>
-        <br><div class="container" style="display: flex; align-items: center; justify-content: center;">
-            <div class='inner alert alert-success alert-dismissible fade' role='alert'>¡Promovido Eliminado!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>
-            <div class='inner2 alert alert-danger alert-dismissible fade' role='alert'>Algo salió mal. Intenta nuevamente.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>
+        <br>
+        <div class="container" style="display: flex; align-items: center; justify-content: center;">
+            <div class='inner alert alert-success alert-dismissible fade' role='alert'>¡Promovido Eliminado!<button
+                    type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>
+            <div class='inner2 alert alert-danger alert-dismissible fade' role='alert'>Algo salió mal. Intenta
+                nuevamente.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>
         </div>
         <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 50vh;">
 
-            <table class="table table-bordered table-striped mb-0">
+            <table id="example" class="table table-bordered table-striped mb-0">
                 <thead>
                     <tr>
                         <th class="idee" style="display: none;" scope="col">Id</th>
+                        <th scope="col">Sección</th>
+                        <th scope="col">Casilla</th>
                         <th scope="col">Numero Lista N</th>
-                        <th scope="col">Nombre</th>
                         <th scope="col">Apellido Paterno</th>
                         <th scope="col">Apellido Materno</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Programa</th>
+                        <th scope="col">Monto</th>
                         <th scope="col">Teléfono</th>
-                        <th scope="col">Comunidad</th>
-                        <th scope="col">Casilla</th>
+                        <th scope="col">Dirección</th>
                         <th scope="col">Eliminar</th>
                     </tr>
                 </thead>
@@ -35,14 +42,19 @@
                     {{#each promovidos}}
                     <tr>
                         <td style="display: none;" class="id">{{id}}</td>
-                        <th scope="row">{{num_lista_nominal}}</th>
-                        <td>{{nombres}}</td>
+                        <td>{{seccion}}</td>
+                        <td>{{casilla}}</td>
+                        <td>{{num_lista_nominal}}</td>
                         <td>{{ape_pat}}</td>
                         <td>{{ape_mal}}</td>
+                        <td>{{nombres}}</td>
+                        <td>{{programa}}</td>
+                        <td>{{monto}}</td>
                         <td>{{telefono}}</td>
                         <td>{{direccion}}</td>
-                        <td>{{casilla}}</td>
-                        <td class="text-center"><button class="elimina_promovido btn btn-danger" id="elimina_promovido"><i class="fas fa-trash"></i> Eliminar</button></td>
+
+                        <td class="text-center"><button class="elimina_promovido btn btn-danger"
+                                id="elimina_promovido"><i class="fas fa-trash"></i> Eliminar</button></td>
                     </tr>
 
                     {{else}}
@@ -82,80 +94,104 @@
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Asignar Referido</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Selecciona de la lista nominal a quien deseas referir
-            </div>
+            <form action="/delegados/promovidos/add/{{delegado3}}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Asignar Referido</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Selecciona de la lista nominal a quien deseas referir
+                </div>
 
-            <div class="col-md-12 table-wrapper-scroll-y my-custom-scrollbar"  style="height: 60vh;">
-            <table id="example" class="table table-striped ">
-                <thead>
-                    <tr>
-                        <th scope="col">Sección</th>
-                        <th scope="col">Casilla</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Apellido Paterno</th>
-                        <th scope="col">Apellido Materno</th>
-                        <th scope="col">Dirección</th>
-                        <th scope="col">Asignar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each listado}}
-                    <tr>
-                        
-                        <th scope="row"> {{seccion_lista}} </th>
-                        <td>{{casilla}}</td>
-                        <td>{{nom2}} </td>
-                        <td>{{ape_pat}} </td>
-                        <td>{{ape_mal}} </td>
-                        <td>{{direccion}} </td>
-                        <td> <form action="/delegados/promovidos/add/{{id}}" method="post"> <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Asignar</button> </form></td>
-                    </tr>
-                    {{else}}
-                    <tr>
-                        <th scope="row"> </th>
-                        <td>Sin Datos</td>
-                        <td>Sin Datos</td>
-                        <td>Sin Datos</td>
-                        <td>Sin Datos></td>
-                        <td>Sin Datos></td>
-                        <td>Sin Datos></td>
-                    </tr>
-                    <div>
-                    </div>
-                    {{/each}}
-                </tbody>
-            </table>
+                <div class="col-md-12 table-wrapper-scroll-y my-custom-scrollbar" style="height: 60vh;">
 
-        </div>
+                    <table id="example2" class="table table-striped ">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sección</th>
+                                <th scope="col">Casilla</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellido Paterno</th>
+                                <th scope="col">Apellido Materno</th>
+                                <th scope="col">Dirección</th>
+                                <th scope="col">Asignar</th>
+                            </tr>
+                        </thead>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Registrar</button>
-            </div>
+                        <tbody>
+                            {{#each listado}}
+                            {{#if del_nombre}}
+                            <tr>
+                                <th style="color: red;" scope="row"> {{seccion_lista}} </th>
+                                <td style="color: red;">{{casilla}}</td>
+                                <td style="color: red;">{{nom2}} </td>
+                                <td style="color: red;">{{ape_pat}} </td>
+                                <td style="color: red;">{{ape_mal}} </td>
+                                <td style="color: red;">{{direccion}} </td>
+                                <td style="color: red;">{{del_nombre}} {{del_apepat}} {{del_apemat}}</td>
+                            </tr>
+                            {{else}}
+                            <tr>
+                                <th scope="row"> {{seccion_lista}} </th>
+                                <td>{{casilla}}</td>
+                                <td>{{nom2}} </td>
+                                <td>{{ape_pat}} </td>
+                                <td>{{ape_mal}} </td>
+                                <td>{{direccion}} </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="asignar"
+                                            value="{{id_persona}}" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Registrar
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{/if}}
+
+                            {{else}}
+                            <tr>
+                                <th scope="row"> </th>
+                                <td>Sin Datos</td>
+                                <td>Sin Datos</td>
+                                <td>Sin Datos</td>
+                                <td>Sin Datos></td>
+                                <td>Sin Datos></td>
+                                <td>Sin Datos></td>
+                            </tr>
+                            <div>
+                            </div>
+                            {{/each}}
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn"><i class="fas fa-plus"></i> Asignar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 
- <div class="modal" id="exampleModalB" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Alerta</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ¿Seguro que desea eliminar al Promovido?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" id="aceptar" class="aceptar btn btn-primary">Eliminar</button>
-      </div>
+<div class="modal" id="exampleModalB" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Alerta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Seguro que desea eliminar al Promovido?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="aceptar" class="aceptar btn btn-primary">Eliminar</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
