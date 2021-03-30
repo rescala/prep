@@ -159,11 +159,11 @@
             <select id="SelectEquipmentDropdown" onchange="getval(this);" class="form-select"
                 aria-label="Default select example">
                 <option selected>Insertar después del</option>
-                {{#each lugar}}
-                <option value="{{id}}">{{num_lista_nominal}}</option>
+                {{#each lista2}}
+                <option value="{{idd}}">{{casilla}} {{num_lista_nominal}} {{nom2}} {{ape_pat}} {{ape_mal}}</option>
                 {{/each}}
             </select>
-            <form action="/mpios/seccion/casilla/lista/add/:{{id}}" method="post">
+            <form action="/mpios/seccion/casilla/lista/add/" method="post">
                 <div class="form-group mb-3">
                     <input type="text" style="display: none;" id="lugar" class="form-control ocultar" name="lugar"
                         placeholder="Después del" value="">
