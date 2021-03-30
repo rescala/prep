@@ -3,10 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-03-2021 a las 05:00:01
+-- Tiempo de generación: 30-03-2021 a las 09:45:26
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.13
--- Estefany
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -119,9 +118,7 @@ CREATE TABLE `delegados` (
 INSERT INTO `delegados` (`id`, `nombres`, `ape_pat`, `ape_mat`, `telefono`, `comunidad`, `seccion`, `usuario`, `password`, `pw`, `id_mpio`, `estatus`) VALUES
 (32, 'Laura', 'Alvarez', 'Flores', '4455667788', 'San José de la Trinidad', '1959', 'laura.alvarez@gmail.com', '$2a$10$UZabiISmPS7hs.XV4dntsOuufktOu49LX9DqRvAKyEkoiOxGoORdK', 'laura', 92, 0),
 (40, 'Karla', 'Lopez', 'Salgado', '4422661155', 'San José de la Trinidad', '1959', 'karla.lopez@gmail.com', '$2a$10$RaPMDWiNPjPYFwsvBrCj9eCgZWa.NokMj6UfRFJ6USJoBWlRWOTya', 'karla123', 92, 0),
-(44, 'Miguel Angel', 'Flores', 'Vega', '2345345633', 'Téjaro', '1959', 'miguel.flores@gmail.com', '$2a$10$V94tQ2.ubLhjoc/baqSpnuHDA19JTTl9UBSvo1BEVY92JSve1NySW', 'miguel123', 92, 0),
-(45, 'Christian', 'Alvarado', 'Ayala', '3453564563', 'San José de la Trinidad', '2345', 'dinamico@gmail.com', '$2a$10$99exRV5A1OiP5eyMru6Myewq4aI2FMrY4/TiIM/rVABnl5BaRA5ie', 'christian123', 92, 0),
-(47, 'Felipe', 'Barreto', 'Rincón', '1234567894', 'Tarimbaro', '1959', 'felipe@gmail.com', '$2a$10$0DIDM0rcc/qrU/0q4Ig/huuTopf5YetRwxjIAdDVBlYbdQ54FRbFe', 'felipe123', 92, 0);
+(44, 'Miguel Angel', 'Flores', 'Vega', '2345345633', 'Téjaro', '1959', 'miguel.flores@gmail.com', '$2a$10$V94tQ2.ubLhjoc/baqSpnuHDA19JTTl9UBSvo1BEVY92JSve1NySW', 'miguel123', 92, 0);
 
 -- --------------------------------------------------------
 
@@ -212,6 +209,8 @@ CREATE TABLE `lista_nominal` (
   `id_casilla` int(11) NOT NULL,
   `id_seccion` int(11) NOT NULL,
   `voto` int(11) NOT NULL,
+  `programa` varchar(255) NOT NULL,
+  `monto` varchar(255) NOT NULL,
   `vota_pt` int(11) NOT NULL,
   `telefono` varchar(255) NOT NULL,
   `id_del` int(11) NOT NULL
@@ -221,69 +220,66 @@ CREATE TABLE `lista_nominal` (
 -- Volcado de datos para la tabla `lista_nominal`
 --
 
-INSERT INTO `lista_nominal` (`id`, `nombres`, `ape_pat`, `ape_mal`, `direccion`, `foto`, `num_lista_nominal`, `id_casilla`, `id_seccion`, `voto`, `vota_pt`, `telefono`, `id_del`) VALUES
-(1, 'Marisol', 'Rodriguez', 'Ramos', 'Mil Cumbres', '', 4, 1, 956, 0, 0, '4613549876', 0),
-(2, 'Miguel', 'Flores', 'Vega', 'Ocolusen', '', 1, 1, 956, 0, 0, '3344221155', 0),
-(27, 'Luis', 'Rescala', 'Alvarez', 'Miguel Hidalgo271', '', 3, 1, 956, 0, 0, '2342342', 0),
-(34, 'ATANACIA', 'ABUNDIS', 'ACOSTA', 'C MARIANO MATAMOROS 55 BARR LA DOCTRINA', '', 59, 4, 956, 0, 0, '', 0),
-(35, 'MARIA CARMEN', 'ABUNDIS', 'CHAVEZ', 'C FRANCISCO JAVIER MINA 32 BARR LA DOCTRINA', '', 1, 4, 956, 0, 0, '', 0),
-(36, 'IRENE', 'ABURTO', 'VELAZQUEZ', 'C MORELOS PTE 33 BARR LA DOCTRINA', '', 2, 4, 956, 0, 0, '', 0),
-(37, 'MARIA LIZANIA', 'ABURTO', 'VELAZQUEZ', 'PRIV JOSE MARIA MORELOS 12 BARR LA DOCTRINA', '', 3, 4, 956, 0, 0, '', 0),
-(38, 'ERNESTINA', 'ACEVEDO', 'CASTRO', 'C MATAMOROS 40 BARR LA DOCTRINA', '', 4, 4, 956, 0, 0, '', 0),
-(39, 'OLIVIA', 'ACEVEDO', 'CASTRO', 'C MARIANO MATAMOROS 37 BARR LA DOCTRINA', '', 5, 4, 956, 0, 0, '', 0),
-(40, 'RAUL', 'ACOSTA', 'ABUNDIZ', 'C MARIANO MATAMOROS 16 BARR LA DOCTRINA', '', 6, 4, 956, 0, 0, '', 0),
-(41, 'SARA', 'ACOSTA', 'ABUNDIS', 'C CORREGIDORA 17 COL CENTRO', '', 7, 4, 956, 0, 0, '', 0),
-(42, 'ANGELA', 'ACOSTA', 'ACOSTA', 'C CORREGIDORA 17 BARR LA DOCTRINA', '', 8, 4, 956, 0, 0, '', 0),
-(43, 'ERIKA', 'ACOSTA', 'ACOSTA', 'EL PUESTO S/N LOC EL PUESTO', '', 9, 4, 956, 0, 0, '', 0),
-(44, 'J OTILIO', 'ACOSTA', 'ACOSTA', 'C NIÐOS HEROES 24 BARRIO LA DOTRINA', '', 10, 4, 956, 0, 0, '', 0),
-(45, 'MA ELENA', 'ACOSTA', 'ACOSTA', 'PRIV NIÐOS HEROES 26 BARR LA DOCTRINA', '', 11, 4, 956, 0, 0, '', 0),
-(46, 'LETICIA', 'ACOSTA', 'CALDERON', 'PRIV NIÐOS HEROES 24 BARR LA DOCTRINA', '', 12, 4, 956, 0, 0, '', 0),
-(47, 'MARIA DEL CARMEN', 'ACOSTA', 'CALDERON', 'C MIGUEL HIDALGO 53 BARR LA DOCTRINA', '', 13, 4, 956, 0, 0, '', 0),
-(48, 'OFELIA', 'ACOSTA', 'CALDERON', 'CDA NIÐOS HEROES 24 BARR LA DOCTRINA', '', 14, 4, 956, 0, 0, '', 0),
-(49, 'JUAN RAUL', 'ACOSTA', 'CERVANTES', 'C MARIANO MATAMOROS 16 BARR LA DOCTRINA', '', 15, 4, 956, 0, 0, '', 0),
-(50, 'CARLOS FERNANDO', 'ACOSTA', 'CHAVEZ', 'C JOSE MARIA MORELOS PONIENTE S/N BARR SAN MARCOS', '', 16, 4, 956, 0, 0, '', 0),
-(51, 'JOSE NOEL', 'ACOSTA', 'CHAVEZ', 'LOC EL PUESTO SN LOC EL PUESTO', '', 17, 4, 956, 0, 0, '', 0),
-(52, 'MIRELLA', 'ACOSTA', 'CHAVEZ', 'C MIGUEL HIDALGO 73 BARR LA DOCTRINA', '', 18, 4, 956, 0, 0, '', 0),
-(53, 'ANALY', 'ACOSTA', 'ESPINOZA', 'C NIÐOS HEROES 3 BARR LA DOCTRINA', '', 19, 4, 956, 0, 0, '', 0),
-(54, 'AMELIA', 'ACOSTA', 'RANGEL', 'LOC EL PUESTO S/N LOC EL PUESTO', '', 20, 4, 956, 0, 0, '', 0),
-(55, 'JAQUELINA', 'ACOSTA', 'RANGEL', 'C FRANCISCO JAVIER MINA 63 BARR LA DOCTRINA', '', 21, 4, 956, 0, 0, '', 0),
-(56, 'LETICIA', 'ACOSTA', 'RANGEL', 'LOC EL PUESTO S/N LOC EL PUESTO', '', 22, 4, 956, 0, 0, '', 0),
-(57, 'SIRA', 'ACOSTA', 'RANGEL', 'C FRANCISCO JAVIER MINA 37 BARR LA DOCTRINA', '', 23, 4, 956, 0, 0, '', 0),
-(58, 'JOSE CARLOS', 'ACOSTA', 'REYES', 'C MARIANO MATAMOROS 16 BARR LA DOCTRINA', '', 24, 4, 956, 0, 0, '', 0),
-(59, 'MARLENE', 'ACOSTA', 'REYES', 'C MARIANO MATAMOROS 16 BARR LA DOCTRINA', '', 26, 4, 956, 0, 0, '', 0),
-(60, 'MARILU', 'AGUILAR', 'ARROYO', 'C CORREGIDORA 9 BARR LA DOCTRINA', '', 27, 4, 956, 0, 0, '', 0),
-(61, 'EVANGELINA', 'AGUILAR', 'CALDERON', ' ', '', 28, 4, 956, 0, 0, '', 0),
-(62, 'ZENON', 'AGUILAR', 'CALDERON', 'PROL HIDALGO 76 BARR LA DOCTRINA', '', 29, 4, 956, 0, 0, '', 0),
-(63, 'MARIA', 'AGUILAR', 'DIAZ', 'C JACINTO ECHEVERRIA 16 BARR LA DOCTRINA', '', 30, 4, 956, 0, 0, '', 0),
-(64, 'AIDA', 'AGUILAR', 'ORNELAS', 'AV MIGUEL HIDALGO 77 BARR LA DOCTRINA', '', 31, 4, 956, 0, 0, '', 0),
-(65, 'ILDA', 'AGUILAR', 'ORNELAS', ' ', '', 32, 4, 956, 0, 0, '', 0),
-(66, 'MA LOURDES', 'AGUILAR', 'ORNELAS', 'C MIGUEL HIDALGO 76 BARR LA DOCTRINA', '', 33, 4, 956, 0, 0, '', 0),
-(67, 'MARIA DE JESUS', 'AGUILAR', 'ORNELAS', 'C CORREGIDORA 10 BARR LA DOCTRINA', '', 34, 4, 956, 0, 0, '', 0),
-(68, 'J JESUS', 'AGUILAR', 'RANGEL', 'C NARDO 14 FRACC EL PARAISO', '', 35, 4, 956, 0, 0, '', 0),
-(69, 'SALVADOR', 'ALCANTAR', 'BARCENAS', 'C MIGUEL HIDALGO 85 LOC URUETARO', '', 36, 4, 956, 0, 0, '', 0),
-(70, 'VIRGINIA', 'ALCANTAR', 'REYES', 'C MUNICIPIO LIBRE 8 BARR LA DOCTRINA', '', 37, 4, 956, 0, 0, '', 0),
-(71, 'MARIA GUADALUPE', 'ALVARADO', 'BIRRUETA', 'C MORELOS S/N BARR LA DOCTRINA', '', 38, 4, 956, 0, 0, '', 0),
-(72, 'VICENTE', 'ALVARADO', 'CASTRO', 'C JOSE MARIA MORELOS PONIENTE SN BARR LA DOCTRINA', '', 39, 4, 956, 0, 0, '', 0),
-(73, 'ALEJANDRO', 'ALVARADO', 'ORNELAS', 'C JOSE MARIA MORELOS 91 BARR LA DOCTRINA', '', 40, 4, 956, 0, 0, '', 0),
-(74, 'ALFREDO', 'ALVARADO', 'ORNELAS', 'C JOSE MA MORELOS 92 BARR LA DOCTRINA', '', 41, 4, 956, 0, 0, '', 0),
-(75, 'MARIA ALICIA', 'ALVARADO', 'ORNELAS', 'C JOSE MA MORELOS PTE 80 BARR LA DOCTRINA', '', 42, 4, 956, 0, 0, '', 0),
-(76, 'RAFAEL', 'ALVARADO', 'ORNELAS', 'C JOSE MA MORELOS 92 BARR LA DOCTRINA', '', 43, 4, 956, 0, 0, '', 0),
-(77, 'VICENTE', 'ALVARADO', 'ORNELAS', 'C JOSE MA MORELOS 92 BARR LA DOCTRINA', '', 44, 4, 956, 0, 0, '', 0),
-(78, 'FERNANDA MONSERRAT', 'ALVARADO', 'SANTACRUZ', ' ', '', 45, 4, 956, 0, 0, '', 0),
-(79, 'JUAN', 'AMARO', 'LEMUS', ' ', '', 46, 4, 956, 0, 0, '', 0),
-(80, 'ERENDIRA', 'AMARO', 'RANGEL', 'C NIÐOS HEROES 5 BARR LA DOCTRINA', '', 47, 4, 956, 0, 0, '', 0),
-(81, 'GERARDO', 'AMARO', 'RANGEL', 'C NIÐOS HEROES 5 BARR LA DOCTRINA', '', 48, 4, 956, 0, 0, '', 0),
-(82, 'GERARDO AGUSTIN', 'AMARO', 'RANGEL', 'C NIÐOS HEROES 5 BARR LA DOCTRINA', '', 49, 4, 956, 0, 0, '', 0),
-(83, 'JUAN CARLOS', 'AMARO', 'RANGEL', 'C NIÐOS HEROES 5 BARR LA DOCTRINA', '', 50, 4, 956, 0, 0, '', 0),
-(84, 'MARLEN', 'AMARO', 'RANGEL', 'LOC EL PUESTO S/N LOC EL PUESTO', '', 51, 4, 956, 0, 0, '', 0),
-(85, 'SANDRA', 'AREVALO', 'VAZQUEZ', 'C CORREGIDORA 4 BARR LA DOCTRINA', '', 52, 4, 956, 0, 0, '', 0),
-(86, 'ALEJANDRA', 'ARIAS', 'AVALOS', 'C MIGUEL HIDALGO PONIENTE 38 BARR LA DOCTRINA', '', 53, 4, 956, 0, 0, '', 0),
-(87, 'ANASTACIO JAVIER', 'ARIAS', 'AVALOS', ' ', '', 54, 4, 956, 0, 0, '', 0),
-(88, 'ELIZABETH', 'ARIAS', 'AVALOS', 'C ALLENDE 3 BARR LA DOCTRINA', '', 55, 4, 956, 0, 0, '', 0),
-(89, 'LIONEL', 'ARIAS', 'AVALOS', 'C ALLENDE 2 BARR LA DOCTRINA', '', 56, 4, 956, 0, 0, '', 0),
-(90, 'MARIA DOLORES', 'ARIAS', 'AVALOS', 'C IGNACIO ALLENDE 67 BARR LA DOCTRINA', '', 57, 4, 956, 0, 0, '', 0),
-(91, 'QUEICO', 'ARIAS', 'AVALOS', 'C IGNACIO ALLENDE 2 BARR LA DOCTRINA', '', 58, 4, 956, 0, 0, '', 0),
-(166, 'Melvin', 'Ayala', 'Hernandez', 'Tarimbaro', '', 2, 1, 956, 0, 0, '2349872398', 0);
+INSERT INTO `lista_nominal` (`id`, `nombres`, `ape_pat`, `ape_mal`, `direccion`, `foto`, `num_lista_nominal`, `id_casilla`, `id_seccion`, `voto`, `programa`, `monto`, `vota_pt`, `telefono`, `id_del`) VALUES
+(27, 'Luis', 'Rescala', 'Alvarez', 'Miguel Hidalgo271', '', 1, 1, 956, 0, 'Beca Futuro', '4600', 1, '2342342', 40),
+(34, 'ATANACIA', 'ABUNDIS', 'ACOSTA', 'C MARIANO MATAMOROS 55 BARR LA DOCTRINA', '', 59, 4, 956, 0, 'Jóvenes Construyendo el Futuro', '4600', 1, '', 40),
+(35, 'MARIA CARMEN', 'ABUNDIS', 'CHAVEZ', 'C FRANCISCO JAVIER MINA 32 BARR LA DOCTRINA', '', 1, 4, 956, 0, 'Adultos Mayores', '6000', 0, '', 0),
+(36, 'IRENE', 'ABURTO', 'VELAZQUEZ', 'C MORELOS PTE 33 BARR LA DOCTRINA', '', 2, 4, 956, 0, '', '', 0, '', 0),
+(37, 'MARIA LIZANIA', 'ABURTO', 'VELAZQUEZ', 'PRIV JOSE MARIA MORELOS 12 BARR LA DOCTRINA', '', 3, 4, 956, 0, '', '', 0, '', 0),
+(38, 'ERNESTINA', 'ACEVEDO', 'CASTRO', 'C MATAMOROS 40 BARR LA DOCTRINA', '', 4, 4, 956, 0, '', '', 0, '', 0),
+(39, 'OLIVIA', 'ACEVEDO', 'CASTRO', 'C MARIANO MATAMOROS 37 BARR LA DOCTRINA', '', 5, 4, 956, 0, '', '', 0, '', 0),
+(40, 'RAUL', 'ACOSTA', 'ABUNDIZ', 'C MARIANO MATAMOROS 16 BARR LA DOCTRINA', '', 6, 4, 956, 0, '', '', 0, '', 0),
+(41, 'SARA', 'ACOSTA', 'ABUNDIS', 'C CORREGIDORA 17 COL CENTRO', '', 7, 4, 956, 0, '', '', 0, '', 0),
+(42, 'ANGELA', 'ACOSTA', 'ACOSTA', 'C CORREGIDORA 17 BARR LA DOCTRINA', '', 8, 4, 956, 0, '', '', 0, '', 0),
+(43, 'ERIKA', 'ACOSTA', 'ACOSTA', 'EL PUESTO S/N LOC EL PUESTO', '', 9, 4, 956, 0, '', '', 0, '', 0),
+(44, 'J OTILIO', 'ACOSTA', 'ACOSTA', 'C NIÐOS HEROES 24 BARRIO LA DOTRINA', '', 10, 4, 956, 0, '', '', 0, '', 0),
+(45, 'MA ELENA', 'ACOSTA', 'ACOSTA', 'PRIV NIÐOS HEROES 26 BARR LA DOCTRINA', '', 11, 4, 956, 0, '', '', 0, '', 0),
+(46, 'LETICIA', 'ACOSTA', 'CALDERON', 'PRIV NIÐOS HEROES 24 BARR LA DOCTRINA', '', 12, 4, 956, 0, '', '', 0, '', 0),
+(47, 'MARIA DEL CARMEN', 'ACOSTA', 'CALDERON', 'C MIGUEL HIDALGO 53 BARR LA DOCTRINA', '', 13, 4, 956, 0, '', '', 0, '', 0),
+(48, 'OFELIA', 'ACOSTA', 'CALDERON', 'CDA NIÐOS HEROES 24 BARR LA DOCTRINA', '', 14, 4, 956, 0, '', '', 0, '', 0),
+(49, 'JUAN RAUL', 'ACOSTA', 'CERVANTES', 'C MARIANO MATAMOROS 16 BARR LA DOCTRINA', '', 15, 4, 956, 0, '', '', 0, '', 0),
+(50, 'CARLOS FERNANDO', 'ACOSTA', 'CHAVEZ', 'C JOSE MARIA MORELOS PONIENTE S/N BARR SAN MARCOS', '', 16, 4, 956, 0, '', '', 0, '', 0),
+(51, 'JOSE NOEL', 'ACOSTA', 'CHAVEZ', 'LOC EL PUESTO SN LOC EL PUESTO', '', 17, 4, 956, 0, '', '', 0, '', 0),
+(52, 'MIRELLA', 'ACOSTA', 'CHAVEZ', 'C MIGUEL HIDALGO 73 BARR LA DOCTRINA', '', 18, 4, 956, 0, '', '', 0, '', 0),
+(53, 'ANALY', 'ACOSTA', 'ESPINOZA', 'C NIÐOS HEROES 3 BARR LA DOCTRINA', '', 19, 4, 956, 0, '', '', 0, '', 0),
+(54, 'AMELIA', 'ACOSTA', 'RANGEL', 'LOC EL PUESTO S/N LOC EL PUESTO', '', 20, 4, 956, 0, '', '', 0, '', 0),
+(55, 'JAQUELINA', 'ACOSTA', 'RANGEL', 'C FRANCISCO JAVIER MINA 63 BARR LA DOCTRINA', '', 21, 4, 956, 0, '', '', 0, '', 0),
+(56, 'LETICIA', 'ACOSTA', 'RANGEL', 'LOC EL PUESTO S/N LOC EL PUESTO', '', 22, 4, 956, 0, '', '', 0, '', 0),
+(57, 'SIRA', 'ACOSTA', 'RANGEL', 'C FRANCISCO JAVIER MINA 37 BARR LA DOCTRINA', '', 23, 4, 956, 0, '', '', 0, '', 0),
+(58, 'JOSE CARLOS', 'ACOSTA', 'REYES', 'C MARIANO MATAMOROS 16 BARR LA DOCTRINA', '', 24, 4, 956, 0, '', '', 0, '', 0),
+(59, 'MARLENE', 'ACOSTA', 'REYES', 'C MARIANO MATAMOROS 16 BARR LA DOCTRINA', '', 26, 4, 956, 0, '', '', 0, '', 0),
+(60, 'MARILU', 'AGUILAR', 'ARROYO', 'C CORREGIDORA 9 BARR LA DOCTRINA', '', 27, 4, 956, 0, '', '', 0, '', 0),
+(61, 'EVANGELINA', 'AGUILAR', 'CALDERON', ' ', '', 28, 4, 956, 0, '', '', 0, '', 0),
+(62, 'ZENON', 'AGUILAR', 'CALDERON', 'PROL HIDALGO 76 BARR LA DOCTRINA', '', 29, 4, 956, 0, '', '', 0, '', 0),
+(63, 'MARIA', 'AGUILAR', 'DIAZ', 'C JACINTO ECHEVERRIA 16 BARR LA DOCTRINA', '', 30, 4, 956, 0, '', '', 0, '', 0),
+(64, 'AIDA', 'AGUILAR', 'ORNELAS', 'AV MIGUEL HIDALGO 77 BARR LA DOCTRINA', '', 31, 4, 956, 0, '', '', 0, '', 0),
+(65, 'ILDA', 'AGUILAR', 'ORNELAS', ' ', '', 32, 4, 956, 0, '', '', 0, '', 0),
+(66, 'MA LOURDES', 'AGUILAR', 'ORNELAS', 'C MIGUEL HIDALGO 76 BARR LA DOCTRINA', '', 33, 4, 956, 0, '', '', 0, '', 0),
+(67, 'MARIA DE JESUS', 'AGUILAR', 'ORNELAS', 'C CORREGIDORA 10 BARR LA DOCTRINA', '', 34, 4, 956, 0, '', '', 0, '', 0),
+(68, 'J JESUS', 'AGUILAR', 'RANGEL', 'C NARDO 14 FRACC EL PARAISO', '', 35, 4, 956, 0, '', '', 0, '', 0),
+(69, 'SALVADOR', 'ALCANTAR', 'BARCENAS', 'C MIGUEL HIDALGO 85 LOC URUETARO', '', 36, 4, 956, 0, '', '', 0, '', 0),
+(70, 'VIRGINIA', 'ALCANTAR', 'REYES', 'C MUNICIPIO LIBRE 8 BARR LA DOCTRINA', '', 37, 4, 956, 0, '', '', 0, '', 0),
+(71, 'MARIA GUADALUPE', 'ALVARADO', 'BIRRUETA', 'C MORELOS S/N BARR LA DOCTRINA', '', 38, 4, 956, 0, '', '', 0, '', 0),
+(72, 'VICENTE', 'ALVARADO', 'CASTRO', 'C JOSE MARIA MORELOS PONIENTE SN BARR LA DOCTRINA', '', 39, 4, 956, 0, '', '', 0, '', 0),
+(73, 'ALEJANDRO', 'ALVARADO', 'ORNELAS', 'C JOSE MARIA MORELOS 91 BARR LA DOCTRINA', '', 40, 4, 956, 0, '', '', 0, '', 0),
+(74, 'ALFREDO', 'ALVARADO', 'ORNELAS', 'C JOSE MA MORELOS 92 BARR LA DOCTRINA', '', 41, 4, 956, 0, '', '', 0, '', 0),
+(75, 'MARIA ALICIA', 'ALVARADO', 'ORNELAS', 'C JOSE MA MORELOS PTE 80 BARR LA DOCTRINA', '', 42, 4, 956, 0, '', '', 0, '', 0),
+(76, 'RAFAEL', 'ALVARADO', 'ORNELAS', 'C JOSE MA MORELOS 92 BARR LA DOCTRINA', '', 43, 4, 956, 0, '', '', 0, '', 0),
+(77, 'VICENTE', 'ALVARADO', 'ORNELAS', 'C JOSE MA MORELOS 92 BARR LA DOCTRINA', '', 44, 4, 956, 0, '', '', 0, '', 0),
+(78, 'FERNANDA MONSERRAT', 'ALVARADO', 'SANTACRUZ', ' ', '', 45, 4, 956, 0, '', '', 0, '', 0),
+(79, 'JUAN', 'AMARO', 'LEMUS', ' ', '', 46, 4, 956, 0, '', '', 0, '', 0),
+(80, 'ERENDIRA', 'AMARO', 'RANGEL', 'C NIÐOS HEROES 5 BARR LA DOCTRINA', '', 47, 4, 956, 0, '', '', 0, '', 0),
+(81, 'GERARDO', 'AMARO', 'RANGEL', 'C NIÐOS HEROES 5 BARR LA DOCTRINA', '', 48, 4, 956, 0, '', '', 0, '', 0),
+(82, 'GERARDO AGUSTIN', 'AMARO', 'RANGEL', 'C NIÐOS HEROES 5 BARR LA DOCTRINA', '', 49, 4, 956, 0, '', '', 0, '', 0),
+(83, 'JUAN CARLOS', 'AMARO', 'RANGEL', 'C NIÐOS HEROES 5 BARR LA DOCTRINA', '', 50, 4, 956, 0, '', '', 0, '', 0),
+(84, 'MARLEN', 'AMARO', 'RANGEL', 'LOC EL PUESTO S/N LOC EL PUESTO', '', 51, 4, 956, 0, '', '', 0, '', 0),
+(85, 'SANDRA', 'AREVALO', 'VAZQUEZ', 'C CORREGIDORA 4 BARR LA DOCTRINA', '', 52, 4, 956, 0, '', '', 0, '', 0),
+(86, 'ALEJANDRA', 'ARIAS', 'AVALOS', 'C MIGUEL HIDALGO PONIENTE 38 BARR LA DOCTRINA', '', 53, 4, 956, 0, '', '', 0, '', 0),
+(87, 'ANASTACIO JAVIER', 'ARIAS', 'AVALOS', ' ', '', 54, 4, 956, 0, '', '', 0, '', 0),
+(88, 'ELIZABETH', 'ARIAS', 'AVALOS', 'C ALLENDE 3 BARR LA DOCTRINA', '', 55, 4, 956, 0, '', '', 0, '', 0),
+(89, 'LIONEL', 'ARIAS', 'AVALOS', 'C ALLENDE 2 BARR LA DOCTRINA', '', 56, 4, 956, 0, '', '', 0, '', 0),
+(90, 'MARIA DOLORES', 'ARIAS', 'AVALOS', 'C IGNACIO ALLENDE 67 BARR LA DOCTRINA', '', 57, 4, 956, 0, '', '', 0, '', 0),
+(91, 'QUEICO', 'ARIAS', 'AVALOS', 'C IGNACIO ALLENDE 2 BARR LA DOCTRINA', '', 58, 4, 956, 0, '', '', 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -3175,7 +3171,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('9APpwjGVr9Wu3yTbFqUUFAs7TX0c4NVd', 1615517989, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"example\":92,\"passport\":{},\"example2\":\"47\"}');
+('HV1fCuDfTKjd4scyUCbEV4nnL5DLd9vl', 1617176613, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"example\":92,\"passport\":{}}');
 
 -- --------------------------------------------------------
 
@@ -3351,7 +3347,7 @@ ALTER TABLE `distrito_loc`
 -- AUTO_INCREMENT de la tabla `lista_nominal`
 --
 ALTER TABLE `lista_nominal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
 
 --
 -- AUTO_INCREMENT de la tabla `municipio`
