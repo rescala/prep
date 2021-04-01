@@ -82,7 +82,30 @@ $(function(){
                     console.log(response);
                     if (response = 'Eliminado'){
                         $( ".inner" ).addClass( "show" );;
-                        row.remove();
+                        location.reload();
+                    }else{
+                        $( ".inner2" ).addClass( "show" );
+                    }
+                }
+            })
+        });
+    });
+
+    $('table').on('click','.sumar_lista',function(){
+        let row = $(this).closest('tr');
+        let id = row.find('.id').text();
+        var myModal = new bootstrap.Modal(document.getElementById('exampleModal6'));
+        myModal.show();
+        $('#exampleModal6').on('click','.aceptar',function(){
+            myModal.hide();
+            $.ajax({
+                url: "/mpios/seccion/casilla/lista/add/"+id,
+                method: "PUT",
+                success: function(response){
+                    console.log(response);
+                    if (response = 'Creado'){
+                        $( ".inner3" ).addClass( "show" );;
+                        location.reload();
                     }else{
                         $( ".inner2" ).addClass( "show" );
                     }

@@ -27,9 +27,8 @@
                         <th class="idee" style="display: none;" scope="col">Id</th>
                         <th scope="col">Sección</th>
                         <th scope="col">Casilla</th>
-                        <th scope="col">Numero Lista N</th>
-                        <th scope="col">Apellido Paterno</th>
-                        <th scope="col">Apellido Materno</th>
+                        <th scope="col">N° Lista</th>
+                        <th scope="col">Vota PT</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Programa</th>
                         <th scope="col">Monto</th>
@@ -45,21 +44,24 @@
                         <td>{{seccion}}</td>
                         <td>{{casilla}}</td>
                         <td>{{num_lista_nominal}}</td>
-                        <td>{{ape_pat}}</td>
-                        <td>{{ape_mal}}</td>
-                        <td>{{nombres}}</td>
+                        <td>{{vota_pt}}</td>
+                        <td>{{ape_pat}} {{ape_mal}} {{nombres}}</td>
                         <td>{{programa}}</td>
                         <td>{{monto}}</td>
                         <td>{{telefono}}</td>
                         <td>{{direccion}}</td>
 
                         <td class="text-center"><button class="elimina_promovido btn btn-danger"
-                                id="elimina_promovido"><i class="fas fa-trash"></i> Eliminar</button></td>
+                                id="elimina_promovido"><i class="fas fa-trash"></i></button></td>
                     </tr>
 
                     {{else}}
                     <tr>
                         <th scope="row">#</th>
+                        <td>Sin Datos</td>
+                        <td>Sin Datos</td>
+                        <td>Sin Datos</td>
+                        <td>Sin Datos</td>
                         <td>Sin Datos</td>
                         <td>Sin Datos</td>
                         <td>Sin Datos</td>
@@ -103,16 +105,15 @@
                     Selecciona de la lista nominal a quien deseas referir
                 </div>
 
-                <div class="col-md-12 table-wrapper-scroll-y my-custom-scrollbar" style="height: 60vh;">
+                <div class="col-md-12" style="height: 60vh;">
 
-                    <table id="example2" class="table table-striped ">
+                    <table id="example2" class="table table-striped">
                         <thead>
                             <tr>
+                                <th scope="col">Id</th>
                                 <th scope="col">Sección</th>
                                 <th scope="col">Casilla</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Apellido Paterno</th>
-                                <th scope="col">Apellido Materno</th>
                                 <th scope="col">Dirección</th>
                                 <th scope="col">Asignar</th>
                             </tr>
@@ -122,21 +123,19 @@
                             {{#each listado}}
                             {{#if del_nombre}}
                             <tr>
-                                <th style="color: red;" scope="row"> {{seccion_lista}} </th>
-                                <td style="color: red;">{{casilla}}</td>
-                                <td style="color: red;">{{nom2}} </td>
-                                <td style="color: red;">{{ape_pat}} </td>
-                                <td style="color: red;">{{ape_mal}} </td>
+                                <td>{{index}}</td>
+                                <td style="color: red;" scope="row"> {{seccion_lista}} </td>
+                                <td style="color: red;">{{casilla_lista}}</td>
+                                <td style="color: red;">{{ape_pat}} {{ape_mal}} {{nom2}} </td>
                                 <td style="color: red;">{{direccion}} </td>
                                 <td style="color: red;">{{del_nombre}} {{del_apepat}} {{del_apemat}}</td>
                             </tr>
                             {{else}}
                             <tr>
-                                <th scope="row"> {{seccion_lista}} </th>
-                                <td>{{casilla}}</td>
-                                <td>{{nom2}} </td>
-                                <td>{{ape_pat}} </td>
-                                <td>{{ape_mal}} </td>
+                                <td>{{index}}</td>
+                                <td> {{seccion_lista}} </td>
+                                <td>{{casilla_lista}}</td>
+                                <td>{{ape_pat}} {{ape_mal}} {{nom2}} </td>
                                 <td>{{direccion}} </td>
                                 <td>
                                     <div class="form-check">

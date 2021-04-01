@@ -56,6 +56,7 @@ app.use('/delegados',require("./routes/delegados"));
 app.use('/lista-n',require("./routes/lista-n"));
 app.use('/promotores',require("./routes/promotores"));
 app.use('/casillas',require("./routes/casillas"));
+app.use('/visores',require("./routes/visores"));
 
 
 //Public

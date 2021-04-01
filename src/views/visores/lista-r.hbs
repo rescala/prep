@@ -2,22 +2,14 @@
     <div class="row">
         <div class="container m-2">
             <button type="button" class="btn btn-secondary"><a style="text-decoration: none; color: white;"
-                    href="javascript:history.back()"><i class="fas fa-undo"></i> Regresar a Casillas</a></button>
+                    href="/visores/secciones-r"><i class="fas fa-undo"></i> Regresar a Casillas</a></button>
             <h3>Lista Nominal</h3>
         </div>
-        <!-- Button trigger modal -->
-        <div class="container inner" style="display: flex; align-items: center; justify-content: center;">
-                <div class='inner alert alert-success alert-dismissible fade' role='alert'>¡Registro Eliminado!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>
-                <div class='inner2 alert alert-danger alert-dismissible fade' role='alert'>Algo salió mal. Intenta nuevamente.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>
-                <div class='inner3 alert alert-success alert-dismissible fade' role='alert'>¡Registro Insertado!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>
-
-            </div>
         <div class="col-md-12" >
 
             <table id="example" class="table" style="height: 40vh;">
                 <thead>
                     <tr>
-                        <th scope="col">Id</th>
                         <th scope="col">Sección</th>
                         <th scope="col">Casilla</th>
                         <th scope="col">N° Lista</th>
@@ -28,8 +20,7 @@
                         <th scope="col">Dirección</th>
                         <th scope="col">Votó</th>
                         <th scope="col">Promotor</th>
-                        <th scope="col">Editar</th>
-                        <th scope="col">Acciones</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -37,7 +28,6 @@
                     <tr>
 
                         {{#if apm}}
-                        <td class="id">{{idd}}</td>
                         <td scope="row" style="color:red;"> {{seccion_lista}} </td>
                         <td style="color:red;">{{casilla}} </td>
                         <td style="color:red;">{{num_lista_nominal}} </td>
@@ -56,9 +46,7 @@
                         <td style="color:red;">No</td>
                         {{/if}}
                         <td style="color:red;">{{apm}} {{app1}} {{app2}}</td>
-                        <td style="color:red;"><a href="/mpios/seccion/casillas/lista/editar/{{idd}}"><i class="fas fa-edit"></i></a></td>
-                        <td class="text-center"><button class="eliminar_lista btn btn-danger" id="eliminar_lista"><i class="fas fa-trash-alt"></i></button>
-                        <button class="sumar_lista btn btn-success" id="sumar_lista"><i class="fas fa-plus"></i></button></td>
+
                         {{else}}
                         <td class="id">{{idd}}</td>
                         <th scope="row"> {{seccion_lista}} </th>
@@ -79,9 +67,7 @@
                         <td>No</td>
                         {{/if}}
                         <td>Sin Promotor Asignado</td>
-                        <td><a href="/mpios/seccion/casillas/lista/editar/{{idd}}"><i class="fas fa-edit"></i></a></td>
-                        <td class="text-center"><button class="eliminar_lista btn btn-danger" id="eliminar_lista"><i class="fas fa-trash-alt"></i></button>
-                        <button class="sumar_lista btn btn-success" id="sumar_lista"><i class="fas fa-plus"></i></button></td>
+
                         {{/if}}
 
  
@@ -102,15 +88,6 @@
                         <td>Sin Datos</td>
                         <td>Sin Datos</td>
                     </tr>
-                    <div>
-                        <br>
-                        <div class="container">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop"><a style="text-decoration: none; color: white;"><i
-                                        class="fas fa-plus-circle"></i> Crear Lista Nominal</a>
-                            </button>
-                        </div>
-                    </div>
                     {{/each}}
                 </tbody>
             </table>
@@ -145,22 +122,6 @@
     </div>
 </div>
 
-<script>
-
-    var myModal = document.getElementById('myModal')
-    var myInput = document.getElementById('myInput')
-
-    myModal.addEventListener('shown.bs.modal', function () {
-        myInput.focus();
-    });
-    function getval(sel) {
-        var V1 = sel.value;
-        var elem = document.getElementById('lugar');
-        elem.value = V1;
-
-    };
-</script>
-
 <style>
     /* Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,
@@ -184,40 +145,3 @@
         display: block;
     }
 </style>
-
-<div class="modal" id="exampleModal5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Alerta</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ¿Seguro que desea eliminar el registro?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" id="aceptar" class="aceptar btn btn-primary">Eliminar Registro</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="exampleModal6" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Alerta</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ¿Seguro que desea añadir un nuevo registro?<br>
-        El nuevo registro se añadirá después de este.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" id="aceptar" class="aceptar btn btn-primary">Añadir Registro</button>
-      </div>
-    </div>
-  </div>
-</div>

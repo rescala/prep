@@ -28,24 +28,8 @@
                                 value="{{delegados.comunidad}}">
                         </div>
                         <div class="form-group mb-3">
-                            <!--<select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                <option>Sección</option>
-                                {{#each secc_del}}
-                                <option value="1">{{seccion}}</option>
-                                {{else}}
-                                <option value=""></option>
-                                {{/each}}
-                            </select>-->
                             <input type="text" class="form-control" name="seccion" placeholder="Sección" required
                                 value="{{delegados.seccion}}">
-                        </div>
-                        <div class="form-group mb-3">
-                            <input type="password" id="pw1" onchange="activarConfirmacion()" class="form-control" name="password" placeholder="Contraseña"
-                                value="">
-                        </div>
-                        <div class="form-group mb-3">
-                            <input type="password" id="pw2" onchange="verificarPasswords()" class="form-control ocultar" name="pw" placeholder="Confirmar Contraseña"
-                                value="">
                         </div>
                         <div class="d-grid gap-2">
                             <button id="login" class="btn btn-success">
@@ -74,36 +58,3 @@
         display: block;
     }
 </style>
-<script>
-    function verificarPasswords() {
-
-        // Ontenemos los valores de los campos de contraseñas 
-        pass1 = document.getElementById('pw1');
-        pass2 = document.getElementById('pw2');
-
-        // Verificamos si las constraseñas no coinciden 
-        if (pass1.value != pass2.value) {
-
-             
-            document.getElementById("error").classList.add("mostrar");
-            
-
-            return false;
-        } else {
-            
-            document.getElementById("login").classList.remove("ocultar");
-            
-            document.getElementById("error").classList.remove("mostrar");
-             
-            document.getElementById("login").classList.add("mostrar"); 
-            return true;
-        }
-
-    }
-
-    function activarConfirmacion() {
-        document.getElementById("pw2").classList.remove("ocultar");
-        document.getElementById("pw2").classList.add("mostrar");
-        document.getElementById("login").classList.add("ocultar");
-    }
-</script>
