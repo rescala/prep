@@ -10,7 +10,8 @@ app.use(bodyParser.json());
 const pool = require('../database');
 
 router.get('/', async (req,res) =>{
-    const listado = await pool.query('SELECT lista_nominal.id as idee, case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, lista_nominal.num_lista_nominal, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, lista_nominal.programa, lista_nominal.monto ,casillas.id,casillas.casilla, lista_nominal.voto,lista_nominal.id_del, lista_nominal.telefono, delegados.nombres as apm, delegados.ape_pat as app1, delegados.ape_mat as app2 FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del');
+    /*const listado = await pool.query('SELECT lista_nominal.id as idee, case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, lista_nominal.num_lista_nominal, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, lista_nominal.programa, lista_nominal.monto ,casillas.id,casillas.casilla, lista_nominal.voto,lista_nominal.id_del, lista_nominal.telefono, delegados.nombres as apm, delegados.ape_pat as app1, delegados.ape_mat as app2 FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del');
+    const secciones = await pool.query('SELECT * FROM `secciones` where mpio= 92 ORDER BY `secciones`.`seccion` ASC');
     const rojo1 = await pool.query('SELECT COUNT(*) as rojo1 FROM `lista_nominal` WHERE vota_pt>0');
     const rojo2 = await pool.query('SELECT COUNT(*) as rojo2 FROM `lista_nominal` WHERE vota_pt!=0 and voto!=0');
     const promo1 = await pool.query('SELECT COUNT(*) as promo1 FROM `lista_nominal` WHERE id_del!=0');
@@ -23,7 +24,13 @@ router.get('/', async (req,res) =>{
     const negro2b = negro2[0];
     const promo1b = promo1[0];
     const promo2b = promo2[0];
-    res.render('visores/l_nominal.hbs',{listado, negro1b, negro2b, rojo1b, rojo2b, promo1b, promo2b, layout:'main4'}); 
+    res.render('visores/l_nominal.hbs',{negro1b, negro2b, rojo1b, rojo2b, promo1b, promo2b, layout:'main4'});*/
+    res.redirect('visores/secciones-r');
+});
+
+router.get('/secciones/:id', async (req,res)=>{
+    const casillas = await pool.query('select * from casillas where id_seccion='+req.params.id);
+    res.json(casillas);
 });
 
 router.get('/promotores', async (req,res) =>{
@@ -45,9 +52,21 @@ router.get("/promovidos/:id", async (req, res) => {
 router.get('/secciones-r/', async (req, res) => {
     const muni = await pool.query('select nombre from municipio where id=92');
     const secciones = await pool.query('select secciones.id,secciones.seccion,municipio.nombre, (select count(lista_nominal.id) from lista_nominal where lista_nominal.id_seccion=secciones.id) as votantes, (select COALESCE(sum(lista_nominal.voto=1),0) from lista_nominal where lista_nominal.id_seccion=secciones.id ) as votos, (select count(lista_nominal.vota_pt) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.vota_pt>0) as votantes_pt, (select count(lista_nominal.vota_pt) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.vota_pt>0 and lista_nominal.voto>0) as votos_pt, (select count(lista_nominal.id_del) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.id_del>0) as referidos, (select count(lista_nominal.id_del) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.id_del>0 and lista_nominal.voto>0) as votos_referidos from secciones INNER join municipio on secciones.mpio=municipio.id where mpio=92');
+    const rojo1 = await pool.query('SELECT COUNT(*) as rojo1 FROM `lista_nominal` WHERE vota_pt>0');
+    const rojo2 = await pool.query('SELECT COUNT(*) as rojo2 FROM `lista_nominal` WHERE vota_pt!=0 and voto!=0');
+    const promo1 = await pool.query('SELECT COUNT(*) as promo1 FROM `lista_nominal` WHERE id_del!=0');
+    const promo2 = await pool.query('SELECT COUNT(*) as promo2 FROM `lista_nominal` WHERE id_del!=0 and voto!=0');
+    const negro1 = await pool.query('SELECT COUNT(*) as negro1 FROM `lista_nominal`');
+    const negro2 = await pool.query('SELECT COUNT(*) as negro2 FROM `lista_nominal` WHERE voto!=0');
+    const rojo1b = rojo1[0]; 
+    const rojo2b = rojo2[0];
+    const negro1b = negro1[0]; 
+    const negro2b = negro2[0];
+    const promo1b = promo1[0];
+    const promo2b = promo2[0];
     muni2 = muni[0].nombre;
-    res.render('visores/seccion-r.hbs', { secciones, muni2, layout:'main4'});
-});
+    res.render('visores/seccion-r.hbs', { secciones, muni2, negro1b, negro2b, rojo1b, rojo2b, promo1b, promo2b, layout:'main4'});
+}); 
 
 router.get('/seccion/lista/:id', async (req, res) => {
     const id = req.params.id;
