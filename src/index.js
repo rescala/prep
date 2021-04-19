@@ -59,6 +59,7 @@ app.use('/casillas',require("./routes/casillas"));
 app.use('/visores',require("./routes/visores"));
 
 
+
 //Public
 app.use(express.static(path.join(__dirname,'public')));
 
