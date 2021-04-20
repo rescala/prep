@@ -1,0 +1,96 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="container">
+            <h4>Lista de Sección</h4>
+        </div>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 80vh;">
+            <table id="example" class="table table-bordered table-striped mb-0" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th scope="col">Sección</th>
+                        <th scope="col">Casilla</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Vota PT</th>
+                        <th scope="col">Programa</th>
+                        <th scope="col">Promotor</th>
+                    </tr>
+                </thead>
+
+                <tfoot>
+                    <tr>
+                        <th scope="col">Sección</th>
+                        <th scope="col">Casilla</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Vota PT</th>
+                        <th scope="col">Programa</th>
+                        <th scope="col">Promotor</th>
+                    </tr>
+                </tfoot>
+
+                <tbody>
+                    {{#each listado}}
+
+                    <tr>
+                        {{#if app1}}
+                        <td style="color: red;">{{seccion_lista}}</td>
+                        <td style="color: red;">{{casilla}}</td>
+                        <td style="color: red;">{{ape_pat}} {{ape_mal}} {{nom2}}</td>
+                        <td style="color: red;">{{telefono}}</td>
+                        <td style="color: red;">{{direccion}}</td>
+                        <td style="color:red;">{{vota_pt}} </td>
+                        <td style="color: red;">{{programa}}</td>
+                        
+                        {{#if app1}}
+                        <td style="color: red;">{{app1}} {{app2}} {{apm}}</td>
+                        {{else}}
+                        <td style="color: red;">Sin Promotor Asignado</td>
+                        {{/if}}
+                        
+                        {{else}}
+
+                        <td>{{seccion_lista}}</td>
+                        <td>{{casilla}}</td>
+                        <td>{{ape_pat}} {{ape_mal}} {{nom2}}</td>
+                        <td>{{telefono}}</td>
+                        <td>{{direccion}}</td>
+                        <td>{{vota_pt}} </td>
+                        <td>{{programa}}</td>
+                        
+                        {{#if app1}}
+                        <td>{{app1}} {{app2}} {{apm}}</td>
+                        {{else}}
+                        <td>Sin Promotor Asignado</td>
+                        {{/if}}
+
+                        
+                        {{/if}}
+
+                    </tr>
+                    {{else}}
+                    {{/each}}
+                </tbody>
+            </table>
+
+        </div>
+        <style>
+            .my-custom-scrollbar {
+                position: relative;
+                height: 200px;
+                overflow: auto;
+            }
+
+            .id,
+            .idee {
+                display: none;
+            }
+
+            .table-wrapper-scroll-y {
+                display: block;
+            }
+        </style>
+    </div>
+</div>
