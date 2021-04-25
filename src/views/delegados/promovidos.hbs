@@ -25,10 +25,10 @@
                 <thead>
                     <tr>
                         <th class="idee" style="display: none;" scope="col">Id</th>
-                        <th scope="col">Sección</th>
-                        <th scope="col">Casilla</th>
-                        <th scope="col">N° Lista</th>
-                        <th scope="col">Vota PT</th>
+                        <th scope="col">Secc</th>
+                        <th scope="col">Cas</th>
+                        <th scope="col">N-L</th>
+                        <th scope="col">PT</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Programa</th>
                         <th scope="col">Monto</th>
@@ -37,6 +37,7 @@
                         <th scope="col">Eliminar</th>
                     </tr>
                 </thead>
+                
                 <tbody>
                     {{#each promovidos}}
                     <tr>
@@ -113,7 +114,11 @@
                 </div>
 
                 <div class="col-md-12" style="height: 60vh; overflow:auto;">
-
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Buscar</span>
+                        <input type="text" id="buscar"  class="form-control" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-sm">
+                    </div>
                     <table id="example6" class="table table-striped">
                         <thead>
                             <tr>

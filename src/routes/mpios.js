@@ -30,7 +30,7 @@ router.get('/seccion/casilla-r/:id', isLoggedIn, async (req, res) => {
 
 router.get('/seccion/lista/:id', isLoggedIn, async (req, res) => {
     const id = req.params.id;
-    const lista = await pool.query('SELECT lista_nominal.id as idd, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, lista_nominal.num_lista_nominal, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, lista_nominal.programa, lista_nominal.monto ,casillas.id,casillas.casilla, lista_nominal.voto,  case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt,lista_nominal.id_del, lista_nominal.telefono, delegados.nombres as apm, delegados.ape_pat as app1, delegados.ape_mat as app2 FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del WHERE lista_nominal.id_seccion=? ORDER by casilla asc, num_lista_nominal asc', id);
+    const lista = await pool.query('SELECT lista_nominal.id as idd, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, lista_nominal.num_lista_nominal, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, case when lista_nominal.programa="" then "No" else "Si" end as programa, case when lista_nominal.presidencia="" then "No" else "Si" end as presidencia, casillas.id,casillas.casilla, lista_nominal.voto,  case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt,lista_nominal.id_del, lista_nominal.telefono, delegados.nombres as apm, delegados.ape_pat as app1, delegados.ape_mat as app2 FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del WHERE lista_nominal.id_seccion=? ORDER by casilla asc, num_lista_nominal asc', id);
     const lista2 = lista;
     const rojo1 = await pool.query('SELECT COUNT(*) as rojo1 FROM `lista_nominal` WHERE vota_pt>0 and lista_nominal.id_seccion='+id);
     const rojo2 = await pool.query('SELECT COUNT(*) as rojo2 FROM `lista_nominal` WHERE vota_pt!=0 and voto!=0 and lista_nominal.id_seccion='+id);
@@ -120,13 +120,16 @@ router.get('/seccion/casillas/lista/editar/:id', isLoggedIn, async(req,res)=>{
 
 router.post('/seccion/casillas/lista/editar/:id', isLoggedIn, async(req,res)=>{
     const id = req.params.id;
-    const {nombres, ape_pat,ape_mal,direccion, telefono, programa, monto} = req.body;
+    const {nombres, ape_pat,ape_mal,direccion, presidencia, vota_pt, detalles, telefono, programa, monto} = req.body;
     const datos = {
         nombres,
         ape_pat,
         ape_mal,
         direccion,
         telefono,
+        vota_pt,
+        detalles,
+        presidencia,
         programa,
         monto
     };

@@ -7,6 +7,5 @@ module.exports = {
     }
 };
 
-//paginación por casillas
-//
-//pestaña de promovidos pendientes por votar
+// prepuser
+// prep123

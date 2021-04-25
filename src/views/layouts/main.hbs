@@ -53,6 +53,39 @@
 
         $(document).ready(function () {
             var table = $('#example').DataTable({
+                initComplete: function () {
+                    this.api().columns([2, 3, 4, 5, 7, 10, 11]).every(function () {
+                        var column = this;
+                        var select = $('<select style="font-size:14px; maw-width:70%;"><option value="">Todos</option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option style="font-size:14px; maw-width:70%;" value="' + d + '">' + d + '</option>');
+                        });
+                    });
+                    this.api().columns([6]).every(function () { 
+                        var that = this;
+                        var input = $('<input style="font-size:14px; maw-width:30%;" type="text" placeholder="Buscar" />')
+                            .appendTo($(this.footer()).empty())
+
+                            .on('keyup change', function () {
+                                if (that.search() !== this.value) {
+                                    that
+                                        .search(this.value)
+                                        .draw();
+                                }
+                            });
+                    });
+                },
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.10.22/i18n/Spanish.json'
                 },
@@ -128,6 +161,8 @@
             //"dom": 'Blfrtip',
             table.buttons().container().appendTo($('.col-md-6:eq(0)', table.table().container()));
         });
+
+
     </script>
 
 

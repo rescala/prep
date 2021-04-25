@@ -1,26 +1,26 @@
 $(function () {
 
 
-    $('select').on('change',function(){
+    $('select').on('change', function () {
         var valor = $('#seccionesLista').find(":selected").val();
         $('#example6 tbody').html('');
         console.log(valor);
         $.ajax({
-            url: "/delegados/listaXseccion/"+valor,
+            url: "/delegados/listaXseccion/" + valor,
             method: "GET",
             success: function (response) {
                 console.log(response);
                 for (let index = 0; index < response.length; index++) {
-                    
+
                     if (!response[index].del_nombre) {
-                        $('#example6 tbody').append("<tr><td> "+response[index].id_persona+"</td><td>"+response[index].seccion_lista+" </td><td>"+response[index].casilla_lista+" </td><td>"+response[index].nom2+" "+response[index].ape_pat+" "+response[index].ape_mal+"</td><td>"+response[index].direccion+" </td><td><div class='form-check'><input class='form-check-input' type='checkbox' name='asignar'value='"+response[index].id_persona+"' id='flexCheckDefault'><label class='form-check-label' for='flexCheckDefault'>Registrar</label></div></td></tr>");
-                    }else{
-                        $('#example6 tbody').append("<tr><td style='color:red';> "+response[index].id_persona+"</td><td style='color:red';>"+response[index].seccion_lista+" </td><td style='color:red';>"+response[index].casilla_lista+" </td><td style='color:red';>"+response[index].nom2+" "+response[index].ape_pat+" "+response[index].ape_mal+"</td><td style='color:red';>"+response[index].direccion+" </td><td style='color:red';>"+response[index].del_nombre+" "+response[index].del_apepat+" "+response[index].del_apemat+"</td></tr>");
+                        $('#example6 tbody').append("<tr><td> " + response[index].id_persona + "</td><td>" + response[index].seccion_lista + " </td><td>" + response[index].casilla_lista + " </td><td>" + response[index].ape_pat + " " + response[index].ape_mal + " " + response[index].nom2 + "</td><td>" + response[index].direccion + " </td><td><div class='form-check'><input class='form-check-input' type='checkbox' name='asignar'value='" + response[index].id_persona + "' id='flexCheckDefault'><label class='form-check-label' for='flexCheckDefault'>Registrar</label></div></td></tr>");
+                    } else {
+                        $('#example6 tbody').append("<tr><td style='color:red';> " + response[index].id_persona + "</td><td style='color:red';>" + response[index].seccion_lista + " </td><td style='color:red';>" + response[index].casilla_lista + " </td><td style='color:red';>" + response[index].ape_pat + "  " + response[index].ape_mal + " " + response[index].nom2 + "</td><td style='color:red';>" + response[index].direccion + " </td><td style='color:red';>" + response[index].del_nombre + " " + response[index].del_apepat + " " + response[index].del_apemat + "</td></tr>");
                     }
                 }
             }
         })
-        
+
     });
 
 
@@ -54,6 +54,30 @@ $(function () {
             }
         })
     });*/
+
+
+
+    $('#buscar').on('keyup', function () {
+        var filtro = $("#buscar").val().toUpperCase();
+
+        $("#example6 td").each(function () {
+            var textoEnTd = $(this).text().toUpperCase();
+            if (textoEnTd.indexOf(filtro) >= 0) {
+                $(this).addClass("existe");
+            } else {
+                $(this).removeClass("existe");
+            }
+        })
+
+        $("#example6 tbody tr").each(function () {
+            if ($(this).children(".existe").length > 0) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        })
+
+    });
 
 
     $('table').on('click', '.vota', function () {
@@ -147,6 +171,7 @@ $(function () {
             })
         });
     });
+
 
     $('table').on('click', '.sumar_lista', function () {
         let row = $(this).closest('tr');

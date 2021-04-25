@@ -13,6 +13,28 @@ router.get('/', isLoggedIn, async (req, res) => {
     res.render('delegados/list-r.hbs', { delegados });
 });
 
+router.get('/acceso', isLoggedIn, async (req,res)=>{
+    const prueba = await pool.query('Select * from acceso where id=1;');
+    const importante = prueba[0].activado;
+    var estado="";
+    if (importante==0) {
+        estado="Inhabilitado";
+    }else{
+        estado="Habilitado";
+    }
+    res.render('delegados/acceso',{importante, estado});
+});
+
+router.post('/permitir', isLoggedIn, async (req,res)=>{
+    const estado = req.body.estado;
+    if (estado==1) {
+        await pool.query('UPDATE `acceso` SET `activado`=1');   
+    } else {
+        await pool.query('UPDATE `acceso` SET `activado`=0');
+    }
+    res.redirect('/delegados/acceso');
+});
+
 router.get('/registrar', isLoggedIn, async (req, res) => {
     const delegados = await pool.query('SELECT delegados.`id`, delegados.`nombres`, delegados.`ape_pat`, delegados.`ape_mat`, delegados.`telefono`, delegados.`comunidad`, delegados.`seccion`, delegados.`usuario`, delegados.`password`, delegados.`pw`, delegados.`id_mpio`, delegados.`estatus`, (select count(lista_nominal.`nombres`) from lista_nominal where lista_nominal.id_del=delegados.id) as referidos, (select COALESCE(sum(lista_nominal.voto=1),0) from lista_nominal where lista_nominal.id_del=delegados.id ) as votaron from delegados where delegados.id_mpio=?', req.session.example);
     res.render('delegados/list-r.hbs', { delegados });
@@ -70,7 +92,7 @@ router.get("/promovidos/:id", isLoggedIn, async (req, res) => {
     req.session.example2 = req.params.id;
     //console.log(delegado[0].nombres);
     const delegado2 = delegado[0].nombres;
-    const delegado3 = req.params.id;
+    const delegado3 = req.params.id; 
     const listado = await pool.query('SELECT lista_nominal.id as id_persona, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, (select casillas.casilla from casillas where casillas.id=lista_nominal.id_casilla) as casilla_lista, delegados.nombres as del_nombre,delegados.ape_pat as del_apepat,delegados.ape_mat as del_apemat FROM `lista_nominal` LEFT JOIN delegados on delegados.id=lista_nominal.id_del');
     const secciones = await pool.query('select secciones.id,secciones.seccion from secciones where mpio=92');
     res.render('./delegados/promovidos.hbs', { secciones, promovidos, delegado2, delegado3 });
