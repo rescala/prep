@@ -31,7 +31,6 @@ router.get('/seccion/casilla-r/:id', isLoggedIn, async (req, res) => {
 router.get('/seccion/lista/:id', isLoggedIn, async (req, res) => {
     const id = req.params.id;
     const lista = await pool.query('SELECT lista_nominal.id as idd, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, lista_nominal.num_lista_nominal, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, case when lista_nominal.programa="" then "No" else "Si" end as programa, case when lista_nominal.presidencia="" then "No" else "Si" end as presidencia, casillas.id,casillas.casilla, lista_nominal.voto,  case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt,lista_nominal.id_del, lista_nominal.telefono, delegados.nombres as apm, delegados.ape_pat as app1, delegados.ape_mat as app2 FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del WHERE lista_nominal.id_seccion=? ORDER by casilla asc, num_lista_nominal asc', id);
-    const lista2 = lista;
     const rojo1 = await pool.query('SELECT COUNT(*) as rojo1 FROM `lista_nominal` WHERE vota_pt>0 and lista_nominal.id_seccion='+id);
     const rojo2 = await pool.query('SELECT COUNT(*) as rojo2 FROM `lista_nominal` WHERE vota_pt!=0 and voto!=0 and lista_nominal.id_seccion='+id);
     const promo1 = await pool.query('SELECT COUNT(*) as promo1 FROM `lista_nominal` WHERE id_del!=0 and lista_nominal.id_seccion='+id);
@@ -45,6 +44,12 @@ router.get('/seccion/lista/:id', isLoggedIn, async (req, res) => {
     const promo1b = promo1[0];
     const promo2b = promo2[0];
     res.render('secciones/lista-r.hbs', {lista, negro1b, negro2b, rojo1b, rojo2b, promo1b, promo2b});
+});
+
+router.get('/detalles/:id', isLoggedIn, async (req,res)=>{
+    const resultado = await pool.query('select * from lista_nominal where id='+req.params.id);
+    const result = Object.values(JSON.parse(JSON.stringify(resultado)));
+    res.json(result);
 });
 
 router.get('/seccion/casillas/lista-r/:id', isLoggedIn, async (req, res) => {

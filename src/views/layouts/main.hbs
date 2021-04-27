@@ -20,7 +20,7 @@
 
     {{> navigation}}
     {{> message}}
-    {{{ body }}}
+    {{{ body }}} 
 
     {{!--SCRIPTS--}}
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
@@ -54,7 +54,7 @@
         $(document).ready(function () {
             var table = $('#example').DataTable({
                 initComplete: function () {
-                    this.api().columns([2, 3, 4, 5, 7, 10, 11]).every(function () {
+                    this.api().columns([2, 3, 4, 5, 7, 9, 10]).every(function () {
                         var column = this;
                         var select = $('<select style="font-size:14px; maw-width:70%;"><option value="">Todos</option></select>')
                             .appendTo($(column.footer()).empty())
@@ -72,7 +72,7 @@
                             select.append('<option style="font-size:14px; maw-width:70%;" value="' + d + '">' + d + '</option>');
                         });
                     });
-                    this.api().columns([6]).every(function () { 
+                    /*this.api().columns([6]).every(function () { 
                         var that = this;
                         var input = $('<input style="font-size:14px; maw-width:30%;" type="text" placeholder="Buscar" />')
                             .appendTo($(this.footer()).empty())
@@ -84,7 +84,7 @@
                                         .draw();
                                 }
                             });
-                    });
+                    });*/
                 },
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.10.22/i18n/Spanish.json'
@@ -95,6 +95,7 @@
                 "lengthMenu": [[-1, 10, 25, 50], ["Todos", 10, 25, 50]],
                 "scrollY": "200px",
                 "paging": false,
+                "bInfo" : false,
                 "scrollCollapse": true,
                 buttons: [
                     {

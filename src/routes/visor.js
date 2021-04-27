@@ -16,8 +16,20 @@ router.get('/', async (req, res) => {
 
 router.get('/main/', async (req, res) => {
     const listado = await pool.query('SELECT lista_nominal.id as idee, case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, lista_nominal.num_lista_nominal, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, case when lista_nominal.programa="" then "No" else "Si" end as programa, case when lista_nominal.presidencia="" then "No" else "Si" end as presidencia, lista_nominal.monto ,casillas.id,casillas.casilla, lista_nominal.voto,lista_nominal.id_del, lista_nominal.telefono, delegados.nombres as apm, delegados.ape_pat as app1, delegados.ape_mat as app2 FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del where lista_nominal.id_seccion=' + req.session.username + ';');
-
-    res.render('visor/tabla', { listado, layout: 'main6' });
+    const id = req.session.username;
+    const rojo1 = await pool.query('SELECT COUNT(*) as rojo1 FROM `lista_nominal` WHERE vota_pt>0 and lista_nominal.id_seccion='+id);
+    const rojo2 = await pool.query('SELECT COUNT(*) as rojo2 FROM `lista_nominal` WHERE vota_pt!=0 and voto!=0 and lista_nominal.id_seccion='+id);
+    const promo1 = await pool.query('SELECT COUNT(*) as promo1 FROM `lista_nominal` WHERE id_del!=0 and lista_nominal.id_seccion='+id);
+    const promo2 = await pool.query('SELECT COUNT(*) as promo2 FROM `lista_nominal` WHERE id_del!=0 and voto!=0 and lista_nominal.id_seccion='+id);
+    const negro1 = await pool.query('SELECT COUNT(*) as negro1 FROM `lista_nominal` WHERE lista_nominal.id_seccion='+id);
+    const negro2 = await pool.query('SELECT COUNT(*) as negro2 FROM `lista_nominal` WHERE voto!=0 and lista_nominal.id_seccion='+id);
+    const rojo1b = rojo1[0]; 
+    const rojo2b = rojo2[0];
+    const negro1b = negro1[0]; 
+    const negro2b = negro2[0];
+    const promo1b = promo1[0];
+    const promo2b = promo2[0];
+    res.render('visor/tabla', { listado, negro1b, negro2b, rojo1b, rojo2b, promo1b, promo2b, layout: 'main6' }); 
 });
 
 {
