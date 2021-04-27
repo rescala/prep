@@ -196,4 +196,50 @@ $(function () {
         });
     });
 
+    $('table').on('click', '.ver_detalles', function () {
+        let row = $(this).closest('tr');
+        let id = row.find('.id').text();
+        var myModal = new bootstrap.Modal(document.getElementById('exampleModal0'));
+        $.ajax({
+            url: "/mpios/detalles/" + id,
+            method: "GET",
+            success: function (response) {
+                $('.n_lista').text(response[0].num_lista_nominal);
+                $('.app').text(response[0].ape_pat);
+                $('.apm').text(response[0].ape_mal);
+                $('.nombres').text(response[0].nombres);
+                if (response[0].telefono=="") {
+                    $('.tel').text('Sin Teléfono Registrado');    
+                }else{
+                    $('.tel').text(response[0].telefono);
+                }
+                if (response[0].programa=="") {
+                    $('.programa').text('Sin Apoyo Registrado');    
+                }else{
+                    $('.programa').text(response[0].programa);
+                }
+                if (response[0].monto=="") {
+                    $('.monto').text('');    
+                }else{
+                    if (response[0].monto==0) {
+                        $('.monto').text('');    
+                    }else{
+                        $('.monto').text(response[0].monto);
+                    }
+                }
+                if (response[0].presidencia=="") {
+                    $('.preside').text('No trabaja en Presidencia');    
+                }else{
+                    $('.preside').text(response[0].presidencia);
+                }
+                if (response[0].detalles=="") {
+                    $('.detalle').text('Sin Detalles');    
+                }else{
+                    $('.detalle').text(response[0].detalles);
+                }
+                myModal.show();
+            }
+        })
+    });
+
 });
