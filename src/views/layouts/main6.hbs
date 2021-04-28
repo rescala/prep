@@ -76,7 +76,7 @@
                             select.append('<option value="' + d + '">' + d + '</option>');
                         });
                     });
-                    this.api().columns([3,8]).every(function () { 
+                    this.api().columns([3]).every(function () { 
                         var that = this;
                         var input = $('<input style="font-size:14px; maw-width:30%;" type="text" placeholder="Buscar" />')
                             .appendTo($(this.footer()).empty())
