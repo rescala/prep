@@ -60,7 +60,7 @@
                 initComplete: function () {
                     this.api().columns([1, 2, 4, 5, 6, 9]).every(function () {
                         var column = this;
-                        var select = $('<select><option value="">Todos</option></select>')
+                        var select = $('<select style="max-width:100%;"><option value="">Todos</option></select>')
                             .appendTo($(column.footer()).empty())
                             .on('change', function () {
                                 var val = $.fn.dataTable.util.escapeRegex(
@@ -76,10 +76,9 @@
                             select.append('<option value="' + d + '">' + d + '</option>');
                         });
                     });
-
-                    this.api().columns([3, 8]).every(function () { 
+                    this.api().columns([3,8]).every(function () { 
                         var that = this;
-                        var input = $('<input type="text" placeholder="Buscar" />')
+                        var input = $('<input style="font-size:14px; maw-width:30%;" type="text" placeholder="Buscar" />')
                             .appendTo($(this.footer()).empty())
 
                             .on('keyup change', function () {
@@ -102,7 +101,6 @@
                 "bInfo" : false,
                 "scrollCollapse": true
             });
-            table.button( '2-1' ).disable();
             //"dom": 'Blfrtip',
             table.container().appendTo($('.col-md-6:eq(0)', table.table().container()));
         });
