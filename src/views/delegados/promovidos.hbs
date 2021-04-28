@@ -38,7 +38,7 @@
                         <th scope="col">Eliminar</th>
                     </tr>
                 </thead>
-                
+
                 <tbody>
                     {{#each promovidos}}
                     <tr>
@@ -52,7 +52,9 @@
                         <td>{{monto}}</td>
                         <td>{{telefono}}</td>
                         <td>{{direccion}}</td>
-                        <td class="text-center"><a href="/delegados/editar/{{id}}"><i class="fas fa-user-edit"></i></a>
+                        <!--<td class="text-center"><a href="/delegados/editar/{{id}}"><i class="fas fa-user-edit"></i></a>-->
+                        <td class="text-center"><button class="editar_promovido btn btn-primary"
+                                id="editar_promovido"><i class="fas fa-user-edit"></i></button></td>
                         <td class="text-center"><button class="elimina_promovido btn btn-danger"
                                 id="elimina_promovido"><i class="fas fa-trash"></i></button></td>
                     </tr>
@@ -117,7 +119,7 @@
                 <div class="col-md-12" style="height: 60vh; overflow:auto;">
                     <div class="input-group input-group-sm mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-sm">Buscar</span>
-                        <input type="text" id="buscar"  class="form-control" aria-label="Sizing example input"
+                        <input type="text" id="buscar" class="form-control" aria-label="Sizing example input"
                             aria-describedby="inputGroup-sizing-sm">
                     </div>
                     <table id="example6" class="table table-striped">
@@ -203,6 +205,86 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" id="aceptar" class="aceptar btn btn-primary">Eliminar</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="editarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Alerta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form name="actualizarForm" action="/delegados/editar_accion/" method="post">
+                <div class="input-group mb-3" style="display: none;">
+                    <span class="input-group-text" id="basic-addon1">ID</span>
+                    <input type="text" name="id" class="form-control id"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">N-L</span>
+                    <input type="text" class="form-control n_lista" disabled
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Apellido Paterno</span>
+                    <input type="text" name="ape_pat" class="form-control app"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Apellido Materno</span>
+                    <input type="text" name="ape_mal" class="form-control apm"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Nombres</span>
+                    <input type="text" name="nombres" class="form-control nombres"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Dirección</span>
+                    <input type="text" name="direccion" class="form-control direccion"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Teléfono</span>
+                    <input type="text" name="telefono" class="form-control telefono"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Programa</span>
+                    <input type="text" name="programa" class="form-control programa"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Monto</span>
+                    <input type="text" name="monto" class="form-control monto"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Vota PT (1=Si | 2=No)</span>
+                    <input type="text" name="vota_pt" class="form-control vota_pt"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Presidencia</span>
+                    <input type="text" name="presidencia" class="form-control presidencia"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Detalles</span>
+                    <input type="text" name="detalles" class="form-control detalles"
+                        aria-describedby="basic-addon1">
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" id="aceptar" class="aceptar btn btn-primary">Editar</button>
+            </div>
+            </form>
         </div>
     </div>
 </div>

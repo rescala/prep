@@ -242,4 +242,30 @@ $(function () {
         })
     });
 
+
+    $('table').on('click', '.editar_promovido', function () {
+        let row = $(this).closest('tr');
+        let id = row.find('.id').text();
+        var myModal = new bootstrap.Modal(document.getElementById('editarModal'));
+        $.ajax({
+            url: "/delegados/detalles/" + id,
+            method: "GET",
+            success: function (response) {
+                $('input.id').val(response[0].id);
+                $('input.n_lista').val(response[0].num_lista_nominal);
+                $('input.app').val(response[0].ape_pat);
+                $('input.apm').val(response[0].ape_mal);
+                $('input.nombres').val(response[0].nombres);
+                $('input.direccion').val(response[0].direccion);
+                $('input.telefono').val(response[0].telefono);
+                $('input.programa').val(response[0].programa);
+                $('input.monto').val(response[0].monto);
+                $('input.vota_pt').val(response[0].vota_pt);
+                $('input.presidencia').val(response[0].presidencia);
+                $('input.detalles').val(response[0].detalles);
+                myModal.show();
+            }
+        })
+    });
+
 });
