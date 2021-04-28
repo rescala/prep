@@ -96,7 +96,32 @@ router.get("/promovidos/:id", isLoggedIn, async (req, res) => {
     const listado = await pool.query('SELECT lista_nominal.id as id_persona, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, (select casillas.casilla from casillas where casillas.id=lista_nominal.id_casilla) as casilla_lista, delegados.nombres as del_nombre,delegados.ape_pat as del_apepat,delegados.ape_mat as del_apemat FROM `lista_nominal` LEFT JOIN delegados on delegados.id=lista_nominal.id_del');
     const secciones = await pool.query('select secciones.id,secciones.seccion from secciones where mpio=92');
     res.render('./delegados/promovidos.hbs', { secciones, promovidos, delegado2, delegado3 });
+});
 
+router.get('/editar/:id', isLoggedIn, async(req,res)=>{
+    const id = req.params.id;
+    const datos = await pool.query('select * from lista_nominal where id='+id);
+    const datos2 = datos[0];
+    res.render('delegados/edit_p.hbs',datos2);
+});
+
+router.post('/editar_accion/:id', isLoggedIn, async(req,res)=>{
+    const id = req.params.id;
+    const {nombres, ape_pat,ape_mal,direccion, presidencia, vota_pt, detalles, telefono, programa, monto} = req.body;
+    const datos = {
+        nombres,
+        ape_pat,
+        ape_mal,
+        direccion,
+        telefono,
+        vota_pt,
+        detalles,
+        presidencia,
+        programa,
+        monto
+    };
+    await pool.query('UPDATE lista_nominal SET ? where id = ?', [datos,id]);
+    res.redirect('/delegados/');
 });
 
 router.get("/listaXseccion/:id", isLoggedIn, async (req,res)=>{

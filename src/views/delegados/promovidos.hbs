@@ -34,6 +34,7 @@
                         <th scope="col">Monto</th>
                         <th scope="col">Teléfono</th>
                         <th scope="col">Dirección</th>
+                        <th scope="col">Editar</th>
                         <th scope="col">Eliminar</th>
                     </tr>
                 </thead>
@@ -51,7 +52,7 @@
                         <td>{{monto}}</td>
                         <td>{{telefono}}</td>
                         <td>{{direccion}}</td>
-
+                        <td class="text-center"><a href="/delegados/editar/{{id}}"><i class="fas fa-user-edit"></i></a>
                         <td class="text-center"><button class="elimina_promovido btn btn-danger"
                                 id="elimina_promovido"><i class="fas fa-trash"></i></button></td>
                     </tr>
