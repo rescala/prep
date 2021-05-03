@@ -120,7 +120,7 @@ $(function () {
                             response[index].telefono="Sin Teléfono";
                         }
 
-                        $('#example6 tbody').append("<tr><td>" + response[index].seccion_lista + " </td><td>" + response[index].casilla + " </td><td>" + response[index].ape_pat + " " + response[index].ape_mal + " " + response[index].nom2 + "</td><td>" + response[index].direccion + " </td></tr>");
+                        $('#example6 tbody').append("<tr><td>" + response[index].seccion_lista + " </td><td>" + response[index].casilla + " </td><td>" + response[index].ape_pat + " " + response[index].ape_mal + " " + response[index].nom2 + "</td><td>" + response[index].direccion + " </td><td><a href='tel:" + response[index].telefono + "'>" + response[index].telefono + "</a></td></tr>");
                     
                 }
                 myModal.show();
