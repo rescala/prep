@@ -17,8 +17,10 @@ router.get('/', (req, res) => {
 router.get('/secciones-r/', isLoggedIn, async (req, res) => {
     const muni = await pool.query('select nombre from municipio where id=?', req.session.example);
     const secciones = await pool.query('select secciones.id,secciones.seccion,secciones.meta, municipio.nombre, (select count(lista_nominal.id) from lista_nominal where lista_nominal.id_seccion=secciones.id) as votantes, (select COALESCE(sum(lista_nominal.voto=1),0) from lista_nominal where lista_nominal.id_seccion=secciones.id ) as votos, (select count(lista_nominal.vota_pt) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.vota_pt>0) as votantes_pt, (select count(lista_nominal.vota_pt) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.vota_pt>0 and lista_nominal.voto>0) as votos_pt, (select count(lista_nominal.id_del) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.id_del>0) as referidos, (select count(lista_nominal.id_del) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.id_del>0 and lista_nominal.voto>0) as votos_referidos from secciones INNER join municipio on secciones.mpio=municipio.id where mpio=?', req.session.example);
+    const sumatoria = await pool.query('SELECT count(lista_nominal.id) as votantes, (select count(lista_nominal.id) from lista_nominal WHERE voto>0) as votos, (select count(lista_nominal.id) from lista_nominal WHERE voto>0 and id_del>0) as votos_promovidos, (select count(lista_nominal.id) from lista_nominal WHERE id_del>0) as promovidos, (select sum(meta) from secciones) as meta, (select count(lista_nominal.id) from lista_nominal where vota_pt>0) as afiliados_pt FROM `lista_nominal` inner join secciones on secciones.id=lista_nominal.id_seccion INNER JOIN municipio on municipio.id=secciones.mpio WHERE municipio.id =?', req.session.example);
     muni2 = muni[0].nombre;
-    res.render('secciones/seccion-r.hbs', { secciones, muni2 });
+    
+    res.render('secciones/seccion-r.hbs', { secciones, muni2, sumatoria });
 });
 
 router.get('/seccion/casilla-r/:id', isLoggedIn, async (req, res) => {
@@ -39,7 +41,6 @@ router.get('/seccion/lista/:id', isLoggedIn, async (req, res) => {
     const negro2 = await pool.query('SELECT COUNT(*) as negro2 FROM `lista_nominal` WHERE voto!=0 and lista_nominal.id_seccion='+id);
     const rojo1b = rojo1[0]; 
     const rojo2b = rojo2[0];
-    console.log(rojo2b);
     const negro1b = negro1[0]; 
     const negro2b = negro2[0];
     const promo1b = promo1[0];
@@ -130,7 +131,7 @@ router.post('/seccion/casillas/lista/editar/:id', isLoggedIn, async(req,res)=>{
     const datos = {
         nombres,
         ape_pat,
-        ape_mal,
+        ape_mal, 
         direccion,
         telefono,
         vota_pt,

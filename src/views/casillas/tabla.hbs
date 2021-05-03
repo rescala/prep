@@ -5,7 +5,7 @@
             <h3>Votantes de la Sección {{secc}} - Casilla {{cass}}</h3>
             {{else}}
             <h3>Votantes de la Sección ### - Casilla ###</h3>
-            {{/each}}
+            {{/each}} 
             <br>
             <div class="container inner" style="display: flex; align-items: center; justify-content: center;">
                 <div class='inner alert alert-success alert-dismissible fade' role='alert'>¡Voto Registrado!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>
@@ -29,7 +29,7 @@
                     <tr>
                         <td style="display: none;" class="id">{{id}}</td>
                         <td>{{num_lista_nominal}}</td>
-                        <td>{{nombres}}</td>
+                        <td>{{ape_pat}} {{ape_mal}} {{nombres}}</td>
 
                         <td class="text-center"><button class="vota btn btn-primary" id="vota"><i class="fas fa-vote-yea"></i></button></td>
                     </tr>

@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/main/', async (req, res) => {
-    const listado = await pool.query('SELECT lista_nominal.id as idee, case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, lista_nominal.num_lista_nominal, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, case when lista_nominal.programa="" then "No" else "Si" end as programa, case when lista_nominal.presidencia="" then "No" else "Si" end as presidencia, lista_nominal.monto ,casillas.id,casillas.casilla, lista_nominal.voto,lista_nominal.id_del, lista_nominal.telefono, delegados.nombres as apm, delegados.ape_pat as app1, delegados.ape_mat as app2 FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del where lista_nominal.id_seccion=' + req.session.username + ';');
+    const listado = await pool.query('SELECT lista_nominal.id as idee, case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, lista_nominal.num_lista_nominal, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, case when lista_nominal.programa="" then "No" else "Si" end as programa, case when lista_nominal.presidencia="" then "No" else "Si" end as presidencia, lista_nominal.monto ,casillas.id,casillas.casilla, case when lista_nominal.voto=0 then "No" else "Si" end as voto ,lista_nominal.id_del, lista_nominal.telefono, delegados.nombres as apm, delegados.ape_pat as app1, delegados.ape_mat as app2 FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del where lista_nominal.id_seccion=' + req.session.username + ';');
     const id = req.session.username;
     const rojo1 = await pool.query('SELECT COUNT(*) as rojo1 FROM `lista_nominal` WHERE vota_pt>0 and lista_nominal.id_seccion='+id);
     const rojo2 = await pool.query('SELECT meta from secciones where id='+id);
@@ -30,6 +30,18 @@ router.get('/main/', async (req, res) => {
     const promo1b = promo1[0];
     const promo2b = promo2[0];
     res.render('visor/tabla', { listado, negro1b, negro2b, rojo1b, rojo2b, promo1b, promo2b, layout: 'main6' }); 
+});
+
+router.get('/referidos_detalle/:id', async (req, res) => {
+    const listado = await pool.query('SELECT lista_nominal.id as idee, case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, lista_nominal.num_lista_nominal, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, case when lista_nominal.programa="" then "No" else "Si" end as programa, case when lista_nominal.presidencia="" then "No" else "Si" end as presidencia, lista_nominal.monto ,casillas.id,casillas.casilla, case when lista_nominal.voto=0 then "No" else "Si" end as voto ,lista_nominal.id_del, lista_nominal.telefono, delegados.nombres as apm, delegados.ape_pat as app1, delegados.ape_mat as app2 FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del where lista_nominal.id_seccion=' + req.session.username + ' and lista_nominal.voto<1 and lista_nominal.id_del='+req.params.id+';');
+    console.log(listado);
+    res.json(listado);
+});
+
+router.get('/detalles/:id', async (req,res)=>{
+    const resultado = await pool.query('select * from lista_nominal where id='+req.params.id);
+    const result = Object.values(JSON.parse(JSON.stringify(resultado)));
+    res.json(result);
 });
 
 {
@@ -96,8 +108,8 @@ router.get('/secciones/:id', async (req, res) => {
 });
 
 router.get('/promotores', async (req, res) => {
-    const delegados = await pool.query('SELECT delegados.`id`, delegados.`nombres`, delegados.`ape_pat`, delegados.`ape_mat`, delegados.`telefono`, delegados.`comunidad`, delegados.`seccion`, delegados.`usuario`, delegados.`password`, delegados.`pw`, delegados.`id_mpio`, delegados.`estatus`, (select count(lista_nominal.`nombres`) from lista_nominal where lista_nominal.id_del=delegados.id) as referidos, (select COALESCE(sum(lista_nominal.voto=1),0) from lista_nominal where lista_nominal.id_del=delegados.id ) as votaron from delegados where delegados.id_mpio=92');
-    res.render('visores/list-r.hbs', { delegados, layout: 'main4' });
+    const delegados = await pool.query('SELECT DISTINCT delegados.`id`, delegados.`nombres`, delegados.`ape_pat`, delegados.`ape_mat`, delegados.`telefono`, (select count(lista_nominal.id) from lista_nominal WHERE lista_nominal.id_del=delegados.id and lista_nominal.id_seccion='+req.session.username+') as referidos, (select count(lista_nominal.id) from lista_nominal WHERE lista_nominal.id_del=delegados.id and lista_nominal.id_seccion='+req.session.username+' and lista_nominal.voto!=0) as voto, (select count(lista_nominal.id) from lista_nominal WHERE lista_nominal.id_del=delegados.id and lista_nominal.id_seccion='+req.session.username+' and lista_nominal.voto!=1) as fxv from delegados LEFT OUTER JOIN lista_nominal on lista_nominal.id_del=delegados.id where lista_nominal.id_seccion='+req.session.username);
+    res.render('visor/list-r.hbs', { delegados, layout: 'main6' });
 });
 
 router.get("/promovidos/:id", async (req, res) => {

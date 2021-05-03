@@ -58,7 +58,7 @@
 
             var table = $('#example').DataTable({
                 initComplete: function () {
-                    this.api().columns([1, 2, 4, 5, 6, 9]).every(function () {
+                    this.api().columns([4, 5, 6]).every(function () {
                         var column = this;
                         var select = $('<select style="max-width:100%;"><option value="">Todos</option></select>')
                             .appendTo($(column.footer()).empty())
@@ -76,7 +76,7 @@
                             select.append('<option value="' + d + '">' + d + '</option>');
                         });
                     }); 
-                    this.api().columns([3]).every(function () { 
+                    this.api().columns([ 2, 3]).every(function () { 
                         var that = this;
                         var input = $('<input style="font-size:14px; maw-width:30%;" type="text" placeholder="Buscar" />')
                             .appendTo($(this.footer()).empty())

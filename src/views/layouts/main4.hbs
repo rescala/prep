@@ -58,49 +58,11 @@
                 },
                 //para usar los botones   
                 responsive: "true",
-                dom: 'Bfrtilp',
                 "lengthMenu": [[-1, 10, 25, 50], ["Todos", 10, 25, 50]],
                 "scrollY": "200px",
+                "paging": false,
+                "bInfo" : false,
                 "scrollCollapse": true,
-                /*"bProcessing": true,
-                "bServerSide": true,
-                ajax: {
-                    url: '/visores/seccionesT',
-                    dataSrc: ''
-                },
-                "aoColumns": [
-                    { "mData": "seccion_lista" },
-                    { "mData": "casilla" },
-                    { "mData": "num_lista_nominal" },
-                    { "mData": "vota_pt" },
-                    { "mData": "nom2" },
-                    { "mData": "programa" },
-                    { "mData": "monto" },
-                    { "mData": "telefono" },
-                    { "mData": "direccion" },
-                    { "mData": "voto" },
-                    { "mData": "apm" }
-                ],*/
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        text: '<i class="fas fa-file-excel"></i> ',
-                        titleAttr: 'Exportar a Excel',
-                        className: 'btn btn-success'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        text: '<i class="fas fa-file-pdf"></i> ',
-                        titleAttr: 'Exportar a PDF',
-                        className: 'btn btn-danger'
-                    },
-                    {
-                        extend: 'print',
-                        text: '<i class="fa fa-print"></i> ',
-                        titleAttr: 'Imprimir',
-                        className: 'btn btn-info'
-                    },
-                ]
             });
             //"dom": 'Blfrtip',
             table.buttons().container().appendTo($('.col-md-6:eq(0)', table.table().container()));
@@ -111,36 +73,11 @@
                 },
                 //para usar los botones   
                 responsive: "true",
-                dom: 'Bfrtilp',
                 "lengthMenu": [[-1, 10, 25, 50], ["Todos", 10, 25, 50]],
                 "scrollY": "200px",
-                "scrollCollapse": true,
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        text: '<i class="fas fa-file-excel"></i> ',
-                        titleAttr: 'Exportar a Excel',
-                        className: 'btn btn-success'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        text: '<i class="fas fa-file-pdf"></i> ',
-                        titleAttr: 'Exportar a PDF',
-                        className: 'btn btn-danger'
-                    },
-                    {
-                        extend: 'print',
-                        text: '<i class="fa fa-print"></i> ',
-                        titleAttr: 'Imprimir',
-                        className: 'btn btn-info'
-                    },
-                ], "columnDefs": [
-                    {
-                        "targets": [0],
-                        "visible": true,
-                        "searchable": false
-                    }
-                ]
+                "paging": false,
+                "bInfo" : false,
+                "scrollCollapse": true
             });
             //"dom": 'Blfrtip',
             table.buttons().container().appendTo($('.col-md-6:eq(0)', table.table().container()));
@@ -152,36 +89,11 @@
                 },
                 //para usar los botones   
                 responsive: "true",
-                dom: 'Bfrtilp',
-                "lengthMenu": [[-1, 10, 25, 50], ["Todos", 10, 25, 50]],
+               "lengthMenu": [[-1, 10, 25, 50], ["Todos", 10, 25, 50]],
                 "scrollY": "200px",
-                "scrollCollapse": true,
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        text: '<i class="fas fa-file-excel"></i> ',
-                        titleAttr: 'Exportar a Excel',
-                        className: 'btn btn-success'
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        text: '<i class="fas fa-file-pdf"></i> ',
-                        titleAttr: 'Exportar a PDF',
-                        className: 'btn btn-danger'
-                    },
-                    {
-                        extend: 'print',
-                        text: '<i class="fa fa-print"></i> ',
-                        titleAttr: 'Imprimir',
-                        className: 'btn btn-info'
-                    },
-                ], "columnDefs": [
-                    {
-                        "targets": [0],
-                        "visible": false,
-                        "searchable": false
-                    }
-                ]
+                "paging": false,
+                "bInfo" : false,
+                "scrollCollapse": true
             });
             //"dom": 'Blfrtip',
             table2.buttons().container().appendTo($('.col-md-6:eq(0)', table2.table().container()));

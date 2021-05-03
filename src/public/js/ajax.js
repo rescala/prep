@@ -103,6 +103,32 @@ $(function () {
         });
     });
 
+
+    $('table').on('click', '.ver_referidos', function () {
+        let row = $(this).closest('tr');
+        let id = row.find('.id').text();
+        var myModal = new bootstrap.Modal(document.getElementById('Modal_Detalles'));
+        $('#example6 tbody').html('');
+        
+        $.ajax({
+            url: "/visor/referidos_detalle/" + id,
+            method: "GET",
+            success: function (response) {
+                console.log(response);
+                for (let index = 0; index < response.length; index++) {
+                        if(!response[index].telefono){
+                            response[index].telefono="Sin Teléfono";
+                        }
+
+                        $('#example6 tbody').append("<tr><td>" + response[index].seccion_lista + " </td><td>" + response[index].casilla + " </td><td>" + response[index].ape_pat + " " + response[index].ape_mal + " " + response[index].nom2 + "</td><td>" + response[index].direccion + " </td></tr>");
+                    
+                }
+                myModal.show();
+            }
+        })
+    });
+
+
     $('table').on('click', '.elimina', function () {
         let row = $(this).closest('tr');
         let id = row.find('.id').text();
@@ -208,33 +234,33 @@ $(function () {
                 $('.app').text(response[0].ape_pat);
                 $('.apm').text(response[0].ape_mal);
                 $('.nombres').text(response[0].nombres);
-                if (response[0].telefono=="") {
-                    $('.tel').text('Sin Teléfono Registrado');    
-                }else{
+                if (response[0].telefono == "") {
+                    $('.tel').text('Sin Teléfono Registrado');
+                } else {
                     $('.tel').text(response[0].telefono);
                 }
-                if (response[0].programa=="") {
-                    $('.programa').text('Sin Apoyo Registrado');    
-                }else{
+                if (response[0].programa == "") {
+                    $('.programa').text('Sin Apoyo Registrado');
+                } else {
                     $('.programa').text(response[0].programa);
                 }
-                if (response[0].monto=="") {
-                    $('.monto').text('');    
-                }else{
-                    if (response[0].monto==0) {
-                        $('.monto').text('');    
-                    }else{
+                if (response[0].monto == "") {
+                    $('.monto').text('');
+                } else {
+                    if (response[0].monto == 0) {
+                        $('.monto').text('');
+                    } else {
                         $('.monto').text(response[0].monto);
                     }
                 }
-                if (response[0].presidencia=="") {
-                    $('.preside').text('No trabaja en Presidencia');    
-                }else{
+                if (response[0].presidencia == "") {
+                    $('.preside').text('No trabaja en Presidencia');
+                } else {
                     $('.preside').text(response[0].presidencia);
                 }
-                if (response[0].detalles=="") {
-                    $('.detalle').text('Sin Detalles');    
-                }else{
+                if (response[0].detalles == "") {
+                    $('.detalle').text('Sin Detalles');
+                } else {
                     $('.detalle').text(response[0].detalles);
                 }
                 myModal.show();
@@ -242,6 +268,51 @@ $(function () {
         })
     });
 
+    $('table').on('click', '.ver_detalles2', function () {
+        let row = $(this).closest('tr');
+        let id = row.find('.estaes').text();
+        var myModal = new bootstrap.Modal(document.getElementById('exampleModal0'));
+        $.ajax({
+            url: "/visor/detalles/" + id,
+            method: "GET",
+            success: function (response) {
+                $('.n_lista').text(response[0].num_lista_nominal);
+                $('.app').text(response[0].ape_pat);
+                $('.apm').text(response[0].ape_mal);
+                $('.nombres').text(response[0].nombres);
+                if (response[0].telefono == "") {
+                    $('.tel').text('Sin Teléfono Registrado');
+                } else {
+                    $('.tel').text(response[0].telefono);
+                }
+                if (response[0].programa == "") {
+                    $('.programa').text('Sin Apoyo Registrado');
+                } else {
+                    $('.programa').text(response[0].programa);
+                }
+                if (response[0].monto == "") {
+                    $('.monto').text('');
+                } else {
+                    if (response[0].monto == 0) {
+                        $('.monto').text('');
+                    } else {
+                        $('.monto').text(response[0].monto);
+                    }
+                }
+                if (response[0].presidencia == "") {
+                    $('.preside').text('No trabaja en Presidencia');
+                } else {
+                    $('.preside').text(response[0].presidencia);
+                }
+                if (response[0].detalles == "") {
+                    $('.detalle').text('Sin Detalles');
+                } else {
+                    $('.detalle').text(response[0].detalles);
+                }
+                myModal.show();
+            }
+        })
+    });
 
     $('table').on('click', '.editar_promovido', function () {
         let row = $(this).closest('tr');

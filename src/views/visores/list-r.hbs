@@ -4,15 +4,14 @@
             <h3>Lista de Promotores</h3>
         </div>
         <div class="container m-2">
-        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 50vh;">
-            <table id="example" class="table table-bordered table-striped mb-0" style="width: 100%;">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 35vh;">
+            <table id="example" class="table table-bordered table-striped mb-0" style="width: 90%;">
                 <thead>
                     <tr>
                         <th scope="col">Nombre</th>
                         <th scope="col">Teléfono</th>
                         <th scope="col">Comunidad</th>
                         <th scope="col">Sección</th>
-                        <th scope="col">Contraseña</th>
                         <th scope="col">Promovidos</th>
                         <th scope="col">Votaron</th>
                         <th scope="col">Detalle</th>
@@ -22,10 +21,9 @@
                     {{#each delegados}}
                     <tr>
                         <td>{{ape_pat}} {{ape_mat}} {{nombres}}</td>
-                        <td>{{telefono}}</td>
+                        <td><a href='tel:{{telefono}}'>{{telefono}}</a></td>
                         <td>{{comunidad}}</td>
                         <td>{{seccion}}</td>
-                        <td>{{pw}}</td>
                         <td>{{referidos}}</td>
                         <td>{{votaron}}</td>
                         <td class="text-center"><a style="text-decoration: none;" href="/visores/promovidos/{{id}}"><i class="fas fa-list"></i></a>
@@ -50,18 +48,6 @@
             </table>
 
         </div>
-
-        <style>
-            .my-custom-scrollbar {
-                position: relative;
-                height: 200px;
-                overflow: auto;
-            }
-
-            .table-wrapper-scroll-y {
-                display: block;
-            }
-        </style>
        
     </div>
 </div>

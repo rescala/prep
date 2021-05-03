@@ -10,7 +10,11 @@ const pool = require('../database');
 //Función de render de datos
 router.get('/', isLoggedIn, async (req, res) => {
     const delegados = await pool.query('SELECT delegados.`id`, delegados.`nombres`, delegados.`ape_pat`, delegados.`ape_mat`, delegados.`telefono`, delegados.`comunidad`, delegados.`seccion`, delegados.`usuario`, delegados.`password`, delegados.`pw`, delegados.`id_mpio`, delegados.`estatus`, (select count(lista_nominal.`nombres`) from lista_nominal where lista_nominal.id_del=delegados.id) as referidos, (select COALESCE(sum(lista_nominal.voto=1),0) from lista_nominal where lista_nominal.id_del=delegados.id ) as votaron from delegados where delegados.id_mpio=?', req.session.example);
-    res.render('delegados/list-r.hbs', { delegados });
+    const referidosb = await pool.query('SELECT count(lista_nominal.id) as promovidos from lista_nominal WHERE lista_nominal.id_del>0');
+    const votadosb = await pool.query('SELECT count(lista_nominal.id) as promovidos from lista_nominal WHERE lista_nominal.id_del>0 and lista_nominal.voto>0');
+    const referidos = referidosb[0];
+    const votados = votadosb[0];
+    res.render('delegados/list-r.hbs', { delegados, referidos, votados });
 });
 
 router.get('/acceso', isLoggedIn, async (req,res)=>{
@@ -37,7 +41,11 @@ router.post('/permitir', isLoggedIn, async (req,res)=>{
 
 router.get('/registrar', isLoggedIn, async (req, res) => {
     const delegados = await pool.query('SELECT delegados.`id`, delegados.`nombres`, delegados.`ape_pat`, delegados.`ape_mat`, delegados.`telefono`, delegados.`comunidad`, delegados.`seccion`, delegados.`usuario`, delegados.`password`, delegados.`pw`, delegados.`id_mpio`, delegados.`estatus`, (select count(lista_nominal.`nombres`) from lista_nominal where lista_nominal.id_del=delegados.id) as referidos, (select COALESCE(sum(lista_nominal.voto=1),0) from lista_nominal where lista_nominal.id_del=delegados.id ) as votaron from delegados where delegados.id_mpio=?', req.session.example);
-    res.render('delegados/list-r.hbs', { delegados });
+    const referidosb = await pool.query('SELECT count(lista_nominal.id) as promovidos from lista_nominal WHERE lista_nominal.id_del>0');
+    const votadosb = await pool.query('SELECT count(lista_nominal.id) as promovidos from lista_nominal WHERE lista_nominal.id_del>0 and lista_nominal.voto>0');
+    const referidos = referidosb[0];
+    const votados = votadosb[0];
+    res.render('delegados/list-r.hbs', { delegados, referidos, votados });
 });
 
 //Función de muestra de sección de registro de delegados
@@ -165,12 +173,12 @@ router.put("/promovidos/delete/:id", isLoggedIn, async (req, res) => {
 router.post("/edit/:id", isLoggedIn, async (req, res) => {
     const { id } = req.params;
     if (req.body.password) {
-        const { nombres, ape_pat, ape_mat, usuario, seccion, password, pw } = req.body;
+        const { nombres, ape_pat, ape_mat, telefono, seccion, password, pw } = req.body;
         const editarDelegado = {
             nombres,
             ape_pat,
             ape_mat,
-            usuario,
+            telefono,
             seccion,
             password,
             pw
@@ -179,12 +187,12 @@ router.post("/edit/:id", isLoggedIn, async (req, res) => {
         editarDelegado.pw = password;
         await pool.query('UPDATE delegados SET ? where id = ?', [editarDelegado, id]);
     } else {
-        const { nombres, ape_pat, ape_mat, usuario, seccion } = req.body;
+        const { nombres, ape_pat, ape_mat, telefono, seccion } = req.body;
         const editarDelegado = {
             nombres,
             ape_pat,
             ape_mat,
-            usuario,
+            telefono,
             seccion
         };
         await pool.query('UPDATE delegados SET ? where id = ?', [editarDelegado, id]);
