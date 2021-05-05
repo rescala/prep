@@ -56,7 +56,7 @@ router.get('/add', isLoggedIn, async (req, res) => {
 
 //Función asíncrona para registro de datos de delegados
 router.post('/add', isLoggedIn, async (req, res) => {
-    const { nombres, ape_pat, ape_mat, telefono, comunidad, seccion, usuario } = req.body;
+    const { nombres, ape_pat, ape_mat, telefono, comunidad, seccion, } = req.body;
     const id_mpio = req.session.example;
     const newdelegado = {
         nombres,
@@ -65,7 +65,6 @@ router.post('/add', isLoggedIn, async (req, res) => {
         telefono,
         comunidad,
         seccion,
-        usuario,
         id_mpio
     };
     await pool.query('Insert into delegados set ?', [newdelegado]);
@@ -110,7 +109,7 @@ router.get('/detalles/:id', isLoggedIn, async (req,res)=>{
     const resultado = await pool.query('select * from lista_nominal where id='+req.params.id);
     const result = Object.values(JSON.parse(JSON.stringify(resultado)));
     res.json(result);
-});
+}); 
 
 router.get('/editar/:id', isLoggedIn, async(req,res)=>{
     const id = req.params.id;

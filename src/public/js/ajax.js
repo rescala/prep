@@ -179,9 +179,11 @@ $(function () {
         let row = $(this).closest('tr');
         let id = row.find('.id').text();
         var myModal = new bootstrap.Modal(document.getElementById('exampleModal5'));
+        var myModal1000 = new bootstrap.Modal(document.getElementById('exampleModa1000'));
         myModal.show();
         $('#exampleModal5').on('click', '.aceptar', function () {
             myModal.hide();
+            myModal1000.show();
             $.ajax({
                 url: "/mpios/seccion/casillas/lista/eliminar/" + id,
                 method: "PUT",
@@ -203,9 +205,11 @@ $(function () {
         let row = $(this).closest('tr');
         let id = row.find('.id').text();
         var myModal = new bootstrap.Modal(document.getElementById('exampleModal6'));
+        var myModal1000 = new bootstrap.Modal(document.getElementById('exampleModa1000'));
         myModal.show();
         $('#exampleModal6').on('click', '.aceptar', function () {
             myModal.hide();
+            myModal1000.show();
             $.ajax({
                 url: "/mpios/seccion/casilla/lista/add/" + id,
                 method: "PUT",
@@ -323,6 +327,7 @@ $(function () {
             method: "GET",
             success: function (response) {
                 $('input.id').val(response[0].id);
+                $('input.casilla').val(response[0].casilla);
                 $('input.n_lista').val(response[0].num_lista_nominal);
                 $('input.app').val(response[0].ape_pat);
                 $('input.apm').val(response[0].ape_mal);

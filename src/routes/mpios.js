@@ -103,13 +103,14 @@ router.put("/seccion/casillas/lista/eliminar/:id", isLoggedIn, async (req,res)=>
     const registros = await pool.query('SELECT num_lista_nominal,id from lista_nominal where id_casilla =' + casilla2 + ' and num_lista_nominal>' + lista + ' order by num_lista_nominal ASC');
     var y;
     if (registros[0]) {
+        await pool.query('delete from lista_nominal where id='+lugar);
         y = registros[0].num_lista_nominal;
         for (let index = 0; index < registros.length; index++) {
             var x = registros[index].num_lista_nominal - 1;
             var w = registros[index].id;
-            await pool.query('UPDATE `lista_nominal` SET `num_lista_nominal`=' + x + ' WHERE id=' + w);
+            await pool.query('UPDATE `lista_nominal` SET `num_lista_nominal`=' + x + ' WHERE id=' + w); 
         }
-        await pool.query('delete from lista_nominal where id='+lugar);
+        
     } else {
         const registros2 = await pool.query('SELECT  MAX(num_lista_nominal) as num_lista_nominal,id from lista_nominal where id_casilla =' + casilla2 + ' order by num_lista_nominal ASC');
         y = registros2[0].num_lista_nominal+1;
