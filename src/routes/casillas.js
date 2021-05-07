@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 
 		res.redirect('/casillas/home');
 	} else {
-		res.render('casillas/signin.hbs', { layout: 'main2' });
+		res.render('casillas/signin.hbs', { layout: 'main' });
 	}
 
 });
