@@ -17,22 +17,22 @@ router.get('/', isLoggedIn, async (req, res) => {
     res.render('delegados/list-r.hbs', { delegados, referidos, votados });
 });
 
-router.get('/acceso', isLoggedIn, async (req,res)=>{
+router.get('/acceso', isLoggedIn, async (req, res) => {
     const prueba = await pool.query('Select * from acceso where id=1;');
     const importante = prueba[0].activado;
-    var estado="";
-    if (importante==0) {
-        estado="Inhabilitado";
-    }else{
-        estado="Habilitado";
+    var estado = "";
+    if (importante == 0) {
+        estado = "Inhabilitado";
+    } else {
+        estado = "Habilitado";
     }
-    res.render('delegados/acceso',{importante, estado});
+    res.render('delegados/acceso', { importante, estado });
 });
 
-router.post('/permitir', isLoggedIn, async (req,res)=>{
+router.post('/permitir', isLoggedIn, async (req, res) => {
     const estado = req.body.estado;
-    if (estado==1) {
-        await pool.query('UPDATE `acceso` SET `activado`=1');   
+    if (estado == 1) {
+        await pool.query('UPDATE `acceso` SET `activado`=1');
     } else {
         await pool.query('UPDATE `acceso` SET `activado`=0');
     }
@@ -93,33 +93,37 @@ router.get("/edit/:id", isLoggedIn, async (req, res) => {
 router.get("/promovidos/:id", isLoggedIn, async (req, res) => {
     const id = req.params.id;
     //console.log(id);
-    const promovidos = await pool.query('SELECT lista_nominal.id,  case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt, secciones.seccion, casillas.casilla, lista_nominal.num_lista_nominal, lista_nominal.ape_pat, lista_nominal.ape_mal, lista_nominal.nombres, lista_nominal.programa, lista_nominal.monto, lista_nominal.telefono, lista_nominal.direccion FROM `lista_nominal` INNER JOIN secciones on lista_nominal.id_seccion=secciones.id INNER JOIN casillas on lista_nominal.id_casilla=casillas.id where lista_nominal.id_del='+id);
+    const promovidos = await pool.query('SELECT lista_nominal.id,  case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt, secciones.seccion, casillas.casilla, lista_nominal.num_lista_nominal, lista_nominal.ape_pat, lista_nominal.ape_mal, lista_nominal.nombres, lista_nominal.programa, lista_nominal.monto, lista_nominal.telefono, lista_nominal.direccion FROM `lista_nominal` INNER JOIN secciones on lista_nominal.id_seccion=secciones.id INNER JOIN casillas on lista_nominal.id_casilla=casillas.id where lista_nominal.voto<1 and lista_nominal.id_del=' + id);
     //console.log(promovidos);
     const delegado = await pool.query('select nombres from delegados where id=?', req.params.id);
     req.session.example2 = req.params.id;
     //console.log(delegado[0].nombres);
     const delegado2 = delegado[0].nombres;
-    const delegado3 = req.params.id; 
-    const listado = await pool.query('SELECT lista_nominal.id as id_persona, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, (select casillas.casilla from casillas where casillas.id=lista_nominal.id_casilla) as casilla_lista, delegados.nombres as del_nombre,delegados.ape_pat as del_apepat,delegados.ape_mat as del_apemat FROM `lista_nominal` LEFT JOIN delegados on delegados.id=lista_nominal.id_del');
+    const delegado3 = req.params.id;
+    //const listado = await pool.query('SELECT lista_nominal.id as id_persona, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, (select casillas.casilla from casillas where casillas.id=lista_nominal.id_casilla) as casilla_lista, delegados.nombres as del_nombre,delegados.ape_pat as del_apepat,delegados.ape_mat as del_apemat FROM `lista_nominal` LEFT JOIN delegados on delegados.id=lista_nominal.id_del');
+    const sinv = await pool.query('SELECT count(lista_nominal.id) as sinv from lista_nominal where lista_nominal.voto<1 and lista_nominal.id_del=' + id);
+    const conv = await pool.query('SELECT count(lista_nominal.id) as conv from lista_nominal where lista_nominal.voto>0 and lista_nominal.id_del=' + id);
+    const sinva = sinv[0].sinv;
+    const conva = conv[0].conv;
     const secciones = await pool.query('select secciones.id,secciones.seccion from secciones where mpio=92');
-    res.render('./delegados/promovidos.hbs', { secciones, promovidos, delegado2, delegado3 });
+    res.render('./delegados/promovidos.hbs', { secciones, sinva, conva, promovidos, delegado2, delegado3 });
 });
 
-router.get('/detalles/:id', isLoggedIn, async (req,res)=>{
-    const resultado = await pool.query('select * from lista_nominal where id='+req.params.id);
+router.get('/detalles/:id', isLoggedIn, async (req, res) => {
+    const resultado = await pool.query('select * from lista_nominal where id=' + req.params.id);
     const result = Object.values(JSON.parse(JSON.stringify(resultado)));
     res.json(result);
-}); 
-
-router.get('/editar/:id', isLoggedIn, async(req,res)=>{
-    const id = req.params.id;
-    const datos = await pool.query('select * from lista_nominal where id='+id);
-    const datos2 = datos[0];
-    res.render('delegados/edit_p.hbs',datos2);
 });
 
-router.post('/editar_accion/', isLoggedIn, async(req,res)=>{
-    const {id,nombres, ape_pat,ape_mal,direccion, presidencia, vota_pt, detalles, telefono, programa, monto} = req.body;
+router.get('/editar/:id', isLoggedIn, async (req, res) => {
+    const id = req.params.id;
+    const datos = await pool.query('select * from lista_nominal where id=' + id);
+    const datos2 = datos[0];
+    res.render('delegados/edit_p.hbs', datos2);
+});
+
+router.post('/editar_accion/', isLoggedIn, async (req, res) => {
+    const { id, nombres, ape_pat, ape_mal, direccion, presidencia, vota_pt, detalles, telefono, programa, monto } = req.body;
     const datos = {
         nombres,
         ape_pat,
@@ -132,12 +136,12 @@ router.post('/editar_accion/', isLoggedIn, async(req,res)=>{
         programa,
         monto
     };
-    await pool.query('UPDATE lista_nominal SET ? where id = ?', [datos,id]);
+    await pool.query('UPDATE lista_nominal SET ? where id = ?', [datos, id]);
     res.redirect('back');
 });
 
-router.get("/listaXseccion/:id", isLoggedIn, async (req,res)=>{
-    const listado = await pool.query('SELECT lista_nominal.id as id_persona, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, (select casillas.casilla from casillas where casillas.id=lista_nominal.id_casilla) as casilla_lista, delegados.nombres as del_nombre,delegados.ape_pat as del_apepat,delegados.ape_mat as del_apemat FROM `lista_nominal` LEFT JOIN delegados on delegados.id=lista_nominal.id_del where lista_nominal.id_seccion='+req.params.id);
+router.get("/listaXseccion/:id", isLoggedIn, async (req, res) => {
+    const listado = await pool.query('SELECT lista_nominal.id as id_persona, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, (select casillas.casilla from casillas where casillas.id=lista_nominal.id_casilla) as casilla_lista, delegados.nombres as del_nombre,delegados.ape_pat as del_apepat,delegados.ape_mat as del_apemat FROM `lista_nominal` LEFT JOIN delegados on delegados.id=lista_nominal.id_del where lista_nominal.id_seccion=' + req.params.id);
     res.json(listado);
 });
 
@@ -148,16 +152,16 @@ router.post("/promovidos/add/:id", isLoggedIn, async (req, res) => {
         req.flash('success', 'No se ha realizado ningún cambio');
         res.redirect('back');
 
-    } else{
+    } else {
         if (!Array.isArray(arr)) {
             await pool.query('UPDATE lista_nominal SET lista_nominal.id_del=? where id = ?', [req.session.example2, arr]);
             req.flash('success', 'Se ha añadido 1 promovido satisfactoriamente');
-        }else {
+        } else {
             for (let index = 0; index < arr.length; index++) {
                 //console.log("Se Actualizará el ID "+arr[index]);
                 await pool.query('UPDATE lista_nominal SET lista_nominal.id_del=? where id = ?', [req.session.example2, arr[index]]);
             }
-            req.flash('success', 'Se han añadido'+arr.length+' promovidos satisfactoriamente');
+            req.flash('success', 'Se han añadido' + arr.length + ' promovidos satisfactoriamente');
         }
     }
     res.redirect('back');

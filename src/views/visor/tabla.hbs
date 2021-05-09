@@ -9,6 +9,7 @@
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Secc</th>
+                        <th scope="col">Cas</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Tel</th>
                         <th scope="col">Promotor</th>
@@ -22,6 +23,7 @@
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Secc</th>
+                        <th scope="col">Cas</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Tel</th>
                         <th scope="col">Promotor</th>
@@ -38,6 +40,7 @@
                         {{#if app1}}
                         <td style="color: red;" class="estaes">{{idee}}</td>
                         <td style="color: red;">{{seccion_lista}}</td>
+                        <td style="color: red;">{{casilla}}</td>
                         <td style="color: red;">{{ape_pat}} {{ape_mal}} {{nom2}}</td>
                         <td style="color: red;"><a href='tel:{{telefono}}'>{{telefono}}</a></td>
                         <td style="color: red;">{{app1}} {{app2}} {{apm}}</td>
@@ -50,6 +53,7 @@
                         {{else}}
                         <td  class="estaes">{{idee}}</td>
                         <td>{{seccion_lista}}</td>
+                        <td>{{casilla}}</td>
                         <td>{{ape_pat}} {{ape_mal}} {{nom2}}</td>
                         <td><a href='tel:{{telefono}}'>{{telefono}}</a></td>
                         <td>Sin Promotor Asignado</td>

@@ -3,7 +3,7 @@
         <div class="container m-2">
             <button type="button" class="btn btn-secondary"><a style="text-decoration: none; color: white;"
                     href="/visores/secciones-r"><i class="fas fa-undo"></i> Regresar a Secciones</a></button>
-            <h3>Lista Nominal</h3>
+            <h5>Lista Nominal</h5>
         </div>
         <div class="col-md-12" >
 
@@ -23,6 +23,20 @@
 
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th scope="col">Sección</th>
+                        <th scope="col">Casilla</th>
+                        <th scope="col">N° Lista</th>
+                        <th scope="col">PT</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Programa</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Votó</th>
+                        <th scope="col">Promotor</th>
+                    </tr>
+                </tfoot>
                 <tbody>
                     {{#each lista}}
                     <tr>
@@ -93,16 +107,16 @@
         </div>
 
         <div class="col-md-12">
-            <h4>Resultados</h4>
+            <h5>Resultados</h5>
             <table class="table">
                 <thead>
                     <tr>
                         <th style="text-align:center;" scope="col">Totales</th>
                         <th style="text-align:center;" scope="col">Votos Totales</th>
-                        <th style="text-align:center;" scope="col">Referidos</th>
+                        <th style="text-align:center;" scope="col">Promovidos</th>
                         <th style="text-align:center;" scope="col">Meta</th>
                         <th style="text-align:center;" scope="col">Promovidos</th>
-                        <th style="text-align:center;" scope="col">Votos Referidos</th>
+                        <th style="text-align:center;" scope="col">Votos Promovidos</th>
                     </tr>
                 </thead>
                 <tbody>

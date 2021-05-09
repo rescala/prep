@@ -76,12 +76,18 @@ router.get('/promotores', async (req, res) => {
 router.get("/promovidos/:id", async (req, res) => {
     if (req.session.username) {
         const id = req.params.id;
-        const promovidos = await pool.query('SELECT lista_nominal.id,  case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt, secciones.seccion, casillas.casilla, lista_nominal.num_lista_nominal, lista_nominal.ape_pat, lista_nominal.ape_mal, lista_nominal.nombres, lista_nominal.programa, lista_nominal.monto, lista_nominal.telefono, lista_nominal.direccion FROM `lista_nominal` INNER JOIN secciones on lista_nominal.id_seccion=secciones.id INNER JOIN casillas on lista_nominal.id_casilla=casillas.id where lista_nominal.id_del=' + id);
+        const promovidos = await pool.query('SELECT lista_nominal.id,  case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt, secciones.seccion, casillas.casilla, lista_nominal.num_lista_nominal, lista_nominal.ape_pat, lista_nominal.ape_mal, lista_nominal.nombres, lista_nominal.programa, lista_nominal.monto, lista_nominal.telefono, lista_nominal.direccion FROM `lista_nominal` INNER JOIN secciones on lista_nominal.id_seccion=secciones.id INNER JOIN casillas on lista_nominal.id_casilla=casillas.id where lista_nominal.voto<1 and lista_nominal.id_del=' + id);
+        const sinv = await pool.query('SELECT count(lista_nominal.id) as sinv from lista_nominal where lista_nominal.voto<1 and lista_nominal.id_del='+id);
+        const conv = await pool.query('SELECT count(lista_nominal.id) as conv from lista_nominal where lista_nominal.voto>0 and lista_nominal.id_del='+id);
+        const sinva = sinv[0].sinv;
+        const conva = conv[0].conv;
+        console.log(sinva);
+        console.log(conva);
         const delegado = await pool.query('select nombres from delegados where id=?', req.params.id);
         req.session.example2 = req.params.id;
         const delegado2 = delegado[0].nombres;
         const delegado3 = req.params.id;
-        res.render('./visores/promovidos.hbs', { promovidos, delegado2, delegado3, layout: 'main4' });
+        res.render('./visores/promovidos.hbs', { promovidos, sinva, conva, delegado2, delegado3, layout: 'main4' });
     } else {
         res.redirect('/visores/');
     }
