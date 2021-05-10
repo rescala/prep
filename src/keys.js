@@ -1,8 +1,8 @@
 module.exports = {
     database:{
-        host: '72.167.34.131',
+        host: 'localhost',
         user: 'luisresc_prepuser',
-        password: 'aS4-+qgm,SRc',
+        password: 'u15EJ#YcHT^9',
         database: 'luisresc_prep_cuit_pt'
     }
 };
@@ -12,4 +12,4 @@ module.exports = {
 
 
 // luisresc_prepuser
-// aS4-+qgm,SRc
+// u15EJ#YcHT^9
