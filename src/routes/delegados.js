@@ -68,6 +68,7 @@ router.post('/add', isLoggedIn, async (req, res) => {
         seccion,
         id_mpio
     };
+    console.log(newdelegado);
     await pool.query('Insert into delegados set ?', [newdelegado]);
     req.flash('success', 'Promotor Agregado Satisfactoriamente');
     res.redirect("/delegados/registrar");
