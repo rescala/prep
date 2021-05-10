@@ -107,7 +107,7 @@ router.get("/promovidos/:id", isLoggedIn, async (req, res) => {
     const conv = await pool.query('SELECT count(lista_nominal.id) as conv from lista_nominal where lista_nominal.voto>0 and lista_nominal.id_del=' + id);
     const sinva = sinv[0].sinv;
     const conva = conv[0].conv;
-    const secciones = await pool.query('select secciones.id,secciones.seccion from secciones where mpio=92');
+    const secciones = await pool.query('select secciones.id,secciones.seccion from secciones where mpio='+req.session.example);
     res.render('./delegados/promovidos.hbs', { secciones, sinva, conva, promovidos, delegado2, delegado3 });
 });
 
