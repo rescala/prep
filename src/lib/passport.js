@@ -18,7 +18,7 @@ passport.use('local.signin', new localstrategy({
         const user = row[0];
         const validP = await helpers.matchPassword(password,user.password);
         if (validP) {
-            req.session.example = user.id_mpio;
+            req.session.example = user.id_mpio; 
             done(null, user, req.flash('success','Bienvenido, '+user.nombres));
         } else {
             done(null, false, req.flash('message','Contraseña Incorrecta'));
