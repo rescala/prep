@@ -109,19 +109,19 @@ $(function () {
         let id = row.find('.id').text();
         var myModal = new bootstrap.Modal(document.getElementById('Modal_Detalles'));
         $('#example6 tbody').html('');
-        
+
         $.ajax({
             url: "/visor/referidos_detalle/" + id,
             method: "GET",
             success: function (response) {
                 console.log(response);
                 for (let index = 0; index < response.length; index++) {
-                        if(!response[index].telefono){
-                            response[index].telefono="Sin Teléfono";
-                        }
+                    if (!response[index].telefono) {
+                        response[index].telefono = "Sin Teléfono";
+                    }
 
-                        $('#example6 tbody').append("<tr><td>" + response[index].seccion_lista + " </td><td>" + response[index].casilla + " </td><td>" + response[index].ape_pat + " " + response[index].ape_mal + " " + response[index].nom2 + "</td><td>" + response[index].direccion + " </td><td><a href='tel:" + response[index].telefono + "'>" + response[index].telefono + "</a></td></tr>");
-                    
+                    $('#example6 tbody').append("<tr><td>" + response[index].seccion_lista + " </td><td>" + response[index].casilla + " </td><td>" + response[index].ape_pat + " " + response[index].ape_mal + " " + response[index].nom2 + "</td><td>" + response[index].direccion + " </td><td><a href='tel:" + response[index].telefono + "'>" + response[index].telefono + "</a></td></tr>");
+
                 }
                 myModal.show();
             }
@@ -208,11 +208,18 @@ $(function () {
         var myModal1000 = new bootstrap.Modal(document.getElementById('exampleModa1000'));
         myModal.show();
         $('#exampleModal6').on('click', '.aceptar', function () {
+            var myform = document.getElementById("informacion_nueva");
+            var fd = jQuery(myform).serialize();
+            console.log(fd);
             myModal.hide();
+            //Modal para marcar que se espere a que se actualice todo
             myModal1000.show();
+            
             $.ajax({
                 url: "/mpios/seccion/casilla/lista/add/" + id,
-                method: "PUT",
+                data: fd,
+                cache: false,
+                method: "POST",
                 success: function (response) {
                     console.log(response);
                     if (response = 'Creado') {
@@ -238,6 +245,7 @@ $(function () {
                 $('.app').text(response[0].ape_pat);
                 $('.apm').text(response[0].ape_mal);
                 $('.nombres').text(response[0].nombres);
+                $('.direccion').text(response[0].direccion);
                 if (response[0].telefono == "") {
                     $('.tel').text('Sin Teléfono Registrado');
                 } else {
@@ -284,6 +292,7 @@ $(function () {
                 $('.app').text(response[0].ape_pat);
                 $('.apm').text(response[0].ape_mal);
                 $('.nombres').text(response[0].nombres);
+                $('.direccion').text(response[0].direccion);
                 if (response[0].telefono == "") {
                     $('.tel').text('Sin Teléfono Registrado');
                 } else {

@@ -68,7 +68,7 @@ router.get('/seccion/casillas/lista-r/:id', isLoggedIn, async (req, res) => {
     res.render('secciones/lista-r.hbs', { listado, id, lugar });
 });
 
-router.put('/seccion/casilla/lista/add/:id', isLoggedIn, async (req, res) => {
+router.post('/seccion/casilla/lista/add/:id', isLoggedIn, async (req, res) => {
     const lugar = req.params.id;
     const casilla = await pool.query('SELECT id_casilla,num_lista_nominal from lista_nominal where id=?', lugar);
     const lista = casilla[0].num_lista_nominal;
@@ -77,14 +77,28 @@ router.put('/seccion/casilla/lista/add/:id', isLoggedIn, async (req, res) => {
     const seccion2 = seccion[0].id_seccion;
     const registros = await pool.query('SELECT num_lista_nominal,id from lista_nominal where id_casilla =' + casilla2 + ' and num_lista_nominal>' + lista + ' order by num_lista_nominal ASC');
     var y;
+    const {nombres, ape_pat,ape_mal,direccion, presidencia, vota_pt, detalles, telefono, programa, monto} = req.body;
     if (registros[0]) {
         y = registros[0].num_lista_nominal;
+        const datos = {
+            nombres,
+            ape_pat,
+            ape_mal, 
+            direccion,
+            telefono,
+            vota_pt,
+            detalles,
+            presidencia,
+            programa,
+            monto
+        };
+        console.log(datos);
         for (let index = 0; index < registros.length; index++) {
             var x = registros[index].num_lista_nominal + 1;
             var w = registros[index].id;
             await pool.query('UPDATE `lista_nominal` SET `num_lista_nominal`=' + x + ' WHERE id=' + w);
         }
-        await pool.query('INSERT INTO `lista_nominal`(`num_lista_nominal`, `id_casilla`, `id_seccion`) VALUES (' + y + ',' + casilla2 + ',' + seccion2 + ')');
+        await pool.query('INSERT INTO `lista_nominal`(`num_lista_nominal`, `id_casilla`, `id_seccion`, `nombres`, `ape_pat`, `ape_mal`, `direccion`, `telefono`, `vota_pt`, `detalles`, `presidencia`, `programa`, `monto` ) VALUES (' + y + ',' + casilla2 + ',' + seccion2 + ',"' + nombres + '","' + ape_pat + '","' + ape_mal + '","' + direccion + '",' + telefono + ',' + vota_pt + ',"' + detalles + '","' + presidencia + '","' + programa + '",' + monto + ')');
     } else {
         const registros2 = await pool.query('SELECT  MAX(num_lista_nominal) as num_lista_nominal,id from lista_nominal where id_casilla =' + casilla2 + ' order by num_lista_nominal ASC');
         y = registros2[0].num_lista_nominal+1;
