@@ -24,7 +24,7 @@ router.post('/auth', async (req, res) => {
         var username = req.body.usuario;
         var password = req.body.password;
         if (username && password) {
-            if (username == "T2021" || password == "T2021") {
+            if (username == "C2021" || password == "C2021") {
                 req.session.loggedin = true;
                 req.session.username = "activo";
                 res.redirect('/visores/secciones-r')
