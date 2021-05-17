@@ -98,7 +98,7 @@ router.post('/seccion/casilla/lista/add/:id', isLoggedIn, async (req, res) => {
             var w = registros[index].id;
             await pool.query('UPDATE `lista_nominal` SET `num_lista_nominal`=' + x + ' WHERE id=' + w);
         }
-        await pool.query('INSERT INTO `lista_nominal`(`num_lista_nominal`, `id_casilla`, `id_seccion`, `nombres`, `ape_pat`, `ape_mal`, `direccion`, `telefono`, `vota_pt`, `detalles`, `presidencia`, `programa`, `monto` ) VALUES (' + y + ',' + casilla2 + ',' + seccion2 + ',"' + nombres + '","' + ape_pat + '","' + ape_mal + '","' + direccion + '",' + telefono + ',' + vota_pt + ',"' + detalles + '","' + presidencia + '","' + programa + '",' + monto + ')');
+        await pool.query('INSERT INTO `lista_nominal`(`num_lista_nominal`, `id_casilla`, `id_seccion`, `nombres`, `ape_pat`, `ape_mal`, `direccion`, `telefono`, `vota_pt`, `detalles`, `presidencia`, `programa`, `monto`) VALUES (' + y + ',' + casilla2 + ',' + seccion2 + ',"' + nombres + '","' + ape_pat + '","' + ape_mal + '","' + direccion + '","' + telefono + '",' + vota_pt + ',"' + detalles + '","' + presidencia + '","' + programa + '",' + monto + ');');
     } else {
         const registros2 = await pool.query('SELECT  MAX(num_lista_nominal) as num_lista_nominal,id from lista_nominal where id_casilla =' + casilla2 + ' order by num_lista_nominal ASC');
         y = registros2[0].num_lista_nominal+1;
