@@ -24,7 +24,7 @@ router.post('/auth', async (req, res) => {
         var username = req.body.usuario;
         var password = req.body.password;
         if (username && password) {
-            if (username == "T2021" || password == "T2021") {
+            if (username == "C2021" || password == "C2021") {
                 req.session.loggedin = true;
                 req.session.username = "activo";
                 res.redirect('/visores/secciones-r')
@@ -65,7 +65,7 @@ router.get('/secciones/:id', async (req, res) => {
 
 router.get('/promotores', async (req, res) => {
     if (req.session.username) {
-        const delegados = await pool.query('SELECT delegados.`id`, delegados.`nombres`, delegados.`ape_pat`, delegados.`ape_mat`, delegados.`telefono`, delegados.`comunidad`, delegados.`seccion`, delegados.`usuario`, delegados.`password`, delegados.`pw`, delegados.`id_mpio`, delegados.`estatus`, (select count(lista_nominal.`nombres`) from lista_nominal where lista_nominal.id_del=delegados.id) as referidos, (select COALESCE(sum(lista_nominal.voto=1),0) from lista_nominal where lista_nominal.id_del=delegados.id ) as votaron from delegados where delegados.id_mpio=92');
+        const delegados = await pool.query('SELECT delegados.`id`, delegados.`nombres`, delegados.`ape_pat`, delegados.`ape_mat`, delegados.`telefono`, delegados.`comunidad`, delegados.`seccion`, delegados.`usuario`, delegados.`password`, delegados.`pw`, delegados.`id_mpio`, delegados.`estatus`, (select count(lista_nominal.`nombres`) from lista_nominal where lista_nominal.id_del=delegados.id) as referidos, (select COALESCE(sum(lista_nominal.voto=1),0) from lista_nominal where lista_nominal.id_del=delegados.id ) as votaron from delegados where delegados.id_mpio=30');
         res.render('visores/list-r.hbs', { delegados, layout: 'main4' });
     } else {
         res.redirect('/visores/');
@@ -98,7 +98,7 @@ router.get("/promovidos/:id", async (req, res) => {
 router.get('/secciones-r/', async (req, res) => {
     if (req.session.username) {
         const muni = await pool.query('select nombre from municipio where id=92');
-        const secciones = await pool.query('select secciones.id,secciones.seccion,municipio.nombre, (select count(lista_nominal.id) from lista_nominal where lista_nominal.id_seccion=secciones.id) as votantes, (select COALESCE(sum(lista_nominal.voto=1),0) from lista_nominal where lista_nominal.id_seccion=secciones.id ) as votos, (select count(lista_nominal.vota_pt) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.vota_pt>0) as votantes_pt, (select count(lista_nominal.vota_pt) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.vota_pt>0 and lista_nominal.voto>0) as votos_pt, meta as meta, (select count(lista_nominal.id_del) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.id_del>0) as referidos, (select count(lista_nominal.id_del) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.id_del>0 and lista_nominal.voto>0) as votos_referidos from secciones INNER join municipio on secciones.mpio=municipio.id where mpio=92');
+        const secciones = await pool.query('select secciones.id,secciones.seccion,municipio.nombre, (select count(lista_nominal.id) from lista_nominal where lista_nominal.id_seccion=secciones.id) as votantes, (select COALESCE(sum(lista_nominal.voto=1),0) from lista_nominal where lista_nominal.id_seccion=secciones.id ) as votos, (select count(lista_nominal.vota_pt) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.vota_pt>0) as votantes_pt, (select count(lista_nominal.vota_pt) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.vota_pt>0 and lista_nominal.voto>0) as votos_pt, meta as meta, (select count(lista_nominal.id_del) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.id_del>0) as referidos, (select count(lista_nominal.id_del) from lista_nominal where lista_nominal.id_seccion=secciones.id and lista_nominal.id_del>0 and lista_nominal.voto>0) as votos_referidos from secciones INNER join municipio on secciones.mpio=municipio.id where mpio=30');
         const rojo1 = await pool.query('SELECT COUNT(*) as rojo1 FROM `lista_nominal` WHERE vota_pt>0');
         const rojo2 = await pool.query('SELECT SUM(meta) as rojo2 FROM `secciones`');
         const promo1 = await pool.query('SELECT COUNT(*) as promo1 FROM `lista_nominal` WHERE id_del!=0');

@@ -1,9 +1,9 @@
 module.exports = {
     database:{
         host: 'localhost',
-        user: 'prepuser',
-        password: 'prep123',
-        database: 'prep_tar_pt'
+        user: 'luisresc_prepuser',
+        password: 'u15EJ#YcHT^9',
+        database: 'luisresc_prep_cuit_pt'
     }
 };
 
