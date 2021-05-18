@@ -335,25 +335,25 @@ $(function () {
             let num = $(this).val();
             let id = row.find('.id').text();
             $.ajax({
-                url: "/delegados/acomodarlista/"+id+"/"+num,
+                url: "/delegados/acomodarlista/" + id + "/" + num,
                 method: "GET",
                 success: function (response) {
-                    if (response=="Actualizado") {
+                    if (response == "Actualizado") {
                         $("input.num_lista_nominal").attr('readonly', true);
                         myModal.show();
                     }
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                    myModal2.show(); 
-                } 
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    myModal2.show();
+                }
             })
         }
     });
 
-    
+
 
     $('table').on('click', '.editar_promovido', function () {
-        let row = $(this).closest('tr');
+        var row = $(this).closest('tr');
         let id = row.find('.id').text();
         var myModal = new bootstrap.Modal(document.getElementById('editarModal'));
         $.ajax({
@@ -362,7 +362,7 @@ $(function () {
             success: function (response) {
                 $('input.id').val(response[0].id);
                 $('input.casilla').val(response[0].casilla);
-                $('input.num_lista_nominal').val(response[0].num_lista_nominal);
+                $('#editarModal input.num_lista_nominal').val(response[0].num_lista_nominal);
                 $('input.app').val(response[0].ape_pat);
                 $('input.apm').val(response[0].ape_mal);
                 $('input.nombres').val(response[0].nombres);
@@ -375,8 +375,67 @@ $(function () {
                 $('input.presidencia').val(response[0].presidencia);
                 $('input.detalles').val(response[0].detalles);
                 myModal.show();
+                $('#editarModal').on('click', '.aceptar', function () {
+                    var myModal = new bootstrap.Modal(document.getElementById('editarModal'));
+                    var myform = document.getElementById("actualizarForm");
+                    var fd = jQuery(myform).serialize();
+                    $.ajax({
+                        url: "/delegados/editar_accion/",
+                        data: fd,
+                        cache: false,
+                        method: "POST",
+                        success: function (response) {
+                            myModal.hide();
+                            $('#actualizarForm').on('submit', function (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            });
+                            console.log(response);
+                            row.find('.nombre').html(response[0].ape_pat + " " + response[0].ape_mal + " " + response[0].nombres);
+                            row.find('.casilla').html(response[0].casilla);
+                            if (response[0].vota_pt<1) {
+                                row.find('.vota_pt').html('No');    
+                            }
+                            if (response[0].vota_pt>0) {
+                                row.find('.vota_pt').html('Si');    
+                            }                            
+                            if (response[0].presidencia=="") {
+                                row.find('.presidencia').html('No');    
+                            }
+                            if (response[0].presidencia!="") {
+                                row.find('.presidencia').html('Si');    
+                            }
+                            if (response[0].programa=="") {
+                                row.find('.programa').html('No');    
+                            }
+                            if (response[0].programa!="") {
+                                row.find('.programa').html('Si');    
+                            }
+
+                            // response[0].ape_pat + " " + response[0].ape_mal + " " + response[0].nombres;
+                            /*$('input.id').val(response[0].id);
+                            $('input.casilla').val(response[0].casilla);
+                            $('input.num_lista_nominal').val(response[0].num_lista_nominal);
+                            $('input.app').val(response[0].ape_pat);
+                            $('input.apm').val(response[0].ape_mal);
+                            $('input.nombres').val(response[0].nombres);
+                            $('input.direccion').val(response[0].direccion);
+                            $('input.telefono').val(response[0].telefono);
+                            $('input.programa').val(response[0].programa);
+                            $('input.monto').val(response[0].monto);
+                            $("#vota_pt option[value=" + response[0].vota_pt + "]").attr('selected', 'selected');
+                            $("#id_casilla option[value=" + response[0].id_casilla + "]").attr('selected', 'selected');
+                            $('input.presidencia').val(response[0].presidencia);
+                            $('input.detalles').val(response[0].detalles);
+                            myModal.show(); */
+                        }
+                    })
+                });
             }
         })
     });
+
+
+
 
 });

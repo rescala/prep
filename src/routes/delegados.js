@@ -148,9 +148,9 @@ router.post('/editar_accion/', isLoggedIn, async (req, res) => {
         programa,
         monto
     };
-    console.log(datos);
+    //console.log(datos); 
     await pool.query('UPDATE lista_nominal SET ? where id = ?', [datos, id]);
-    res.redirect('back');
+    res.json([datos,id]);
 });
 
 router.get("/listaXseccion/:id", isLoggedIn, async (req, res) => {

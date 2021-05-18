@@ -46,13 +46,13 @@
 
                         {{#if apm}}
                         <td class="id">{{idd}}</td>
-                        <td scope="row" style="color:red;"> {{seccion_lista}} </td>
-                        <td style="color:red;">{{casilla}} </td>
-                        <td style="color:red;"><input type="text" class="num_lista_nominal" style="outline: none; width: 50px;" readonly="true" ondblclick="this.readOnly='';" name="num_lista_nominal" id="num_lista_nominal" value="{{num_lista_nominal}}"> </td>
-                        <td style="color:red;">{{vota_pt}} </td>
-                        <td style="color:red;">{{presidencia}} </td>
-                        <td style="color:red;">{{ape_pat}} {{ape_mal}} {{nom2}} </td>
-                        <td style="color:red;">{{programa}}</td>
+                        <td class="seccion_lista" scope="row" style="color:red;"> {{seccion_lista}} </td>
+                        <td class="casilla" style="color:red;">{{casilla}} </td>
+                        <td class="num_lista_nominal" style="color:red;"><input type="text" class="num_lista_nominal" style="outline: none; width: 50px;" readonly="true" ondblclick="this.readOnly='';" name="num_lista_nominal" id="num_lista_nominal" value="{{num_lista_nominal}}"> </td>
+                        <td class="vota_pt" style="color:red;">{{vota_pt}} </td>
+                        <td class="presidencia" style="color:red;">{{presidencia}} </td>
+                        <td class="nombre" style="color:red;">{{ape_pat}} {{ape_mal}} {{nom2}} </td>
+                        <td class="programa" style="color:red;">{{programa}}</td>
                         <td><button class="ver_detalles btn btn-primary" id="ver_detalles"><i
                                     class="far fa-eye"></i></button> </td>
                         {{#if voto}}
@@ -70,13 +70,13 @@
                         </td>
                         {{else}}
                         <td class="id">{{idd}}</td>
-                        <th scope="row"> {{seccion_lista}} </th>
-                        <td>{{casilla}}</td>
-                        <td><input type="text" class="num_lista_nominal" style="outline: none; width: 50px;" readonly="true" ondblclick="this.readOnly='';" name="num_lista_nominal" id="num_lista_nominal" value="{{num_lista_nominal}}"> </td>
-                        <td>{{vota_pt}} </td>
-                        <td>{{presidencia}} </td>
-                        <td>{{ape_pat}} {{ape_mal}} {{nom2}}</td>
-                        <td>{{programa}}</td>
+                        <td class="seccion_lista" scope="row"> {{seccion_lista}} </td>
+                        <td class="casilla">{{casilla}} </td>
+                        <td class="num_lista_nominal"><input type="text" class="num_lista_nominal" style="outline: none; width: 50px;" readonly="true" ondblclick="this.readOnly='';" name="num_lista_nominal" id="num_lista_nominal" value="{{num_lista_nominal}}"> </td>
+                        <td class="vota_pt">{{vota_pt}} </td>
+                        <td class="presidencia">{{presidencia}} </td>
+                        <td class="nombre">{{ape_pat}} {{ape_mal}} {{nom2}} </td>
+                        <td class="programa">{{programa}}</td>
                         <td><button class="ver_detalles btn btn-primary" id="ver_detalles"><i
                                     class="far fa-eye"></i></button> </td>
                         {{#if voto}}
@@ -367,7 +367,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form name="actualizarForm" action="/delegados/editar_accion/" method="post">
+                <form name="actualizarForm" id="actualizarForm" action="/delegados/editar_accion/" method="post">
                     <div class="input-group mb-3" style="display: none;">
                         <span class="input-group-text" id="basic-addon1">ID</span>
                         <input type="text" name="id" class="form-control id" aria-describedby="basic-addon1">
@@ -440,7 +440,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" id="aceptar" class="aceptar btn btn-primary">Editar</button>
+                <button type="button" id="aceptar" data-bs-dismiss="modal" class="aceptar btn btn-primary">Editar</button>
             </div>
             </form>
         </div>
