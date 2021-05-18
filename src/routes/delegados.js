@@ -124,11 +124,12 @@ router.get('/editar/:id', isLoggedIn, async (req, res) => {
     res.render('delegados/edit_p.hbs', datos2);
 });
 
-router.get('/acomodarlista/:id', isLoggedIn, async (req, res) => {
+router.get('/acomodarlista/:id/:num', isLoggedIn, async (req, res) => {
     const id = req.params.id;
-    await pool.query('SET @a  = 0;');    
-    await pool.query('UPDATE lista_nominal SET num_lista_nominal = @a:=@a+1 WHERE id_casilla='+id+' ORDER BY num_lista_nominal ASC;');
-    res.redirect('back');
+    const num = req.params.num;
+    console.log('id: '+id+'\nvalor: '+num);    
+    await pool.query('UPDATE lista_nominal SET num_lista_nominal ='+num+'  WHERE id='+id+';');
+    res.json('Actualizado');
 });
 
 router.post('/editar_accion/', isLoggedIn, async (req, res) => {

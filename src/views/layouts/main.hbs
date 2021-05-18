@@ -56,9 +56,11 @@
     <script>
 
         $(document).ready(function () {
+
+            
             var table = $('#example').DataTable({
                 initComplete: function () {
-                    this.api().columns([2, 3, 4, 5, 7, 9, 10]).every(function () {
+                    this.api().columns([2, 4, 5, 7, 9, 10]).every(function () {
                         var column = this;
                         var select = $('<select style="font-size:14px; max-width:70%;"><option value="">Todos</option></select>')
                             .appendTo($(column.footer()).empty())
@@ -76,19 +78,6 @@
                             select.append('<option style="font-size:14px; max-width:70%;" value="' + d + '">' + d + '</option>');
                         });
                     });
-                    /*this.api().columns([6]).every(function () { 
-                        var that = this;
-                        var input = $('<input style="font-size:14px; maw-width:30%;" type="text" placeholder="Buscar" />')
-                            .appendTo($(this.footer()).empty())
-
-                            .on('keyup change', function () {
-                                if (that.search() !== this.value) {
-                                    that
-                                        .search(this.value)
-                                        .draw();
-                                }
-                            });
-                    });*/
                 },
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.10.22/i18n/Spanish.json'

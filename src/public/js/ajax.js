@@ -214,7 +214,7 @@ $(function () {
             myModal.hide();
             //Modal para marcar que se espere a que se actualice todo
             myModal1000.show();
-            
+
             $.ajax({
                 url: "/mpios/seccion/casilla/lista/add/" + id,
                 data: fd,
@@ -327,6 +327,31 @@ $(function () {
         })
     });
 
+    $("input.num_lista_nominal").on('keyup', function (e) {
+        var myModal = new bootstrap.Modal(document.getElementById('confirmacion_update'));
+        var myModal2 = new bootstrap.Modal(document.getElementById('error_update'));
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            let row = $(this).closest('tr');
+            let num = $(this).val();
+            let id = row.find('.id').text();
+            $.ajax({
+                url: "/delegados/acomodarlista/"+id+"/"+num,
+                method: "GET",
+                success: function (response) {
+                    if (response=="Actualizado") {
+                        $("input.num_lista_nominal").attr('readonly', true);
+                        myModal.show();
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                    myModal2.show(); 
+                } 
+            })
+        }
+    });
+
+    
+
     $('table').on('click', '.editar_promovido', function () {
         let row = $(this).closest('tr');
         let id = row.find('.id').text();
@@ -345,8 +370,8 @@ $(function () {
                 $('input.telefono').val(response[0].telefono);
                 $('input.programa').val(response[0].programa);
                 $('input.monto').val(response[0].monto);
-                $("#vota_pt option[value="+response[0].vota_pt+"]").attr('selected', 'selected');
-                $("#id_casilla option[value="+response[0].id_casilla+"]").attr('selected', 'selected');
+                $("#vota_pt option[value=" + response[0].vota_pt + "]").attr('selected', 'selected');
+                $("#id_casilla option[value=" + response[0].id_casilla + "]").attr('selected', 'selected');
                 $('input.presidencia').val(response[0].presidencia);
                 $('input.detalles').val(response[0].detalles);
                 myModal.show();
