@@ -90,7 +90,7 @@ router.get("/edit/:id", isLoggedIn, async (req, res) => {
     const secc_del = await pool.query('select seccion from secciones where mpio=?', req.session.example);
     res.render('./delegados/edit.hbs', { delegados: delegados[0], secc_del });
 
-});
+}); 
 
 router.get("/promovidos/:id", isLoggedIn, async (req, res) => {
     const id = req.params.id;
@@ -124,9 +124,18 @@ router.get('/editar/:id', isLoggedIn, async (req, res) => {
     res.render('delegados/edit_p.hbs', datos2);
 });
 
+router.get('/acomodarlista/:id', isLoggedIn, async (req, res) => {
+    const id = req.params.id;
+    await pool.query('SET @a  = 0;');    
+    await pool.query('UPDATE lista_nominal SET num_lista_nominal = @a:=@a+1 WHERE id_casilla='+id+' ORDER BY num_lista_nominal ASC;');
+    res.redirect('back');
+});
+
 router.post('/editar_accion/', isLoggedIn, async (req, res) => {
-    const { id, nombres, ape_pat, ape_mal, direccion, presidencia, vota_pt, detalles, telefono, programa, monto } = req.body;
+    const { id, num_lista_nominal, id_casilla, nombres, ape_pat, ape_mal, direccion, presidencia, vota_pt, detalles, telefono, programa, monto } = req.body;
     const datos = {
+        num_lista_nominal,
+        id_casilla,
         nombres,
         ape_pat,
         ape_mal,
@@ -138,6 +147,7 @@ router.post('/editar_accion/', isLoggedIn, async (req, res) => {
         programa,
         monto
     };
+    console.log(datos);
     await pool.query('UPDATE lista_nominal SET ? where id = ?', [datos, id]);
     res.redirect('back');
 });

@@ -337,7 +337,7 @@ $(function () {
             success: function (response) {
                 $('input.id').val(response[0].id);
                 $('input.casilla').val(response[0].casilla);
-                $('input.n_lista').val(response[0].num_lista_nominal);
+                $('input.num_lista_nominal').val(response[0].num_lista_nominal);
                 $('input.app').val(response[0].ape_pat);
                 $('input.apm').val(response[0].ape_mal);
                 $('input.nombres').val(response[0].nombres);
@@ -345,7 +345,8 @@ $(function () {
                 $('input.telefono').val(response[0].telefono);
                 $('input.programa').val(response[0].programa);
                 $('input.monto').val(response[0].monto);
-                $('input.vota_pt').val(response[0].vota_pt);
+                $("#vota_pt option[value="+response[0].vota_pt+"]").attr('selected', 'selected');
+                $("#id_casilla option[value="+response[0].id_casilla+"]").attr('selected', 'selected');
                 $('input.presidencia').val(response[0].presidencia);
                 $('input.detalles').val(response[0].detalles);
                 myModal.show();

@@ -3,7 +3,12 @@
         <div class="container m-2">
             <button type="button" class="btn btn-secondary"><a style="text-decoration: none; color: white;"
                     href="javascript:history.back()"><i class="fas fa-undo"></i> Regresar a Secciones</a></button>
-            <h3>Lista Nominal</h3>
+            <h5>Lista Nominal</h5>
+            {{#each casillas}}
+            <button type="button" class="btn btn-primary btn-sm"><a style="text-decoration: none; color: white;"
+                    href="/delegados/acomodarlista/{{id}}"><i class="fas fa-sort-amount-down-alt"></i> Organizar Cas-{{casilla}}</a></button>
+            {{else}}
+            {{/each}}
         </div>
         <div class="col-md-12">
 
@@ -240,50 +245,55 @@
                 ¿Seguro que desea añadir un nuevo registro?<br>
                 El nuevo registro se añadirá después de este.<br>
                 <form action="" id="informacion_nueva" method="">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Apellido Paterno</span>
-                    <input type="text" name="ape_pat" class="form-control app" aria-describedby="basic-addon1">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Apellido Materno</span>
-                    <input type="text" name="ape_mal" class="form-control apm" aria-describedby="basic-addon1">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Nombres</span>
-                    <input type="text" name="nombres" class="form-control nombres" aria-describedby="basic-addon1">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Dirección</span>
-                    <input type="text" name="direccion" class="form-control direccion" aria-describedby="basic-addon1">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Teléfono</span>
-                    <input type="text" name="telefono" class="form-control telefono" aria-describedby="basic-addon1">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Programa</span>
-                    <input type="text" name="programa" class="form-control programa" aria-describedby="basic-addon1">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Monto</span>
-                    <input type="text" name="monto" value="0" class="form-control monto" aria-describedby="basic-addon1">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Afiliado PT</span>
-                    <select class="form-select" name="vota_pt" aria-label="Default select example">
-                        <option value="0">No</option>
-                        <option value="1">Sí</option>
-                    </select>
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Presidencia</span>
-                    <input type="text" name="presidencia" class="form-control presidencia"
-                        aria-describedby="basic-addon1">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Detalles</span>
-                    <input type="text" name="detalles" class="form-control detalles" aria-describedby="basic-addon1">
-                </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Apellido Paterno</span>
+                        <input type="text" name="ape_pat" class="form-control app" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Apellido Materno</span>
+                        <input type="text" name="ape_mal" class="form-control apm" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Nombres</span>
+                        <input type="text" name="nombres" class="form-control nombres" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Dirección</span>
+                        <input type="text" name="direccion" class="form-control direccion"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Teléfono</span>
+                        <input type="text" name="telefono" class="form-control telefono"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Programa</span>
+                        <input type="text" name="programa" class="form-control programa"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Monto</span>
+                        <input type="text" name="monto" value="0" class="form-control monto"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Afiliado PT</span>
+                        <select class="form-select" name="vota_pt" aria-label="Default select example">
+                            <option value="0">No</option>
+                            <option value="1">Sí</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Presidencia</span>
+                        <input type="text" name="presidencia" class="form-control presidencia"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Detalles</span>
+                        <input type="text" name="detalles" class="form-control detalles"
+                            aria-describedby="basic-addon1">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -335,7 +345,19 @@
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">N-L</span>
-                        <input type="text" class="form-control n_lista" disabled aria-describedby="basic-addon1">
+                        <input type="text" class="form-control num_lista_nominal" id="num_lista_nominal"
+                            name="num_lista_nominal" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Casilla</span>
+                        <select class="form-select" name="id_casilla" id="id_casilla"
+                            aria-label="Default select example">
+                            {{#each casillas}}
+                            <option value="{{id}}">{{casilla}}</option>
+                            {{else}}
+                            <option value=""></option>
+                            {{/each}}
+                        </select>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Apellido Paterno</span>
@@ -370,7 +392,7 @@
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Afiliado PT</span>
-                        <select class="form-select" name="vota_pt" aria-label="Default select example">
+                        <select class="form-select" name="vota_pt" id="vota_pt" aria-label="Default select example">
                             <option value="0">No</option>
                             <option value="1">Sí</option>
                         </select>

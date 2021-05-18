@@ -39,13 +39,14 @@ router.get('/seccion/lista/:id', isLoggedIn, async (req, res) => {
     const promo2 = await pool.query('SELECT COUNT(*) as promo2 FROM `lista_nominal` WHERE id_del!=0 and voto!=0 and lista_nominal.id_seccion='+id);
     const negro1 = await pool.query('SELECT COUNT(*) as negro1 FROM `lista_nominal` WHERE lista_nominal.id_seccion='+id);
     const negro2 = await pool.query('SELECT COUNT(*) as negro2 FROM `lista_nominal` WHERE voto!=0 and lista_nominal.id_seccion='+id);
+    const casillas = await pool.query('SELECT casillas.casilla, casillas.id from casillas where casillas.id_seccion='+id);
     const rojo1b = rojo1[0]; 
     const rojo2b = rojo2[0];
     const negro1b = negro1[0]; 
     const negro2b = negro2[0];
     const promo1b = promo1[0];
     const promo2b = promo2[0];
-    res.render('secciones/lista-r.hbs', {lista, negro1b, negro2b, rojo1b, rojo2b, promo1b, promo2b});
+    res.render('secciones/lista-r.hbs', {lista, negro1b, negro2b, rojo1b, rojo2b, promo1b, promo2b, casillas});
 });
 
 router.get('/detalles/:id', isLoggedIn, async (req,res)=>{
@@ -93,7 +94,7 @@ router.post('/seccion/casilla/lista/add/:id', isLoggedIn, async (req, res) => {
             monto
         };
         console.log(datos);
-        for (let index = 0; index < registros.length; index++) {
+        for (let index = 0; index < registros.length; index++) { 
             var x = registros[index].num_lista_nominal + 1;
             var w = registros[index].id;
             await pool.query('UPDATE `lista_nominal` SET `num_lista_nominal`=' + x + ' WHERE id=' + w);
