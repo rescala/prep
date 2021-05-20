@@ -190,8 +190,8 @@ $(function () {
                 success: function (response) {
                     console.log(response);
                     if (response = 'Eliminado') {
-                        $(".inner").addClass("show");;
-                        location.reload();
+                        row.remove();
+                        myModal1000.hide();
                     } else {
                         $(".inner2").addClass("show");
                     }
@@ -203,6 +203,7 @@ $(function () {
 
     $('table').on('click', '.sumar_lista', function () {
         let row = $(this).closest('tr');
+        var row_index = $(this).closest("tr").index();
         let id = row.find('.id').text();
         var myModal = new bootstrap.Modal(document.getElementById('exampleModal6'));
         var myModal1000 = new bootstrap.Modal(document.getElementById('exampleModa1000'));
@@ -223,7 +224,8 @@ $(function () {
                 success: function (response) {
                     console.log(response);
                     if (response = 'Creado') {
-                        $(".inner3").addClass("show");;
+                        
+                        myModal1000.hide();
                         location.reload();
                     } else {
                         $(".inner2").addClass("show");
@@ -244,7 +246,7 @@ $(function () {
                 $('.n_lista').text(response[0].num_lista_nominal);
                 $('.app').text(response[0].ape_pat);
                 $('.apm').text(response[0].ape_mal);
-                $('.nombres').text(response[0].nombres);
+                $('.nombres').text(response[0].nom2);
                 $('.direccion').text(response[0].direccion);
                 if (response[0].telefono == "") {
                     $('.tel').text('Sin Teléfono Registrado');
@@ -361,7 +363,6 @@ $(function () {
             method: "GET",
             success: function (response) {
                 $('input.id').val(response[0].id);
-                $('input.casilla').val(response[0].casilla);
                 $('#editarModal input.num_lista_nominal').val(response[0].num_lista_nominal);
                 $('input.app').val(response[0].ape_pat);
                 $('input.apm').val(response[0].ape_mal);
@@ -371,6 +372,7 @@ $(function () {
                 $('input.programa').val(response[0].programa);
                 $('input.monto').val(response[0].monto);
                 $("#vota_pt option[value=" + response[0].vota_pt + "]").attr('selected', 'selected');
+                $("#id_casilla option:selected").removeAttr('selected');
                 $("#id_casilla option[value=" + response[0].id_casilla + "]").attr('selected', 'selected');
                 $('input.presidencia').val(response[0].presidencia);
                 $('input.detalles').val(response[0].detalles);
@@ -391,7 +393,7 @@ $(function () {
                                 e.stopPropagation();
                             });
                             console.log(response);
-                            row.find('.nombre').html(response[0].ape_pat + " " + response[0].ape_mal + " " + response[0].nombres);
+                            row.find('.nombre').html(response[0].ape_pat+ " " + response[0].ape_mal + " " + response[0].nombres);
                             row.find('.casilla').html(response[0].casilla);
                             if (response[0].vota_pt<1) {
                                 row.find('.vota_pt').html('No');    
@@ -411,23 +413,6 @@ $(function () {
                             if (response[0].programa!="") {
                                 row.find('.programa').html('Si');    
                             }
-
-                            // response[0].ape_pat + " " + response[0].ape_mal + " " + response[0].nombres;
-                            /*$('input.id').val(response[0].id);
-                            $('input.casilla').val(response[0].casilla);
-                            $('input.num_lista_nominal').val(response[0].num_lista_nominal);
-                            $('input.app').val(response[0].ape_pat);
-                            $('input.apm').val(response[0].ape_mal);
-                            $('input.nombres').val(response[0].nombres);
-                            $('input.direccion').val(response[0].direccion);
-                            $('input.telefono').val(response[0].telefono);
-                            $('input.programa').val(response[0].programa);
-                            $('input.monto').val(response[0].monto);
-                            $("#vota_pt option[value=" + response[0].vota_pt + "]").attr('selected', 'selected');
-                            $("#id_casilla option[value=" + response[0].id_casilla + "]").attr('selected', 'selected');
-                            $('input.presidencia').val(response[0].presidencia);
-                            $('input.detalles').val(response[0].detalles);
-                            myModal.show(); */
                         }
                     })
                 });
