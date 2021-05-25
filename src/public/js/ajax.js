@@ -240,42 +240,30 @@ $(function () {
         let id = row.find('.id').text();
         var myModal = new bootstrap.Modal(document.getElementById('exampleModal0'));
         $.ajax({
-            url: "/mpios/detalles/" + id,
+            url: "/mpios/detalles2/" + id,
             method: "GET",
             success: function (response) {
-                $('.n_lista').text(response[0].num_lista_nominal);
-                $('.app').text(response[0].ape_pat);
-                $('.apm').text(response[0].ape_mal);
-                $('.nombres').text(response[0].nom2);
-                $('.direccion').text(response[0].direccion);
+                $('i.n_lista').text(response[0].num_lista_nominal);
+                $('i.app').text(response[0].ape_pat);
+                $('i.apm').text(response[0].ape_mal);
+                $('i.nombres').text(response[0].nom2);
+                $('i.direccion').text(response[0].direccion);
                 if (response[0].telefono == "") {
-                    $('.tel').text('Sin Teléfono Registrado');
+                    $('i.tel').text('Sin Teléfono Registrado');
                 } else {
-                    $('.tel').text(response[0].telefono);
+                    $('i.tel').text(response[0].telefono);
                 }
-                if (response[0].programa == "") {
-                    $('.programa').text('Sin Apoyo Registrado');
-                } else {
-                    $('.programa').text(response[0].programa);
-                }
-                if (response[0].monto == "") {
-                    $('.monto').text('');
-                } else {
-                    if (response[0].monto == 0) {
-                        $('.monto').text('');
-                    } else {
-                        $('.monto').text(response[0].monto);
-                    }
-                }
+                $('i.programa').text(response[0].programa);
+                $('i.monto').text(response[0].monto);
                 if (response[0].presidencia == "") {
-                    $('.preside').text('No trabaja en Presidencia');
+                    $('i.preside').text('No trabaja en Presidencia');
                 } else {
-                    $('.preside').text(response[0].presidencia);
+                    $('i.preside').text(response[0].presidencia);
                 }
                 if (response[0].detalles == "") {
-                    $('.detalle').text('Sin Detalles');
+                    $('i.detalle').text('Sin Detalles');
                 } else {
-                    $('.detalle').text(response[0].detalles);
+                    $('i.detalle').text(response[0].detalles);
                 }
                 myModal.show();
             }
@@ -352,9 +340,9 @@ $(function () {
         }
     });
 
+    
 
-
-    $('table').on('click', '.editar_promovido', function () {
+    $('table').on('click', '.editar_promovido2', function () {
         var row = $(this).closest('tr');
         let id = row.find('.id').text();
         var myModal = new bootstrap.Modal(document.getElementById('editarModal'));
@@ -362,7 +350,7 @@ $(function () {
             url: "/delegados/detalles/" + id,
             method: "GET",
             success: function (response) {
-                $('input.id').val(response[0].id);
+                $('input.id').val(response[0].id); 
                 $('#editarModal input.num_lista_nominal').val(response[0].num_lista_nominal);
                 $('input.app').val(response[0].ape_pat);
                 $('input.apm').val(response[0].ape_mal);
@@ -387,13 +375,15 @@ $(function () {
                         cache: false,
                         method: "POST",
                         success: function (response) {
+                            
                             myModal.hide();
                             $('#actualizarForm').on('submit', function (e) {
                                 e.preventDefault();
                                 e.stopPropagation();
                             });
                             console.log(response);
-                            row.find('.nombre').html(response[0].ape_pat+ " " + response[0].ape_mal + " " + response[0].nombres);
+                            if (id==response[0].id){
+                                row.find('.nombre').html(response[0].ape_pat+ " " + response[0].ape_mal + " " + response[0].nombres);
                             row.find('.casilla').html(response[0].casilla);
                             if (response[0].vota_pt<1) {
                                 row.find('.vota_pt').html('No');    
@@ -407,12 +397,49 @@ $(function () {
                             if (response[0].presidencia!="") {
                                 row.find('.presidencia').html('Si');    
                             }
-                            if (response[0].programa=="") {
-                                row.find('.programa').html('No');    
                             }
-                            if (response[0].programa!="") {
-                                row.find('.programa').html('Si');    
-                            }
+                            
+                        }
+                    })
+                });
+            }
+        })
+    });
+
+    $('table').on('click', '.editar_promovido', function () {
+        var row = $(this).closest('tr');
+        let id = row.find('.id').text();
+        var myModal = new bootstrap.Modal(document.getElementById('editarModal'));
+        $.ajax({
+            url: "/delegados/detalles/" + id,
+            method: "GET",
+            success: function (response) {
+                $('input.id').val(response[0].id); 
+                $('#editarModal input.n_lista').val(response[0].num_lista_nominal);
+                $('input.app').val(response[0].ape_pat);
+                $('input.apm').val(response[0].ape_mal);
+                $('input.nombres').val(response[0].nombres);
+                $('input.direccion').val(response[0].direccion);
+                $('input.telefono').val(response[0].telefono);
+                $('input.programa').val(response[0].programa);
+                $('input.monto').val(response[0].monto);
+                $("#vota_pt option[value=" + response[0].vota_pt + "]").attr('selected', 'selected');
+                $("#id_casilla option:selected").removeAttr('selected');
+                $("#id_casilla option[value=" + response[0].id_casilla + "]").attr('selected', 'selected');
+                $('input.presidencia').val(response[0].presidencia);
+                $('input.detalles').val(response[0].detalles);
+                myModal.show();
+                $('#editarModal').on('click', '.aceptar', function () {
+                    var myModal = new bootstrap.Modal(document.getElementById('editarModal'));
+                    var myform = document.getElementById("actualizarForm");
+                    var fd = jQuery(myform).serialize();
+                    $.ajax({
+                        url: "/delegados/editar_accion2/",
+                        data: fd,
+                        cache: false,
+                        method: "POST",
+                        success: function (response) {
+                            
                         }
                     })
                 });

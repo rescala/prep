@@ -55,6 +55,12 @@ router.get('/detalles/:id', isLoggedIn, async (req,res)=>{
     res.json(result);
 });
 
+router.get('/detalles2/:id', isLoggedIn, async (req,res)=>{
+    const resultado = await pool.query('SELECT lista_nominal.id as idd, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, lista_nominal.num_lista_nominal, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, lista_nominal.programa, lista_nominal.monto, lista_nominal.presidencia, casillas.id,casillas.casilla, lista_nominal.voto, case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt,lista_nominal.id_del, lista_nominal.telefono, delegados.nombres as apm, delegados.ape_pat as app1, delegados.ape_mat as app2 FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del WHERE lista_nominal.id='+req.params.id);
+    const result = Object.values(JSON.parse(JSON.stringify(resultado)));
+    res.json(result);
+});
+
 router.get('/seccion/casillas/lista-r/:id', isLoggedIn, async (req, res) => {
     const id = req.params.id;
     const listado = await pool.query('SELECT lista_nominal.id as idd,lista_nominal.num_lista_nominal,casillas.id,casillas.casilla, lista_nominal.voto, lista_nominal.vota_pt, lista_nominal.id_del, lista_nominal.telefono, delegados.nombres, delegados.ape_pat, delegados.ape_mat FROM `lista_nominal` INNER JOIN casillas on casillas.id=lista_nominal.id_casilla LEFT OUTER JOIN delegados on delegados.id=lista_nominal.id_del WHERE id_casilla=? order by lista_nominal.num_lista_nominal asc', id);
