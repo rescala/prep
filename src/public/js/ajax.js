@@ -415,7 +415,7 @@ $(function () {
             method: "GET",
             success: function (response) {
                 $('input.id').val(response[0].id); 
-                $('#editarModal input.n_lista').val(response[0].num_lista_nominal);
+                $('#editarModal input.num_lista_nominal').val(response[0].num_lista_nominal);
                 $('input.app').val(response[0].ape_pat);
                 $('input.apm').val(response[0].ape_mal);
                 $('input.nombres').val(response[0].nombres);
@@ -431,10 +431,10 @@ $(function () {
                 myModal.show();
                 $('#editarModal').on('click', '.aceptar', function () {
                     var myModal = new bootstrap.Modal(document.getElementById('editarModal'));
-                    var myform = document.getElementById("actualizarForm");
+                    var myform = document.getElementById("actualizarForm2");
                     var fd = jQuery(myform).serialize();
                     $.ajax({
-                        url: "/delegados/editar_accion2/",
+                        url: "/delegados/editar_accion2/", 
                         data: fd,
                         cache: false,
                         method: "POST",
