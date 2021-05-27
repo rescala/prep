@@ -40,6 +40,7 @@ router.get('/seccion/lista/:id', isLoggedIn, async (req, res) => {
     const negro1 = await pool.query('SELECT COUNT(*) as negro1 FROM `lista_nominal` WHERE lista_nominal.id_seccion='+id);
     const negro2 = await pool.query('SELECT COUNT(*) as negro2 FROM `lista_nominal` WHERE voto!=0 and lista_nominal.id_seccion='+id);
     const casillas = await pool.query('SELECT casillas.casilla, casillas.id from casillas where casillas.id_seccion='+id);
+    console.log(casillas);
     const rojo1b = rojo1[0]; 
     const rojo2b = rojo2[0];
     const negro1b = negro1[0]; 

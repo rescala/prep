@@ -350,6 +350,7 @@ $(function () {
             url: "/delegados/detalles/" + id,
             method: "GET",
             success: function (response) {
+                console.log(response);
                 $('input.id').val(response[0].id); 
                 $('#editarModal input.num_lista_nominal').val(response[0].num_lista_nominal);
                 $('input.app').val(response[0].ape_pat);
