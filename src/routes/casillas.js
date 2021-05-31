@@ -56,7 +56,7 @@ router.post('/auth', async (req, res) => {
 router.get('/home', async (req, res) => {
 	if (req.session.username) {
 		const seccion = await pool.query('SELECT secciones.seccion as secc, casillas.casilla as cass, casillas.id FROM `casillas` inner join secciones on secciones.id=casillas.id_seccion where casillas.id=' + req.session.username);
-		const votantes = await pool.query('select id,num_lista_nominal,nombres,ape_pat,ape_mal from lista_nominal where voto=0 and id_casilla=' + req.session.username);
+		const votantes = await pool.query('select id,num_lista_nominal,nombres,ape_pat,ape_mal from lista_nominal where voto=0 and id_casilla=' + req.session.username+' ORDER BY num_lista_nominal ASC;');
 		res.render('casillas/tabla.hbs', { seccion, votantes, layout: 'main2' });
 	} else {
 		res.redirect('/casillas/');
