@@ -1,8 +1,8 @@
 $(function () {
 
 
-    $('#id_casilla').on('change', function () {
-        var valor = $('#seccionesLista').find(":selected").val();
+    $('.seccionesLista').on('change', function () {
+        var valor = $('.seccionesLista').find(":selected").val();
         $('#example6 tbody').html('');
         console.log(valor);
         $.ajax({
