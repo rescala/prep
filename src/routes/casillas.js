@@ -39,7 +39,7 @@ router.post('/auth', async (req, res) => {
 		var username = req.body.seccion;
 		var password = req.body.casilla;
 		if (username && password) {
-			pool.query('SELECT secciones.seccion, casillas.casilla, casillas.id FROM `casillas` inner join secciones on secciones.id=casillas.id_seccion where secciones.seccion=? and casilla=?', [username, password], function (error, results, fields) {
+			pool.query('SELECT secciones.seccion, casillas.casilla, casillas.id FROM `casillas` inner join secciones on secciones.id=casillas.id_seccion where secciones.id=? and casillas.id=?', [username, password], function (error, results, fields) {
 				if (results.length > 0) {
 					req.session.loggedin = true;
 					req.session.username = results[0].id;
