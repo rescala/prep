@@ -15,18 +15,26 @@ app.use(bodyParser.json());
 //DB Connectoon
 const pool = require('../database');
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
 	if (req.session.username) {
 
 		res.redirect('/casillas/home');
 	} else {
-		res.render('casillas/signin.hbs', { layout: 'main' });
+		const secciones = await pool.query('select id,seccion from secciones where mpio=92 ORDER BY seccion ASC;')
+		res.render('casillas/signin.hbs', { secciones, layout: 'main casillas' });
 	}
 
 });
 
+router.get('/cons_casilla/:id', async (req, res) => {
+	const casillas = await pool.query('select * from casillas where id_seccion='+req.params.id);
+	res.json(casillas);
+	console.log(casillas);
+
+});
+
 router.post('/auth', async (req, res) => {
-	const prueba = await pool.query('Select * from acceso where id=1;');	
+	const prueba = await pool.query('Select * from acceso where id=1;');
 	if (prueba[0].activado == 1) {
 		var username = req.body.seccion;
 		var password = req.body.casilla;
@@ -56,7 +64,7 @@ router.post('/auth', async (req, res) => {
 router.get('/home', async (req, res) => {
 	if (req.session.username) {
 		const seccion = await pool.query('SELECT secciones.seccion as secc, casillas.casilla as cass, casillas.id FROM `casillas` inner join secciones on secciones.id=casillas.id_seccion where casillas.id=' + req.session.username);
-		const votantes = await pool.query('select id,num_lista_nominal,nombres,ape_pat,ape_mal from lista_nominal where voto=0 and id_casilla=' + req.session.username+' ORDER BY num_lista_nominal ASC;');
+		const votantes = await pool.query('select id,num_lista_nominal,nombres,ape_pat,ape_mal,id_del from lista_nominal where voto=0 and id_casilla=' + req.session.username + ' ORDER BY num_lista_nominal ASC;');
 		res.render('casillas/tabla.hbs', { seccion, votantes, layout: 'main2' });
 	} else {
 		res.redirect('/casillas/');

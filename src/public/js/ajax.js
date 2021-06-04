@@ -1,7 +1,7 @@
 $(function () {
 
 
-    $('select').on('change', function () {
+    $('#id_casilla').on('change', function () {
         var valor = $('#seccionesLista').find(":selected").val();
         $('#example6 tbody').html('');
         console.log(valor);
@@ -18,6 +18,25 @@ $(function () {
                         $('#example6 tbody').append("<tr><td style='color:red';> " + response[index].id_persona + "</td><td style='color:red';>" + response[index].seccion_lista + " </td><td style='color:red';>" + response[index].casilla_lista + " </td><td style='color:red';>" + response[index].ape_pat + "  " + response[index].ape_mal + " " + response[index].nom2 + "</td><td style='color:red';>" + response[index].direccion + " </td><td style='color:red';>" + response[index].del_nombre + " " + response[index].del_apepat + " " + response[index].del_apemat + "</td></tr>");
                     }
                 }
+            }
+        })
+
+    });
+
+
+    $('#seccion').on('change', function () {
+        var valor = $('#seccion').find(":selected").val();
+        $('#casilla').html('');
+        console.log(valor);
+        $.ajax({
+            url: "/casillas/cons_casilla/" + valor,
+            method: "GET",
+            success: function (response) {
+                console.log(response);
+                for (let index = 0; index < response.length; index++) {
+                    $('#casilla').append('<option value="'+response[index].id+'">'+response[index].casilla+'</option>');
+                }
+                
             }
         })
 
