@@ -11,7 +11,7 @@ const pool = require('../database');
 
 router.get('/', async (req, res) => {
     const secciones = await pool.query('select id,seccion from secciones where mpio=92 ORDER BY seccion ASC;')
-    res.render('visor/signin', { secciones, layout: 'main5' });
+    res.render('visor/signin', { secciones, layout: 'main5' }); 
 });
 
 router.get('/main/', async (req, res) => {
