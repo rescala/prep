@@ -30,7 +30,6 @@ router.get('/cons_casilla/:id', async (req, res) => {
 	const casillas = await pool.query('select * from casillas where id_seccion='+req.params.id);
 	res.json(casillas);
 	console.log(casillas);
-
 });
 
 router.post('/auth', async (req, res) => {
@@ -39,11 +38,19 @@ router.post('/auth', async (req, res) => {
 		var username = req.body.seccion;
 		var password = req.body.casilla;
 		if (username && password) {
-			pool.query('SELECT secciones.seccion, casillas.casilla, casillas.id FROM `casillas` inner join secciones on secciones.id=casillas.id_seccion where secciones.id=? and casillas.id=?', [username, password], function (error, results, fields) {
+			pool.query('SELECT secciones.seccion, casillas.tipo_casilla, casillas.max, casillas.casilla, casillas.id FROM `casillas` inner join secciones on secciones.id=casillas.id_seccion where secciones.id=? and casillas.id=?', [username, password], function (error, results, fields) {
 				if (results.length > 0) {
-					req.session.loggedin = true;
-					req.session.username = results[0].id;
-					res.redirect('/casillas/home')
+					if (results[0].tipo_casilla < results[0].max) {
+						const limite = results[0].tipo_casilla+1;
+						pool.query('UPDATE `casillas` SET `tipo_casilla`='+limite+' WHERE id=' + results[0].id);
+						console.log(limite);
+						req.session.loggedin = true;
+						req.session.username = results[0].id;
+						res.redirect('/casillas/home');
+					} else {
+						req.flash('message', 'Límite de Usuarios en Casilla Alcanzado');
+						res.redirect('/casillas/');
+					}
 				} else {
 					req.flash('message', 'Casilla Inexistente');
 					res.redirect('/casillas/');
@@ -77,7 +84,12 @@ router.put('/votar/:id', async (req, res) => {
 });
 
 
-router.get('/logout', (req, res) => {
+router.get('/logout', async (req, res) => {
+	const instante = await pool.query('SELECT * FROM casillas WHERE id=' + req.session.username);
+	const valor=instante[0].tipo_casilla;
+	const vvalor=valor-1;
+	console.log(instante);
+	pool.query('UPDATE `casillas` SET `tipo_casilla`='+vvalor+' WHERE id=' + instante[0].id);
 	req.session.destroy();
 	req.logOut();
 	res.redirect('/casillas');

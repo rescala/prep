@@ -95,7 +95,7 @@ router.get("/edit/:id", isLoggedIn, async (req, res) => {
 router.get("/promovidos/:id", isLoggedIn, async (req, res) => {
     const id = req.params.id;
     //console.log(id);
-    const promovidos = await pool.query('SELECT lista_nominal.id,  case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt, secciones.seccion, casillas.casilla, lista_nominal.num_lista_nominal, lista_nominal.ape_pat, lista_nominal.ape_mal, lista_nominal.nombres, lista_nominal.programa, lista_nominal.monto, lista_nominal.telefono, lista_nominal.direccion FROM `lista_nominal` INNER JOIN secciones on lista_nominal.id_seccion=secciones.id INNER JOIN casillas on lista_nominal.id_casilla=casillas.id where lista_nominal.voto<1 and lista_nominal.id_del=' + id);
+    const promovidos = await pool.query('SELECT lista_nominal.id,  case when lista_nominal.vota_pt=0 then "No" else "Si" end as vota_pt, secciones.seccion, casillas.casilla, lista_nominal.num_lista_nominal, lista_nominal.ape_pat, lista_nominal.ape_mal, case when lista_nominal.voto=0 then "No" else "Si" end as voto, lista_nominal.nombres, lista_nominal.programa, lista_nominal.monto, lista_nominal.telefono, lista_nominal.direccion FROM `lista_nominal` INNER JOIN secciones on lista_nominal.id_seccion=secciones.id INNER JOIN casillas on lista_nominal.id_casilla=casillas.id where lista_nominal.id_del=' + id);
     //console.log(promovidos);
     const delegado = await pool.query('select nombres from delegados where id=?', req.params.id);
     req.session.example2 = req.params.id;
@@ -104,7 +104,7 @@ router.get("/promovidos/:id", isLoggedIn, async (req, res) => {
     const delegado3 = req.params.id;
     //const listado = await pool.query('SELECT lista_nominal.id as id_persona, lista_nominal.nombres as nom2,lista_nominal.ape_pat,lista_nominal.ape_mal,lista_nominal.direccion, (select secciones.seccion from secciones where secciones.id=lista_nominal.id_seccion) as seccion_lista, (select casillas.casilla from casillas where casillas.id=lista_nominal.id_casilla) as casilla_lista, delegados.nombres as del_nombre,delegados.ape_pat as del_apepat,delegados.ape_mat as del_apemat FROM `lista_nominal` LEFT JOIN delegados on delegados.id=lista_nominal.id_del');
     const sinv = await pool.query('SELECT count(lista_nominal.id) as sinv from lista_nominal where lista_nominal.voto<1 and lista_nominal.id_del=' + id);
-    const conv = await pool.query('SELECT count(lista_nominal.id) as conv from lista_nominal where lista_nominal.voto>0 and lista_nominal.id_del=' + id);
+    const conv = await pool.query('SELECT count(lista_nominal.id) as conv from lista_nominal where lista_nominal.voto=1 and lista_nominal.id_del=' + id);
     const sinva = sinv[0].sinv; 
     const conva = conv[0].conv; 
     const secciones = await pool.query('select secciones.id,secciones.seccion from secciones where mpio='+req.session.example);
