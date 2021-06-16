@@ -92,6 +92,45 @@ router.get("/edit/:id", isLoggedIn, async (req, res) => {
 
 }); 
 
+router.get('/casillas/', isLoggedIn, async (req, res) => {	
+		const secciones = await pool.query('select id,seccion from secciones where mpio=92 ORDER BY seccion ASC;')
+		res.render('casilla_admin/signin.hbs', { secciones });
+});
+
+router.post('/casillas_auth/', async (req, res) => {
+		var username = req.body.seccion;
+		var password = req.body.casilla;
+		if (username && password) {
+			pool.query('SELECT secciones.seccion, casillas.tipo_casilla, casillas.max, casillas.casilla, casillas.id FROM `casillas` inner join secciones on secciones.id=casillas.id_seccion where secciones.id=? and casillas.id=?', [username, password], function (error, results, fields) {
+				if (results.length > 0) {
+						const limite = results[0].tipo_casilla+1;
+						pool.query('UPDATE `casillas` SET `tipo_casilla`='+limite+' WHERE id=' + results[0].id);
+						console.log(limite);
+						req.session.loggedin = true;
+						req.session.username = results[0].id;
+						res.redirect('/delegados/home');
+				} else {
+					req.flash('message', 'Casilla Inexistente');
+					res.redirect('/delegados/casillas/');
+				}
+				res.end();
+			});
+		} else {
+			req.flash('message', 'Ingresa los datos completos');
+			res.redirect('back');
+		}
+});
+
+router.get('/home', async (req, res) => {
+	if (req.session.username) {
+		const seccion = await pool.query('SELECT secciones.seccion as secc, casillas.casilla as cass, casillas.id FROM `casillas` inner join secciones on secciones.id=casillas.id_seccion where casillas.id=' + req.session.username);
+		const votantes = await pool.query('select id,num_lista_nominal,nombres,ape_pat,ape_mal,id_del from lista_nominal where voto=0 and id_casilla=' + req.session.username + ' ORDER BY num_lista_nominal ASC;');
+		res.render('casilla_admin/tabla.hbs', { seccion, votantes });
+	} else {
+		res.redirect('/delegados/casillas/');
+	}
+});
+
 router.get("/promovidos/:id", isLoggedIn, async (req, res) => {
     const id = req.params.id;
     //console.log(id);
