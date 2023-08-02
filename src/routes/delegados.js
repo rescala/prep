@@ -9,7 +9,7 @@ const pool = require('../database');
 
 //Función de render de datos
 router.get('/', isLoggedIn, async (req, res) => {
-    const delegados = await pool.query('SELECT delegados.`id`, delegados.`nombres`, delegados.`ape_pat`, delegados.`ape_mat`, delegados.`telefono`, delegados.`comunidad`, delegados.`seccion`, delegados.`usuario`, delegados.`password`, delegados.`pw`, delegados.`id_mpio`, delegados.`estatus`, (select count(lista_nominal.`nombres`) from lista_nominal where lista_nominal.id_del=delegados.id) as referidos, (select COALESCE(sum(lista_nominal.voto=1),0) from lista_nominal where lista_nominal.id_del=delegados.id ) as votaron from delegados where delegados.id_mpio=?', req.session.example);
+    const delegados = await pool.query('SELECT delegados.`id`, delegados.`nombres`, delegados.`ape_pat`, delegados.`ape_mat`, delegados.`telefono`, delegados.`comunidad`, delegados.`seccion`, delegados.`usuario`, delegados.`password`, delegados.`pw`, delegados.`id_mpio`, delegados.`estatus`, (select count(lista_nominal.`nombres`) from lista_nominal where lista_nominal.id_del=delegados.id) as referidos, (select COALESCE(sum(lista_nominal.voto=1),0) from lista_nominal where lista_nominal.id_del=delegados.id ) as votaron from delegados where delegados.id_mpio=? ORDER BY delegados.`seccion`', req.session.example,);
     console.log(req.session.example);
     const referidosb = await pool.query('SELECT count(lista_nominal.id) as promovidos from lista_nominal WHERE lista_nominal.id_del>0');
     const votadosb = await pool.query('SELECT count(lista_nominal.id) as promovidos from lista_nominal WHERE lista_nominal.id_del>0 and lista_nominal.voto>0');
